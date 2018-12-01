@@ -10,11 +10,12 @@ public class Bullet extends GameObject {
     public Bullet(Assets assets, Vector2 position) {
         super(assets);
         this.position = position;
-        velocity = new Vector2(10f, 0f);
+        velocity = new Vector2(600f, 0f);
+        texture = assets.redBullet;
     }
 
     public void update(float dt) {
-        position.add(velocity);
+        position.add(velocity.x * dt, velocity.y * dt);
     }
 
     public void render(SpriteBatch batch) {
