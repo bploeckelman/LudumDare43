@@ -8,10 +8,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import lando.systems.ld43.LudumDare43;
 import lando.systems.ld43.entities.PlayerShip;
+import lando.systems.ld43.ui.Background;
 import lando.systems.ld43.utils.Assets;
 
 public class GameScreen extends BaseScreen {
 
+    public Background background;
     public PlayerShip player;
 
 
@@ -24,6 +26,7 @@ public class GameScreen extends BaseScreen {
         mousePos = new Vector3();
         Vector2 startPosition = new Vector2(40, worldCamera.viewportHeight/2);
         player = new PlayerShip(assets, startPosition);
+        background = new Background(assets);
     }
 
     @Override
@@ -34,6 +37,8 @@ public class GameScreen extends BaseScreen {
         tempVec2.set(MathUtils.clamp(mousePos.x, player.width, worldCamera.viewportWidth/2),
                      MathUtils.clamp(mousePos.y, player.height, worldCamera.viewportHeight - player.height));
         player.update(dt, tempVec2);
+
+        background.update(dt);
     }
 
     @Override
@@ -43,6 +48,7 @@ public class GameScreen extends BaseScreen {
         batch.setProjectionMatrix(worldCamera.combined);
         batch.begin();
         {
+            background.render(batch);
             player.render(batch);
         }
         batch.end();
