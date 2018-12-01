@@ -2,6 +2,7 @@ package lando.systems.ld43.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -26,11 +27,17 @@ public class PlayerShip {
         playerShips = new Array<SatelliteShip>();
         playerShips.add(new SatelliteShip(this.assets, position, 0f, 30f));
         playerShips.add(new SatelliteShip(this.assets, position, 0f, -30f));
+        playerShips.add(new SatelliteShip(this.assets, position, -30f, 0f));
     }
 
 
     public void update(float dt, Vector2 mousePos) {
         position.lerp(mousePos, .1f);
+
+        if (Gdx.input.justTouched()) {
+            int rand = MathUtils.random(0, playerShips.size - 1);
+            playerShips.get(rand).shoot();
+        }
 
         for (SatelliteShip satShip: playerShips) {
             satShip.updatePosition(position);
