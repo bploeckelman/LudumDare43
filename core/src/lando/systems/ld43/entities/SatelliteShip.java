@@ -4,14 +4,22 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld43.utils.Assets;
+import lando.systems.ld43.utils.Config;
 
 public class SatelliteShip extends GameObject {
+    public enum EShipTypes {
+        TRIPLE_SHOT,
+        STRAIGHT_SHOT,
+        QUICK_SHOT
+    }
+
     public float xPosOffset;
     public float yPosOffset;
     public Array<Bullet> bullets;
     public Assets assets;
+    public EShipTypes shipType;
 
-    public SatelliteShip(Assets assets, Vector2 playerPosition, float xPosOffset, float yPosOffset) {
+    public SatelliteShip(Assets assets, Vector2 playerPosition, float xPosOffset, float yPosOffset, EShipTypes shipType) {
         super(assets);
         this.texture = assets.whitePixel;
         this.xPosOffset = xPosOffset;
@@ -20,11 +28,18 @@ public class SatelliteShip extends GameObject {
         bullets = new Array<Bullet>();
         this.assets = assets;
         this.position = new Vector2(playerPosition.x + xPosOffset, playerPosition.y + yPosOffset);
+        this.shipType = shipType;
     }
 
     public void update(float dt) {
-        for (Bullet bullet: bullets) {
-            bullet.update(dt);
+        for (int i = 0; i < bullets.size; i++) {
+            Bullet bullet = bullets.get(i);
+            if (bullet.position.x > Config.window_width) {
+                bullets.removeIndex(i);
+                i--;
+            } else {
+                bullet.update(dt);
+            }
         }
     }
 
@@ -41,6 +56,18 @@ public class SatelliteShip extends GameObject {
     }
 
     public void shoot() {
-        bullets.add(new Bullet(assets, new Vector2(position.x, position.y)));
+        switch (shipType) {
+            case TRIPLE_SHOT:
+                bullets.add(new Bullet(assets, new Vector2(position.x, position.y), new Vector2(600f, 600f)));
+                bullets.add(new Bullet(assets, new Vector2(position.x, position.y), new Vector2(600f, 0f)));
+                bullets.add(new Bullet(assets, new Vector2(position.x, position.y), new Vector2(600f, -600f)));
+                break;
+            case STRAIGHT_SHOT:
+                bullets.add(new Bullet(assets, new Vector2(position.x, position.y), new Vector2(600f, 0f)));
+                break;
+            case QUICK_SHOT:
+                bullets.add(new Bullet(assets, new Vector2(position.x, position.y), new Vector2(900f, 0f)));
+                break;
+        }
     }
 }

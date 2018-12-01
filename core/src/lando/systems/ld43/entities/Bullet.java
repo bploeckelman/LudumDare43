@@ -7,10 +7,10 @@ import lando.systems.ld43.utils.Assets;
 public class Bullet extends GameObject {
     public Vector2 velocity;
 
-    public Bullet(Assets assets, Vector2 position) {
+    public Bullet(Assets assets, Vector2 position, Vector2 velocity) {
         super(assets);
         this.position = position;
-        velocity = new Vector2(600f, 0f);
+        this.velocity = velocity;
         texture = assets.redBullet;
     }
 

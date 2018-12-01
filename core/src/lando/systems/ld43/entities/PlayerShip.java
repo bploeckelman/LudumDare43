@@ -25,9 +25,9 @@ public class PlayerShip {
         tempVec2 = new Vector2();
         tempVec3 = new Vector3();
         playerShips = new Array<SatelliteShip>();
-        playerShips.add(new SatelliteShip(this.assets, position, 0f, 30f));
-        playerShips.add(new SatelliteShip(this.assets, position, 0f, -30f));
-        playerShips.add(new SatelliteShip(this.assets, position, -30f, 0f));
+        playerShips.add(new SatelliteShip(this.assets, position, 0f, 30f, SatelliteShip.EShipTypes.QUICK_SHOT));
+        playerShips.add(new SatelliteShip(this.assets, position, 0f, -30f, SatelliteShip.EShipTypes.STRAIGHT_SHOT));
+        playerShips.add(new SatelliteShip(this.assets, position, -30f, 0f, SatelliteShip.EShipTypes.TRIPLE_SHOT));
     }
 
 
