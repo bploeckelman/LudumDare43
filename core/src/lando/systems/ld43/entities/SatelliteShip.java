@@ -36,10 +36,11 @@ public class SatelliteShip extends GameObject {
     }
 
     public void updatePosition(Vector2 playerPosition) {
-        position = new Vector2(playerPosition.x + xPosOffset, playerPosition.y + yPosOffset);
+        position.x = playerPosition.x + xPosOffset;
+        position.y = playerPosition.y + yPosOffset;
     }
 
     public void shoot() {
-        bullets.add(new Bullet(assets, position));
+        bullets.add(new Bullet(assets, new Vector2(position.x, position.y)));
     }
 }
