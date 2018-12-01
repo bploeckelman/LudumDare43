@@ -1,5 +1,7 @@
 package lando.systems.ld43.screens;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.equations.Back;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,6 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import lando.systems.ld43.LudumDare43;
 import lando.systems.ld43.entities.PlayerShip;
 import lando.systems.ld43.ui.Background;
+import lando.systems.ld43.ui.StarfieldBackground;
 import lando.systems.ld43.utils.Assets;
 
 public class GameScreen extends BaseScreen {
@@ -26,7 +29,11 @@ public class GameScreen extends BaseScreen {
         mousePos = new Vector3();
         Vector2 startPosition = new Vector2(40, worldCamera.viewportHeight/2);
         player = new PlayerShip(assets, startPosition);
-        background = new Background(assets);
+        background = new StarfieldBackground(assets);
+        Tween.to(background.speed, 0, 2f)
+                .target(100f)
+                .start(game.tween);
+
     }
 
     @Override
