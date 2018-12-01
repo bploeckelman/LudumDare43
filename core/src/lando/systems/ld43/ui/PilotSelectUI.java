@@ -160,19 +160,13 @@ public class PilotSelectUI extends UserInterface {
         showPilots = true;
         Timeline.createSequence()
                 .push(
-//                        Timeline.createSequence()
-//                                .push(
-//                                        Tween.to(boundsLaunchButton, RectangleAccessor.W, 0.33f).target(0f)
-//                                )
-//                                .push(
-                                        Tween.to(boundsLaunchButton, RectangleAccessor.H, 0.1f).target(0f)
-                                             .setCallback(new TweenCallback() {
-                                                 @Override
-                                                 public void onEvent(int i, BaseTween<?> baseTween) {
-                                                     launchButtonHidden = true;
-                                                 }
-                                             })
-//                                )
+                        Tween.to(boundsLaunchButton, RectangleAccessor.H, 0.1f).target(0f)
+                             .setCallback(new TweenCallback() {
+                                 @Override
+                                 public void onEvent(int i, BaseTween<?> baseTween) {
+                                     launchButtonHidden = true;
+                                 }
+                             })
                 )
                 .push(
                         Timeline.createParallel()
