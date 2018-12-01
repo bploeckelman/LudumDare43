@@ -56,6 +56,7 @@ public class Assets implements Disposable {
     public TextureRegion whitePixel;
     public TextureRegion whiteCircle;
     public TextureRegion redBullet;
+    public TextureRegion satelliteShip;
 
 //    public Animation<TextureRegion> animation;
 
@@ -128,6 +129,7 @@ public class Assets implements Disposable {
         whitePixel = atlas.findRegion("white-pixel");
         whiteCircle = atlas.findRegion("white-circle");
         redBullet = atlas.findRegion("regular-shot");
+        satelliteShip = atlas.findRegion("satellite");
 
         titleTexture = mgr.get(titleTextureAsset);
         pixelTexture = mgr.get(pixelTextureAsset);

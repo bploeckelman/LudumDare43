@@ -21,10 +21,10 @@ public class SatelliteShip extends GameObject {
 
     public SatelliteShip(Assets assets, Vector2 playerPosition, float xPosOffset, float yPosOffset, EShipTypes shipType) {
         super(assets);
-        this.texture = assets.whitePixel;
+        this.texture = assets.satelliteShip;
         this.xPosOffset = xPosOffset;
         this.yPosOffset = yPosOffset;
-        width = height = 15;
+        width = height = 25;
         bullets = new Array<Bullet>();
         this.assets = assets;
         this.position = new Vector2(playerPosition.x + xPosOffset, playerPosition.y + yPosOffset);
