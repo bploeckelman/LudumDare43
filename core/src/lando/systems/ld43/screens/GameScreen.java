@@ -12,6 +12,7 @@ import lando.systems.ld43.LudumDare43;
 import lando.systems.ld43.entities.PlayerShip;
 import lando.systems.ld43.entities.enemies.DroneEnemy;
 import lando.systems.ld43.entities.enemies.Enemy;
+import lando.systems.ld43.entities.enemies.VerticalEnemy;
 import lando.systems.ld43.ui.Background;
 import lando.systems.ld43.ui.StarfieldBackground;
 import lando.systems.ld43.utils.Assets;
@@ -56,6 +57,9 @@ public class GameScreen extends BaseScreen {
 
         if (MathUtils.random(1000) > 990){
             enemies.add(new DroneEnemy(assets, worldCamera.viewportWidth, MathUtils.random(worldCamera.viewportHeight)));
+        }
+        if (MathUtils.random(1000) > 990){
+            enemies.add(new VerticalEnemy(assets, worldCamera.viewportWidth, MathUtils.random(worldCamera.viewportHeight), worldCamera.viewportHeight));
         }
 
         for (int i = enemies.size()-1; i >= 0; i--){
