@@ -15,11 +15,13 @@ import lando.systems.ld43.entities.enemies.Enemy;
 import lando.systems.ld43.ui.Background;
 import lando.systems.ld43.ui.StarfieldBackground;
 import lando.systems.ld43.utils.Assets;
+import lando.systems.ld43.utils.screenshake.ScreenShakeCameraController;
 
 import java.util.ArrayList;
 
 public class GameScreen extends BaseScreen {
 
+    public ScreenShakeCameraController shaker;
     public Background background;
     public PlayerShip player;
     public ArrayList<Enemy> enemies;
@@ -36,6 +38,7 @@ public class GameScreen extends BaseScreen {
         player = new PlayerShip(assets, startPosition);
         enemies = new ArrayList<Enemy>();
         background = new StarfieldBackground(assets);
+        shaker = new ScreenShakeCameraController(worldCamera);
         Tween.to(background.speed, 0, 2f)
                 .target(100f)
                 .start(game.tween);
@@ -65,13 +68,14 @@ public class GameScreen extends BaseScreen {
         }
 
         background.update(dt);
+        shaker.update(dt);
     }
 
     @Override
     public void render(SpriteBatch batch) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        batch.setProjectionMatrix(worldCamera.combined);
+        batch.setProjectionMatrix(shaker.getCombinedMatrix());
         batch.begin();
         {
             background.render(batch);
