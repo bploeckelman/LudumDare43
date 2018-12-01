@@ -41,6 +41,7 @@ public class TitleScreen extends BaseScreen {
     }
 
     private void transition() {
+        game.setScreen(new GameScreen(game, assets));
         // ...
     }
 

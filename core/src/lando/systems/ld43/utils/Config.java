@@ -9,5 +9,5 @@ public class Config {
     public static final int window_height = 600;
     public static final boolean resizable = false;
 
-    public static final Color clear_color = new Color(0f, 0.25f, 0.7f, 1f);
+    public static final Color clear_color = new Color(0f, 0f, 0f, 1f);
 }
