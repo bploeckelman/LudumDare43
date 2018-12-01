@@ -12,17 +12,29 @@ public abstract class UserInterface {
     protected final GlyphLayout layout;
     protected final Rectangle bounds;
 
+    private boolean visible;
+
     public UserInterface(Assets assets) {
         this.assets = assets;
         this.layout = new GlyphLayout();
         this.bounds = new Rectangle();
+        this.visible = false;
     }
 
     public abstract void update(float dt);
     public abstract void render(SpriteBatch batch);
 
-    public void show() {}
-    public void hide() {}
+    public void show() {
+        visible = true;
+    }
+
+    public void hide() {
+        visible = false;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
 
     static void drawText(Assets assets, SpriteBatch batch, String text,
                          float x, float y, Color c, float scale) {

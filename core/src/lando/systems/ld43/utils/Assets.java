@@ -25,6 +25,9 @@ public class Assets implements Disposable {
                 magFilter = Texture.TextureFilter.Linear;
             }}
     );
+    private final AssetDescriptor<BitmapFont> pixelFont8Asset = new AssetDescriptor<BitmapFont>("fonts/emulogic-8pt.fnt", BitmapFont.class);
+    private final AssetDescriptor<BitmapFont> pixelFont16Asset = new AssetDescriptor<BitmapFont>("fonts/emulogic-16pt.fnt", BitmapFont.class);
+    private final AssetDescriptor<BitmapFont> pixelFont32Asset = new AssetDescriptor<BitmapFont>("fonts/emulogic-32pt.fnt", BitmapFont.class);
 
     private final ShaderProgramLoader.ShaderProgramParameter defaultVertParam = new ShaderProgramLoader.ShaderProgramParameter() {{ vertexFile = "shaders/default.vert"; }};
     private final AssetDescriptor<ShaderProgram> distanceFieldShaderAsset = new AssetDescriptor<ShaderProgram>("shaders/dist.frag", ShaderProgram.class);
@@ -49,10 +52,10 @@ public class Assets implements Disposable {
     public AssetManager mgr;
 
     public TextureAtlas atlas;
-    public TextureRegion testTexture;
     public Texture titleTexture;
     public Texture pixelTexture;
 
+    public TextureRegion testTexture;
     public TextureRegion whitePixel;
     public TextureRegion whiteCircle;
     public TextureRegion redBullet;
@@ -60,7 +63,12 @@ public class Assets implements Disposable {
 
 //    public Animation<TextureRegion> animation;
 
+    public NinePatch ninePatch;
+
     public BitmapFont font;
+    public BitmapFont fontPixel8;
+    public BitmapFont fontPixel16;
+    public BitmapFont fontPixel32;
     public ShaderProgram fontShader;
 
     public Array<ShaderProgram> randomTransitions;
@@ -75,8 +83,6 @@ public class Assets implements Disposable {
     public ShaderProgram heartShader;
     public ShaderProgram circleCropShader;
     public ShaderProgram waterShader;
-
-    public NinePatch ninePatch;
 
     public boolean initialized;
 
@@ -100,6 +106,9 @@ public class Assets implements Disposable {
         mgr.load(pixelTextureAsset);
         mgr.load(distanceFieldFontAsset);
         mgr.load(distanceFieldShaderAsset);
+        mgr.load(pixelFont8Asset);
+        mgr.load(pixelFont16Asset);
+        mgr.load(pixelFont32Asset);
         mgr.load(shaderBlindsAsset);
         mgr.load(shaderFadeAsset);
         mgr.load(shaderRadialAsset);
@@ -137,11 +146,17 @@ public class Assets implements Disposable {
 //        Array<TextureAtlas.AtlasRegion> animationTextures = atlas.findRegions("animation...");
 //        animation = new Animation<TextureRegion>(0.1f, animationTextures, Animation.PlayMode.LOOP_PINGPONG);
 
+        ninePatch = new NinePatch(atlas.findRegion("ninepatch-screws"), 6, 6, 6, 6);
+
         // Initialize distance field font
         font = mgr.get(distanceFieldFontAsset);
         font.getData().setScale(.3f);
         font.setUseIntegerPositions(false);
         fontShader = mgr.get(distanceFieldShaderAsset);
+
+        fontPixel8 = mgr.get(pixelFont8Asset);
+        fontPixel16 = mgr.get(pixelFont16Asset);
+        fontPixel32 = mgr.get(pixelFont32Asset);
 
         blindsShader     = mgr.get(shaderBlindsAsset);
         fadeShader       = mgr.get(shaderFadeAsset);

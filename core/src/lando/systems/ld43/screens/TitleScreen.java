@@ -6,12 +6,17 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import lando.systems.ld43.LudumDare43;
+import lando.systems.ld43.ui.PilotSelectUI;
 import lando.systems.ld43.utils.Assets;
 
 public class TitleScreen extends BaseScreen {
 
+    private PilotSelectUI pilotSelectUI;
+
     public TitleScreen(LudumDare43 game, Assets assets) {
         super(game, assets);
+
+        this.pilotSelectUI = new PilotSelectUI(assets);
 
         Gdx.input.setInputProcessor(this);
     }
@@ -23,8 +28,10 @@ public class TitleScreen extends BaseScreen {
             Gdx.app.exit();
         }
 
-        if (Gdx.input.justTouched()) {
-            transition();
+        pilotSelectUI.update(dt);
+
+        if (Gdx.input.justTouched() && !pilotSelectUI.isVisible()) {
+            pilotSelectUI.reset(this).show();
         }
     }
 
@@ -36,13 +43,10 @@ public class TitleScreen extends BaseScreen {
         batch.begin();
         {
             batch.draw(assets.titleTexture, 0f, 0f, hudCamera.viewportWidth, hudCamera.viewportHeight);
+
+            pilotSelectUI.render(batch);
         }
         batch.end();
-    }
-
-    private void transition() {
-        game.setScreen(new GameScreen(game, assets));
-        // ...
     }
 
 }
