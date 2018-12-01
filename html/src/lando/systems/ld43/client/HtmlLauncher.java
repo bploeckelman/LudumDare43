@@ -4,13 +4,14 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
 import lando.systems.ld43.LudumDare43;
+import lando.systems.ld43.utils.Config;
 
 public class HtmlLauncher extends GwtApplication {
 
         // USE THIS CODE FOR A FIXED SIZE APPLICATION
         @Override
         public GwtApplicationConfiguration getConfig () {
-                return new GwtApplicationConfiguration(480, 320);
+                return new GwtApplicationConfiguration(Config.window_width, Config.window_height);
         }
         // END CODE FOR FIXED SIZE APPLICATION
 
