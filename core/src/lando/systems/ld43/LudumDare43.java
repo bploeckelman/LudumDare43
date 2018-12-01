@@ -2,6 +2,7 @@ package lando.systems.ld43;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import lando.systems.ld43.accessors.*;
 import lando.systems.ld43.screens.BaseScreen;
+import lando.systems.ld43.screens.LoadingScreen;
 import lando.systems.ld43.screens.TitleScreen;
 import lando.systems.ld43.utils.Assets;
 import lando.systems.ld43.utils.Config;
@@ -45,7 +47,12 @@ public class LudumDare43 extends ApplicationAdapter {
 //            audio = new Audio();
 //        }
 
-		setScreen(new TitleScreen(this, assets));
+		// Go to bullshit start screen for web
+		if (Gdx.app.getType() == Application.ApplicationType.WebGL){
+			setScreen(new LoadingScreen(this, assets));
+		} else {
+			setScreen(new TitleScreen(this, assets));
+		}
 	}
 
 	@Override
