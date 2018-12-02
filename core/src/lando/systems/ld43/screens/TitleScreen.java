@@ -27,7 +27,7 @@ public class TitleScreen extends BaseScreen {
          && Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
-
+        // TODO: remove me, just testing for now
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
             game.setScreen((new EndScreen(game, assets)));
         }
