@@ -34,11 +34,6 @@ public class PlayerShip {
     public void update(float dt, Vector2 mousePos) {
         position.lerp(mousePos, .1f);
 
-        if (Gdx.input.justTouched()) {
-            int rand = MathUtils.random(0, playerShips.size - 1);
-            playerShips.get(rand).shoot();
-        }
-
         for (SatelliteShip satShip: playerShips) {
             satShip.updatePosition(position);
             satShip.update(dt);
