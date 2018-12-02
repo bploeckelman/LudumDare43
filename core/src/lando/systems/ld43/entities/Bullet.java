@@ -11,19 +11,20 @@ public class Bullet implements Pool.Poolable {
     public Vector2 position;
     public boolean isFriendlyBullet;
     public TextureRegion texture;
-    public int width;
-    public int height;
+    public float width;
+    public float height;
     public boolean isAlive;
 
     public Bullet() {
-        width = height = 10;
     }
 
-    public void init(TextureRegion texture, Vector2 position, Vector2 velocity, boolean isFriendlyBullet) {
+    public void init(TextureRegion texture, Vector2 position, Vector2 velocity, boolean isFriendlyBullet, float width, float height) {
         this.position = position;
         this.velocity = velocity;
         this.texture = texture;
         this.isFriendlyBullet = isFriendlyBullet;
+        this.width = width;
+        this.height = height;
         isAlive = true;
     }
 

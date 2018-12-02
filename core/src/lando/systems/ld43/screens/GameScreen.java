@@ -26,6 +26,10 @@ import lando.systems.ld43.utils.screenshake.ScreenShakeCameraController;
 import java.util.ArrayList;
 
 public class GameScreen extends BaseScreen {
+    public final float BULLET_BASE_X_VELOCITY = 600f;
+    public final float BULLET_BASE_Y_VELOCITY = 600f;
+    public final float BULLET_BASE_WIDTH = 10f;
+    public final float BULLET_BASE_HEIGHT = 10f;
 
     public ScreenShakeCameraController shaker;
     public Background background;
@@ -140,20 +144,20 @@ public class GameScreen extends BaseScreen {
                 Bullet bullet1 = bulletPool.obtain();
                 Bullet bullet2 = bulletPool.obtain();
 
-                bullet1.init(assets.spreadBullet, new Vector2(position.x, position.y), new Vector2(600f, 600f), true);
-                bullet2.init(assets.spreadBullet, new Vector2(position.x, position.y), new Vector2(600f, 0f), true);
-                bullet.init(assets.spreadBullet, new Vector2(position.x, position.y), new Vector2(600f, -600f), true);
+                bullet1.init(assets.spreadBullet, new Vector2(position.x, position.y), new Vector2(BULLET_BASE_X_VELOCITY, BULLET_BASE_Y_VELOCITY), true, BULLET_BASE_WIDTH, BULLET_BASE_HEIGHT);
+                bullet2.init(assets.spreadBullet, new Vector2(position.x, position.y), new Vector2(BULLET_BASE_X_VELOCITY, 0f), true, BULLET_BASE_WIDTH, BULLET_BASE_HEIGHT);
+                bullet.init(assets.spreadBullet, new Vector2(position.x, position.y), new Vector2(BULLET_BASE_X_VELOCITY, -1f * BULLET_BASE_Y_VELOCITY), true, BULLET_BASE_WIDTH, BULLET_BASE_HEIGHT);
 
                 aliveBullets.add(bullet1);
                 aliveBullets.add(bullet2);
                 aliveBullets.add(bullet);
                 break;
             case STRAIGHT_SHOT:
-                bullet.init(assets.redBullet, new Vector2(position.x, position.y), new Vector2(600f, 0f), true);
+                bullet.init(assets.redBullet, new Vector2(position.x, position.y), new Vector2(BULLET_BASE_X_VELOCITY, 0f), true, 1.5f * BULLET_BASE_WIDTH, 1.5f * BULLET_BASE_HEIGHT);
                 aliveBullets.add(bullet);
                 break;
             case QUICK_SHOT:
-                bullet.init(assets.redBullet, new Vector2(position.x, position.y), new Vector2(900f, 0f), true);
+                bullet.init(assets.satelliteLaserBullet, new Vector2(position.x, position.y), new Vector2(1.5f * BULLET_BASE_X_VELOCITY, 0f), true, 5f * BULLET_BASE_WIDTH, 1.5f * BULLET_BASE_HEIGHT);
                 aliveBullets.add(bullet);
                 break;
         }
