@@ -1,0 +1,17 @@
+[
+  {
+    class: Dialog,
+    speaker: boss1,
+    text: "You killed me... How?"
+  }
+  {
+    class: Dialog,
+    speaker: player,
+    text: "I made sacrifices meow"
+  }
+  {
+    class: Dialog,
+    speaker: boss1,
+    text: "Yeah, whatever, this is just the first boss anyway, don't take it too seriously"
+  }
+]
