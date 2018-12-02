@@ -22,8 +22,8 @@ public class Discourser {
                 this.textureHead = assets.atlas.findRegion("cat-head");
             } break;
             case boss1: {
-                this.textureFull = assets.atlas.findRegion("dog-full");
-                this.textureHead = assets.atlas.findRegion("dog-head");
+                this.textureFull = assets.atlas.findRegion("badlogic");
+                this.textureHead = assets.atlas.findRegion("badlogic");
             } break;
             case boss2: {
                 this.textureFull = assets.atlas.findRegion("dog-full");
