@@ -92,7 +92,7 @@ public class GameScreen extends BaseScreen {
         // TODO: remove me, just testing for now
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && dialogUI.isHidden()) {
 //            equipmentUI.reset(this).show();
-            dialogUI.reset(this, "dialog/dialog1.json").show();
+            dialogUI.reset(this, "dialog.json").show();
         }
 
         level.update(dt);

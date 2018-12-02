@@ -6,37 +6,38 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Bounce;
 import aurelienribon.tweenengine.equations.Quad;
+import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Json;
 import lando.systems.ld43.accessors.RectangleAccessor;
 import lando.systems.ld43.entities.Pilot;
 import lando.systems.ld43.screens.GameScreen;
 import lando.systems.ld43.utils.Assets;
 
+import java.util.ArrayList;
+
 public class DialogUI extends UserInterface {
 
     private final float margin = 10f;
     private final float threshold = 0.05f;
-
-    public enum Speaker { player, enemy1, enemy2 }
-    public class Dialog {
-        public Speaker speaker;
-        public String text;
-        public Dialog(Speaker speaker, String text) {
-            this.speaker = speaker;
-            this.text = text;
-        }
-    }
+    private final float minScale = 0.9f;
+    private final float maxScale = 1.1f;
 
     private GameScreen screen;
     private NinePatch border;
+    private Json json;
     private Pilot pilot;
     // TODO: enemy(s)?
-    private Array<Dialog> dialogs;
+    private TextureRegion leftMouse;
+    private MutableFloat scale;
+    private ArrayList<Dialog> dialogs;
     private int currentDialog;
     private int typingIndex;
     private float typingTimer;
@@ -47,12 +48,16 @@ public class DialogUI extends UserInterface {
         super(assets);
 
         this.border = assets.ninePatch;
-        this.dialogs = new Array<Dialog>();
+        this.leftMouse = assets.atlas.findRegion("mouse-left");
+        this.scale = new MutableFloat(1f);
+        this.dialogs = new ArrayList<Dialog>();
         this.currentDialog = -1;
         this.typingIndex = -1;
         this.typingTimer = 0f;
         this.typing = false;
         this.transitioning = false;
+        this.json = new Json();
+        this.json.addClassTag("Dialog", Dialog.class);
     }
 
     public DialogUI reset(GameScreen screen, String dialogFile) {
@@ -62,12 +67,14 @@ public class DialogUI extends UserInterface {
         this.typing = false;
         this.transitioning = false;
 
+        scale.setValue(minScale);
+        Tween.to(scale, -1, 0.33f)
+             .target(maxScale).repeatYoyo(-1, 0f)
+             .start(screen.tween);
+
         dialogs.clear();
-        // TODO: open and read dialog file
-        dialogs.add(new Dialog(Speaker.player, "I am doggo"));
-        dialogs.add(new Dialog(Speaker.enemy1, "You must die now"));
-        dialogs.add(new Dialog(Speaker.player, "but... I am doggo!"));
-        dialogs.add(new Dialog(Speaker.enemy2, "Yeah, whatever, this is just for testing dialog anyway, don't take it too seriously"));
+        dialogs = json.fromJson(ArrayList.class, Gdx.files.internal("dialog/" + dialogFile));
+
         currentDialog = 0;
         typingIndex = 0;
         typingTimer = 0f;
@@ -156,7 +163,7 @@ public class DialogUI extends UserInterface {
                 typing = true;
                 typingIndex = 0;
                 currentDialog++;
-                if (currentDialog >= dialogs.size) {
+                if (currentDialog >= dialogs.size()) {
                     hide();
                 }
             }
@@ -193,6 +200,16 @@ public class DialogUI extends UserInterface {
                 assets.fontPixel16.draw(batch, layout,
                                         bounds.x + bounds.width - 3f * margin - iconW - textWidth,
                                         bounds.y + bounds.height / 2f + layout.height / 2f);
+            }
+
+            if (!typing) {
+                float mouseW = 18f;
+                float mouseH = 22f;
+                float s = scale.floatValue();
+                float x = bounds.x + bounds.width / 2f - (mouseW * s) / 2f;
+                float y = bounds.y + margin;
+                batch.setColor(34f / 255f, 139f / 255f, 32f / 255f, 0.1f + (s - minScale) / (maxScale - minScale));
+                batch.draw(leftMouse, x, y, mouseW / 2f, mouseH / 2f, mouseW, mouseH, s, s, 0f);
             }
         }
     }

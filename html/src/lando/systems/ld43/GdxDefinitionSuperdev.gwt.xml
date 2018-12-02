@@ -11,6 +11,8 @@
     -->
 	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion" />
     <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld43.level.EnemyDef" />
+    <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld43.ui.Speaker" />
+    <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld43.ui.Dialog" />
 
     <collapse-all-properties />
     

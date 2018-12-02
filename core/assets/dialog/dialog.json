@@ -1,0 +1,22 @@
+[
+  {
+    class: Dialog,
+    speaker: player,
+    text: "I am doggo!"
+  }
+  {
+    class: Dialog,
+    speaker: enemy1,
+    text: "You must die now"
+  }
+  {
+    class: Dialog,
+    speaker: player,
+    text: "but... I am doggo!"
+  }
+  {
+    class: Dialog,
+    speaker: enemy2,
+    text: "Yeah, whatever, this is just for testing dialog anyway, don't take it too seriously"
+  }
+]
