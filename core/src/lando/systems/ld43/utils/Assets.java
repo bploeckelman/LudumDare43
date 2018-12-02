@@ -4,12 +4,14 @@ import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.BitmapFontLoader;
 import com.badlogic.gdx.assets.loaders.ShaderProgramLoader;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import lando.systems.ld43.LudumDare43;
 import lando.systems.ld43.entities.SatelliteShip;
 
 public class Assets implements Disposable {
@@ -201,5 +203,37 @@ public class Assets implements Disposable {
         shapes.dispose();
         batch.dispose();
     }
+
+    // ------------------------------------------------------------------------
+    // Static helpers methods
+    // ------------------------------------------------------------------------
+
+    public void drawString(SpriteBatch batch, String text,
+                                  float x, float y, Color c, float scale, BitmapFont font) {
+        batch.setShader(fontShader);
+        fontShader.setUniformf("u_scale", scale);
+        font.getData().setScale(scale);
+        font.setColor(c);
+        font.draw(batch, text, x, y);
+        font.getData().setScale(1f);
+        fontShader.setUniformf("u_scale", 1f);
+        font.getData().setScale(scale);
+        batch.setShader(null);
+    }
+
+    public void drawString(SpriteBatch batch, String text,
+                                  float x, float y, Color c, float scale,
+                                  BitmapFont font, float targetWidth, int halign) {
+        batch.setShader(fontShader);
+        fontShader.setUniformf("u_scale", scale);
+        font.getData().setScale(scale);
+        font.setColor(c);
+        font.draw(batch, text, x, y, targetWidth, halign, true);
+        font.getData().setScale(1f);
+        fontShader.setUniformf("u_scale", 1f);
+        font.getData().setScale(scale);
+        batch.setShader(null);
+    }
+
 
 }

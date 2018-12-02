@@ -10,4 +10,5 @@ public class Config {
     public static final boolean resizable = false;
 
     public static final Color clear_color = new Color(0f, 0f, 0f, 1f);
+    public static final Color end_screen_text_color = new Color(125f, 125f, 0f, 1f);
 }

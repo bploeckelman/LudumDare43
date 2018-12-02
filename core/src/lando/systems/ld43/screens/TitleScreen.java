@@ -28,6 +28,10 @@ public class TitleScreen extends BaseScreen {
             Gdx.app.exit();
         }
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+            game.setScreen((new EndScreen(game, assets)));
+        }
+
         pilotSelectUI.update(dt);
 
         if (Gdx.input.justTouched() && !pilotSelectUI.isVisible()) {
