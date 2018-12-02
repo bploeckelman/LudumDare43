@@ -18,6 +18,7 @@ import lando.systems.ld43.entities.Pilot;
 import lando.systems.ld43.entities.PlayerShip;
 import lando.systems.ld43.entities.SatelliteShip;
 import lando.systems.ld43.entities.enemies.Enemy;
+import lando.systems.ld43.entities.enemies.TargetPoint;
 import lando.systems.ld43.level.Level;
 import lando.systems.ld43.ui.Background;
 import lando.systems.ld43.ui.EquipmentUI;
@@ -123,12 +124,14 @@ public class GameScreen extends BaseScreen {
         for (int i = enemies.size()-1; i >= 0; i--){
             Enemy e = enemies.get(i);
             e.update(dt);
-
-            bulletTree.retrieve(collisionEntities, e);
-            for (QuadTreeable entity : collisionEntities){
-                if (entity instanceof Bullet){
-                    Bullet b = (Bullet) entity;
-                    if (b.isFriendlyBullet && b.isAlive) e.checkBulletCollision(b);
+            for (int j = e.targetPoints.size() -1; j >= 0; j--) {
+                TargetPoint target = e.targetPoints.get(j);
+                bulletTree.retrieve(collisionEntities, target);
+                for (QuadTreeable entity : collisionEntities) {
+                    if (entity instanceof Bullet) {
+                        Bullet b = (Bullet) entity;
+                        if (b.isFriendlyBullet && b.isAlive) e.checkBulletCollision(b, target);
+                    }
                 }
             }
 

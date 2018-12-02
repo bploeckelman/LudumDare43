@@ -36,40 +36,37 @@ public class Enemy extends QuadTreeable {
         this.alive = true;
         this.damageIndicator = 0;
         this.targetPoints = new ArrayList<TargetPoint>();
-        this.targetPoints.add(new TargetPoint(this, new Vector2(0,0), 10, 4));
+        this.targetPoints.add(new TargetPoint(new Vector2(0,0), 10, 4));
         this.collisionBounds = new Rectangle(0,0, width, height);
         this.damageColor = new Color();
     }
 
     public void update(float dt){
+        float healthLeft = 0;
         // Implement specific update in derived classes
         collisionBounds.set(position.x - width/2, position.y - height/2, width, height);
         damageColor.set(1f, 1- (damageIndicator/damageIndicatorLength), 1- (damageIndicator/damageIndicatorLength), 1f);
         damageIndicator = Math.max(damageIndicator - dt, 0);
         for (TargetPoint target : targetPoints){
+            healthLeft += target.health;
+            target.collisionBounds.set(position.x + target.positionOffset.x - target.diameter/2, position.y + target.positionOffset.y - target.diameter/2, target.diameter, target.diameter);
             target.damageIndicator = Math.max(target.damageIndicator - dt, 0);
         }
+        if (healthLeft <= 0) alive = false;
     }
 
-    public void checkBulletCollision(Bullet b){
-        float healthLeft = 0;
-        for (int i = targetPoints.size() -1; i >= 0; i--){
-            TargetPoint target = targetPoints.get(i);
-            // Circle intersection
-            if (b.position.dst(position.x + target.positionOffset.x, position.y + target.positionOffset.y) < b.collisionRadius/2f + target.diameter /2f) {
-                b.isAlive = false;
-                damageIndicator = damageIndicatorLength;
-                target.damageIndicator = damageIndicatorLength;
-                target.health -= b.damage;
-                if (target.health <= 0){
-                    target.health = 0;
-                    targetPoints.remove(i);
-                }
+    public void checkBulletCollision(Bullet b, TargetPoint target){
+        // Circle intersection
+        if (b.position.dst(position.x + target.positionOffset.x, position.y + target.positionOffset.y) < b.collisionRadius/2f + target.diameter /2f) {
+            b.isAlive = false;
+            damageIndicator = damageIndicatorLength;
+            target.damageIndicator = damageIndicatorLength;
+            target.health -= b.damage;
+            if (target.health <= 0){
+                target.health = 0;
+                targetPoints.remove(target);
             }
-            healthLeft += target.health;
-
         }
-        if (healthLeft <= 0) alive = false;
     }
 
     public void render(SpriteBatch batch){
