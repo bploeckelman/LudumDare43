@@ -117,6 +117,28 @@ public class GameScreen extends BaseScreen {
                      MathUtils.clamp(mousePos.y, player.height, worldCamera.viewportHeight - player.height));
         player.update(dt, tempVec2);
 
+        if (player.laserOn){
+            player.laserLength = Config.window_width - player.position.x;
+            TargetPoint enemyHit = null;
+            for (Enemy e : enemies){
+                for (TargetPoint target : e.targetPoints){
+                    float targetCenter = target.collisionBounds.y + target.collisionBounds.height/2f;
+                    if (Math.abs(targetCenter - player.position.y) < target.diameter + player.laserWidth && e.position.x > player.position.x){
+                        float dist = target.collisionBounds.x + target.diameter/2f - player.position.x - player.width/2f;
+                        if (dist < player.laserLength){
+                            enemyHit = target;
+                            player.laserLength = dist;
+                        }
+                    }
+                }
+            }
+            if (enemyHit != null){
+                enemyHit.health -= 10 * dt;
+                enemyHit.damageIndicator = .3f;
+                // TODO: laser particles on hits
+            }
+        }
+
         // Check if bullets hit player ship
         collisionEntities.clear();
         bulletTree.retrieve(collisionEntities, player.targetPoint);
@@ -184,6 +206,7 @@ public class GameScreen extends BaseScreen {
             for (Bullet bullet: aliveBullets) {
                 bullet.render(batch);
             }
+            player.renderLaser(batch);
         }
         batch.end();
 
