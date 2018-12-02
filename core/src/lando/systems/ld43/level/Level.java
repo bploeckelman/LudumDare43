@@ -3,10 +3,7 @@ package lando.systems.ld43.level;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
-import lando.systems.ld43.entities.enemies.DroneEnemy;
-import lando.systems.ld43.entities.enemies.Enemy;
-import lando.systems.ld43.entities.enemies.MiniBoss1;
-import lando.systems.ld43.entities.enemies.VerticalEnemy;
+import lando.systems.ld43.entities.enemies.*;
 import lando.systems.ld43.screens.GameScreen;
 
 import java.util.ArrayList;
@@ -47,13 +44,19 @@ public class Level {
             if (enemy.time < timer){
                 switch (enemy.type) {
                     case Drone:
-                        gameScreen.enemies.add(new DroneEnemy(gameScreen.assets, enemy.x, enemy.y));
+                        gameScreen.enemies.add(new DroneEnemy(gameScreen, enemy.x, enemy.y));
                         break;
                     case Vertical:
-                        gameScreen.enemies.add(new VerticalEnemy(gameScreen.assets, enemy.x, enemy.y));
+                        gameScreen.enemies.add(new VerticalEnemy(gameScreen, enemy.x, enemy.y));
+                        break;
+                    case Beeline:
+                        gameScreen.enemies.add(new BeelineEnemy(gameScreen, enemy.x, enemy.y));
+                        break;
+                    case VerticalTrailing:
+                        gameScreen.enemies.add(new VerticalTrailingEnemy(gameScreen, enemy.x, enemy.y));
                         break;
                     case MiniBoss1:
-                        gameScreen.enemies.add(new MiniBoss1(gameScreen.assets, enemy.x, enemy.y));
+                        gameScreen.enemies.add(new MiniBoss1(gameScreen, enemy.x, enemy.y));
                 }
                 enemies.remove(i);
             }

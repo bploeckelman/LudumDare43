@@ -4,12 +4,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import lando.systems.ld43.screens.GameScreen;
 import lando.systems.ld43.utils.Assets;
 
 
 public class MiniBoss1 extends Enemy {
-    public MiniBoss1(Assets assets, float xPos, float yPos) {
-        super(assets);
+    public MiniBoss1(GameScreen gameScreen, float xPos, float yPos) {
+        super(gameScreen);
         this.position.set(xPos, yPos);
         this.height = 200;
         this.width = 100;

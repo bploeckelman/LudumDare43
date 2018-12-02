@@ -2,6 +2,7 @@ package lando.systems.ld43.entities.enemies;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import lando.systems.ld43.screens.GameScreen;
 import lando.systems.ld43.utils.Assets;
 
 import java.util.Random;
@@ -19,8 +20,8 @@ public class BeelineEnemy extends Enemy {
 
     float directionChangetimer = 0;
 
-    public BeelineEnemy(Assets assets, float x, float y) {
-        super(assets);
+    public BeelineEnemy(GameScreen gameScreen, float x, float y) {
+        super(gameScreen);
         position.set(x, y);
     }
 

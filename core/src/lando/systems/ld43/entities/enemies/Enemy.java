@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld43.entities.Bullet;
+import lando.systems.ld43.screens.GameScreen;
 import lando.systems.ld43.utils.Assets;
 import lando.systems.ld43.utils.QuadTreeable;
 
@@ -18,6 +19,7 @@ public class Enemy extends QuadTreeable {
     public float damageIndicator;
     public float damageIndicatorLength = .3f;
     public Color damageColor;
+    public GameScreen gameScreen;
 
     /**
      * These should be where the enemy is able to be damaged at
@@ -28,8 +30,9 @@ public class Enemy extends QuadTreeable {
 
     protected Assets assets;
 
-    public Enemy(Assets assets){
-        this.assets = assets;
+    public Enemy(GameScreen gameScreen){
+        this.gameScreen = gameScreen;
+        this.assets = gameScreen.assets;
         this.height = 20;
         this.width = 20;
         this.position = new Vector2();

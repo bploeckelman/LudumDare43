@@ -2,16 +2,17 @@ package lando.systems.ld43.entities.enemies;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import lando.systems.ld43.screens.GameScreen;
 import lando.systems.ld43.utils.Assets;
 
 public class VerticalTrailingEnemy extends Enemy {
 
     public Vector2 playerPosition;
     private float direction = 1;
-    public VerticalTrailingEnemy(Assets assets, float x, float y, Vector2 playerPosition) {
-        super(assets);
+    public VerticalTrailingEnemy(GameScreen gameScreen, float x, float y) {
+        super(gameScreen);
         position.set(x, y);
-        this.playerPosition = playerPosition;
+        this.playerPosition = gameScreen.player.position;
     }
 
     @Override
