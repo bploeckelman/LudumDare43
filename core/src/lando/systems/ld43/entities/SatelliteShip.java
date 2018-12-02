@@ -2,10 +2,13 @@ package lando.systems.ld43.entities;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.primitives.MutableFloat;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import lando.systems.ld43.entities.enemies.TargetPoint;
 import lando.systems.ld43.screens.GameScreen;
 
 public class SatelliteShip {
@@ -41,11 +44,16 @@ public class SatelliteShip {
     public float shootDelay;
     public float driftAccum;
     public Vector2 targetPosition;
+    public TargetPoint targetPoint;
+    public float damageIndicator;
+    public float damageIndicatorLength = 3f;
+    public Color damageColor;
 
     public SatelliteShip(GameScreen gameScreen, PlayerShip player, EShipTypes shipType) {
         this.gameScreen = gameScreen;
         this.player = player;
         this.shipType = shipType;
+        this.damageColor = new Color(1f, 1f, 1f, 1f);
         switch(this.shipType){
             case SPREAD_SHOT:
                 this.texture = gameScreen.assets.satelliteSpreadShip;
@@ -69,9 +77,13 @@ public class SatelliteShip {
         this.position = new Vector2(player.position.x + this.xPosOffset, player.position.y + this.yPosOffset);
         this.driftAccum = MathUtils.random(3f);
         this.targetPosition = new Vector2(this.position);
+        this.targetPoint = new TargetPoint(new Vector2(0,0), 20, 2);
+        this.targetPoint.collisionBounds.set(position.x, position.y, targetPoint.diameter, targetPoint.diameter);
     }
 
     public void update(float dt) {
+        damageIndicator = Math.max(damageIndicator - dt, 0);
+        targetPoint.damageIndicator = Math.max(targetPoint.damageIndicator - dt, 0);
         driftAccum += MathUtils.random(dt);
         targetPosition.set(player.position.x + xPosOffset + (MathUtils.cos(driftAccum * 2.5f)*5), player.position.y + yPosOffset + (MathUtils.sin(driftAccum * 2)*10));
         float dist = position.dst(player.position);
@@ -80,9 +92,17 @@ public class SatelliteShip {
         position.x += recoil.floatValue();
         position.lerp(targetPosition, dist);
         position.x -= recoil.floatValue();
-//        position.x = player.position.x + xPosOffset - recoil.floatValue();
-//        position.y = player.position.y + yPosOffset;
-        shootDelay -= dt;
+        targetPoint.collisionBounds.set(position.x + targetPoint.positionOffset.x - targetPoint.diameter/2,
+                position.y + targetPoint.positionOffset.y - targetPoint.diameter/2f,
+                targetPoint.diameter, targetPoint.diameter);
+
+        if (damageIndicator > 0){
+            damageColor.set(.3f,.3f,.3f,1f);
+        } else {
+            damageColor.set(Color.WHITE);
+            shootDelay -= dt;
+        }
+
         if (shootDelay <= 0){
             switch (shipType){
                 case SPREAD_SHOT:
@@ -123,8 +143,24 @@ public class SatelliteShip {
         }
     }
 
+
+    public void checkBulletCollision(Bullet b){
+        // Circle intersection
+        if (damageIndicator <= 0 && b.position.dst(position.x + targetPoint.positionOffset.x, position.y + targetPoint.positionOffset.y) < b.collisionRadius/2f + targetPoint.diameter /2f) {
+            b.isAlive = false;
+            targetPoint.damageIndicator = damageIndicatorLength;
+            targetPoint.health -= b.damage;
+            if (targetPoint.health <= 0){
+                targetPoint.health = 2;
+                damageIndicator = damageIndicatorLength;
+            }
+        }
+    }
+
     public void render(SpriteBatch batch) {
+        batch.setColor(damageColor);
         batch.draw(texture, position.x - width / 2, position.y - height / 2, width, height);
+        batch.setColor(Color.WHITE);
     }
 
 }
