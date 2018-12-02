@@ -42,7 +42,9 @@ public class GameScreen extends BaseScreen {
     public Pool<Bullet> bulletPool;
     public QuadTree bulletTree;
 
-    private Array<QuadTreeable> collisionEntities;
+    public Array<QuadTreeable> collisionEntities;
+
+
     private Level level;
     private DialogUI dialogUI;
     private EquipmentUI equipmentUI;
@@ -54,7 +56,7 @@ public class GameScreen extends BaseScreen {
         tempVec2 = new Vector2();
         mousePos = new Vector3();
         Vector2 startPosition = new Vector2(40, worldCamera.viewportHeight/2);
-        player = new PlayerShip(this, assets, startPosition, pilotType);
+        player = new PlayerShip(this, startPosition, pilotType);
         enemies = new ArrayList<Enemy>();
         background = new StarfieldBackground(assets);
         shaker = new ScreenShakeCameraController(worldCamera);
@@ -87,10 +89,6 @@ public class GameScreen extends BaseScreen {
         mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         worldCamera.unproject(mousePos);
 
-        tempVec2.set(MathUtils.clamp(mousePos.x, player.width, worldCamera.viewportWidth/2),
-                     MathUtils.clamp(mousePos.y, player.height, worldCamera.viewportHeight - player.height));
-        player.update(dt, tempVec2);
-
         // TODO: remove me, just testing for now
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && dialogUI.isHidden()) {
 //            equipmentUI.reset(this).show();
@@ -102,9 +100,9 @@ public class GameScreen extends BaseScreen {
         bulletTree.clear();
         for (int i = 0; i < aliveBullets.size; i++) {
             Bullet bullet = aliveBullets.get(i);
-            if (bullet.position.x > Config.window_width || bullet.position.x < 0 ||
-                bullet.position.y > Config.window_height || bullet.position.y < 0 ||
-                !bullet.isAlive) {
+            if (bullet.position.x > Config.window_width + 30 || bullet.position.x < -30 ||
+                    bullet.position.y > Config.window_height + 30 || bullet.position.y < -30 ||
+                    !bullet.isAlive) {
                 aliveBullets.removeIndex(i);
                 bullet.reset();
                 bulletPool.free(bullet);
@@ -115,12 +113,35 @@ public class GameScreen extends BaseScreen {
             }
         }
 
+        tempVec2.set(MathUtils.clamp(mousePos.x, player.width, worldCamera.viewportWidth/2),
+                     MathUtils.clamp(mousePos.y, player.height, worldCamera.viewportHeight - player.height));
+        player.update(dt, tempVec2);
+
+        // Check if bullets hit player ship
         collisionEntities.clear();
+        bulletTree.retrieve(collisionEntities, player.targetPoint);
+        for (QuadTreeable entity : collisionEntities) {
+            if (entity instanceof Bullet) {
+                Bullet b = (Bullet) entity;
+                if (!b.isFriendlyBullet && b.isAlive) player.checkBulletCollision(b);
+            }
+        }
+
+        // TODO: remove me, just testing for now
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            equipmentUI.reset(this).show();
+        }
+
+        level.update(dt);
+
+
+
         for (int i = enemies.size()-1; i >= 0; i--){
             Enemy e = enemies.get(i);
             e.update(dt);
             for (int j = e.targetPoints.size() -1; j >= 0; j--) {
                 TargetPoint target = e.targetPoints.get(j);
+                collisionEntities.clear();
                 bulletTree.retrieve(collisionEntities, target);
                 for (QuadTreeable entity : collisionEntities) {
                     if (entity instanceof Bullet) {
@@ -171,6 +192,11 @@ public class GameScreen extends BaseScreen {
             equipmentUI.render(batch);
         }
         batch.end();
+    }
+
+    public void clearAllBullets(){
+        bulletPool.freeAll(aliveBullets);
+        aliveBullets.clear();
     }
 
 }

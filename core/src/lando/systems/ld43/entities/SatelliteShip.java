@@ -39,6 +39,8 @@ public class SatelliteShip {
     public float width;
     public float height;
     public float shootDelay;
+    public float driftAccum;
+    public Vector2 targetPosition;
 
     public SatelliteShip(GameScreen gameScreen, PlayerShip player, EShipTypes shipType) {
         this.gameScreen = gameScreen;
@@ -47,30 +49,39 @@ public class SatelliteShip {
         switch(this.shipType){
             case SPREAD_SHOT:
                 this.texture = gameScreen.assets.satelliteSpreadShip;
-                this.xPosOffset = -60;
+                this.xPosOffset = -50;
                 this.yPosOffset = 0;
                 break;
             case STRAIGHT_SHOT:
                 this.texture = gameScreen.assets.satelliteShip;
                 this.xPosOffset = 0;
-                this.yPosOffset = 60;
+                this.yPosOffset = 50;
                 break;
             case QUICK_SHOT:
                 this.texture = gameScreen.assets.satelliteShip;
                 this.xPosOffset = 0;
-                this.yPosOffset = -60;
+                this.yPosOffset = -50;
                 break;
         }
         this.shootDelay = 1f;
         this.recoil = new MutableFloat(0);
         this.width = this.height = 35;
         this.position = new Vector2(player.position.x + this.xPosOffset, player.position.y + this.yPosOffset);
-
+        this.driftAccum = MathUtils.random(3f);
+        this.targetPosition = new Vector2(this.position);
     }
 
     public void update(float dt) {
-        position.x = player.position.x + xPosOffset - recoil.floatValue();
-        position.y = player.position.y + yPosOffset;
+        driftAccum += MathUtils.random(dt);
+        targetPosition.set(player.position.x + xPosOffset + (MathUtils.cos(driftAccum * 2.5f)*5), player.position.y + yPosOffset + (MathUtils.sin(driftAccum * 2)*10));
+        float dist = position.dst(player.position);
+        dist = MathUtils.clamp(dist/50f, 0f, 1f);
+        dist = MathUtils.clamp(1f - dist, 0.2f, .3f);
+        position.x += recoil.floatValue();
+        position.lerp(targetPosition, dist);
+        position.x -= recoil.floatValue();
+//        position.x = player.position.x + xPosOffset - recoil.floatValue();
+//        position.y = player.position.y + yPosOffset;
         shootDelay -= dt;
         if (shootDelay <= 0){
             switch (shipType){
