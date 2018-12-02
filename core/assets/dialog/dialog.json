@@ -6,7 +6,7 @@
   }
   {
     class: Dialog,
-    speaker: enemy1,
+    speaker: boss1,
     text: "You must die now"
   }
   {
@@ -16,7 +16,7 @@
   }
   {
     class: Dialog,
-    speaker: enemy2,
+    speaker: boss1,
     text: "Yeah, whatever, this is just for testing dialog anyway, don't take it too seriously"
   }
 ]

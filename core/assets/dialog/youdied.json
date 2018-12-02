@@ -6,7 +6,7 @@
   }
   {
     class: Dialog,
-    speaker: enemy1,
+    speaker: system,
     text: "You died."
   }
   {
@@ -16,7 +16,7 @@
   }
   {
     class: Dialog,
-    speaker: enemy1,
+    speaker: system,
     text: "So you are brought back to life right meow!"
   }
 ]

@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import lando.systems.ld43.accessors.RectangleAccessor;
+import lando.systems.ld43.entities.Discourser;
 import lando.systems.ld43.entities.Pilot;
 import lando.systems.ld43.screens.GameScreen;
 import lando.systems.ld43.utils.Assets;
@@ -35,6 +36,9 @@ public class DialogUI extends UserInterface {
     private Json json;
     private Pilot pilot;
     // TODO: enemy(s)?
+    private Discourser system;
+    private Discourser boss1;
+    private Discourser boss2;
     private TextureRegion leftMouse;
     private MutableFloat scale;
     private ArrayList<Dialog> dialogs;
@@ -63,6 +67,9 @@ public class DialogUI extends UserInterface {
     public DialogUI reset(GameScreen screen, String dialogFile) {
         this.screen = screen;
         this.pilot = screen.player.pilot;
+        this.system = new Discourser(assets, Discourser.Type.system);
+        this.boss1 = new Discourser(assets, Discourser.Type.boss1);
+        this.boss2 = new Discourser(assets, Discourser.Type.boss2);
         this.bounds.set(screen.hudCamera.viewportWidth / 2f, screen.hudCamera.viewportHeight / 2f, 0f, 0f);
         this.typing = false;
         this.transitioning = false;
@@ -192,7 +199,35 @@ public class DialogUI extends UserInterface {
                 assets.fontPixel16.draw(batch, layout,
                                         bounds.x + iconW + 2f * margin,
                                         bounds.y + bounds.height / 2f + layout.height / 2f);
-            } else {
+            }
+            else if (dialog.speaker == Speaker.system) {
+                batch.draw(system.textureHead, bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
+
+                float textWidth = bounds.width - iconW - 3f * margin;
+                layout.setText(assets.fontPixel16, dialog.text.substring(0, typingIndex), Color.LIGHT_GRAY, textWidth, Align.right, true);
+                assets.fontPixel16.draw(batch, layout,
+                        bounds.x + bounds.width - 3f * margin - iconW - textWidth,
+                        bounds.y + bounds.height / 2f + layout.height / 2f);
+            }
+            else if (dialog.speaker == Speaker.boss1) {
+                batch.draw(boss1.textureHead, bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
+
+                float textWidth = bounds.width - iconW - 3f * margin;
+                layout.setText(assets.fontPixel16, dialog.text.substring(0, typingIndex), Color.LIGHT_GRAY, textWidth, Align.right, true);
+                assets.fontPixel16.draw(batch, layout,
+                        bounds.x + bounds.width - 3f * margin - iconW - textWidth,
+                        bounds.y + bounds.height / 2f + layout.height / 2f);
+            }
+            else if (dialog.speaker == Speaker.boss2) {
+                batch.draw(boss2.textureHead, bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
+
+                float textWidth = bounds.width - iconW - 3f * margin;
+                layout.setText(assets.fontPixel16, dialog.text.substring(0, typingIndex), Color.LIGHT_GRAY, textWidth, Align.right, true);
+                assets.fontPixel16.draw(batch, layout,
+                        bounds.x + bounds.width - 3f * margin - iconW - textWidth,
+                        bounds.y + bounds.height / 2f + layout.height / 2f);
+            }
+            else {
                 batch.draw(pilot.textureHead, bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
 
                 float textWidth = bounds.width - iconW - 3f * margin;

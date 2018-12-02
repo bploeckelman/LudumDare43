@@ -1,5 +1,5 @@
 package lando.systems.ld43.ui;
 
 public enum Speaker {
-    player, enemy1, enemy2
+    player, system, boss1, boss2
 }
