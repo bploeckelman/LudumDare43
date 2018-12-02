@@ -127,6 +127,18 @@ public class GameScreen extends BaseScreen {
             }
         }
 
+        // Check if bullets hit player satellites
+        for (SatelliteShip satellite : player.playerShips){
+            collisionEntities.clear();
+            bulletTree.retrieve(collisionEntities, satellite.targetPoint);
+            for (QuadTreeable entity : collisionEntities){
+                if (entity instanceof Bullet) {
+                    Bullet b = (Bullet) entity;
+                    if (!b.isFriendlyBullet && b.isAlive) satellite.checkBulletCollision(b);
+                }
+            }
+        }
+
         level.update(dt);
 
         for (int i = enemies.size()-1; i >= 0; i--){
