@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import lando.systems.ld43.accessors.RectangleAccessor;
@@ -25,14 +24,16 @@ public class PilotSelectUI extends UserInterface {
 
     private enum Selected { none, cat, dog }
 
+    private final float margin = 10f;
+
     private TitleScreen screen;
     private NinePatch border;
     private Selected selected;
     private Pilot.Type selectedPilotType;
-    private Vector3 touchPos;
     private boolean launchButtonActive;
     private boolean launchButtonHidden;
     private boolean showPilots;
+    private boolean transitionComplete;
 
     private TextureRegion textureCat;
     private TextureRegion textureDog;
@@ -48,10 +49,10 @@ public class PilotSelectUI extends UserInterface {
         this.selected = Selected.none;
         this.selectedPilotType = null;
         this.border = assets.ninePatch;
-        this.touchPos = new Vector3();
         this.launchButtonActive = false;
         this.launchButtonHidden = true;
         this.showPilots = false;
+        this.transitionComplete = false;
 
         this.textureCat = assets.atlas.findRegion("cat-full");
         this.textureDog = assets.atlas.findRegion("dog-full");
@@ -68,22 +69,20 @@ public class PilotSelectUI extends UserInterface {
         this.selected = Selected.none;
         this.selectedPilotType = null;
         this.launchButtonActive = false;
+        this.touchPos.set(-1f, -1f, 0f);
         this.bounds.set(screen.hudCamera.viewportWidth / 2f, screen.hudCamera.viewportHeight / 2f, 0f, 0f);
         this.boundsCat.set((1f / 4f) * screen.hudCamera.viewportWidth, screen.hudCamera.viewportHeight / 2f, 0f, 0f);
         this.boundsDog.set((3f / 4f) * screen.hudCamera.viewportWidth, screen.hudCamera.viewportHeight / 2f, 0f, 0f);
-
         this.boundsLaunchButton.set(screen.hudCamera.viewportWidth / 2f,
-                                    screen.hudCamera.viewportHeight - 10f - 10f,
+                                    screen.hudCamera.viewportHeight - 2f * margin,
                                     0f, 0f);
-
         return this;
     }
 
     @Override
     public void show() {
         super.show();
-
-        float margin = 10f;
+        transitionComplete = false;
 
         float finalBorderW = screen.hudCamera.viewportWidth - 2f * margin;
         float finalBorderH = screen.hudCamera.viewportHeight - 2f * margin;
@@ -151,9 +150,10 @@ public class PilotSelectUI extends UserInterface {
                     @Override
                     public void onEvent(int i, BaseTween<?> baseTween) {
                         selected = Selected.none;
+                        transitionComplete = true;
                     }
                 })
-                .start(screen.game.tween);
+                .start(screen.tween);
     }
 
     @Override
@@ -162,6 +162,7 @@ public class PilotSelectUI extends UserInterface {
         float centerY = screen.hudCamera.viewportHeight / 2f;
 
         showPilots = true;
+        transitionComplete = false;
         Timeline.createSequence()
                 .push(
                         Tween.to(boundsLaunchButton, RectangleAccessor.H, 0.1f).target(0f)
@@ -205,12 +206,15 @@ public class PilotSelectUI extends UserInterface {
                         screen.game.setScreen(new GameScreen(screen.game, assets, selectedPilotType));
                     }
                 })
-                .start(screen.game.tween);
+                .start(screen.tween);
     }
 
     @Override
     public void update(float dt) {
         if (screen == null) return;
+
+        // don't allow clicks until show() tweens are fully completed
+        if (!transitionComplete) return;
 
         if (Gdx.input.justTouched()) {
             // Update touch position
@@ -269,7 +273,7 @@ public class PilotSelectUI extends UserInterface {
 
         // draw start button
         if (!launchButtonHidden) {
-            if (launchButtonActive) batch.setColor(Color.GREEN);
+            if (launchButtonActive) batch.setColor(Color.FOREST);
             else                    batch.setColor(Color.GRAY);
             batch.draw(assets.whitePixel, boundsLaunchButton.x, boundsLaunchButton.y, boundsLaunchButton.width, boundsLaunchButton.height);
             batch.setColor(Color.WHITE);
@@ -282,6 +286,7 @@ public class PilotSelectUI extends UserInterface {
                     switch (selected) {
                         case cat: buttonText += Selected.cat.name() ; break;
                         case dog: buttonText += Selected.dog.name() ; break;
+                        // TODO: this can happen if player clicks on cat/dog before show() tween is done, don't allow clicks until tweens are fully done
                         default:  buttonText += "[UNKNOWN]";
                     }
                     buttonText += ", launch!";

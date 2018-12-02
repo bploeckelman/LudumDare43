@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import lando.systems.ld43.utils.Assets;
 
 public abstract class UserInterface {
@@ -11,6 +12,7 @@ public abstract class UserInterface {
     protected final Assets assets;
     protected final GlyphLayout layout;
     protected final Rectangle bounds;
+    protected final Vector3 touchPos;
 
     private boolean visible;
 
@@ -18,6 +20,7 @@ public abstract class UserInterface {
         this.assets = assets;
         this.layout = new GlyphLayout();
         this.bounds = new Rectangle();
+        this.touchPos = new Vector3(-1f, -1f, 0f);
         this.visible = false;
     }
 

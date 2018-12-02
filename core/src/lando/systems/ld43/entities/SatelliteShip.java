@@ -9,10 +9,23 @@ import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld43.screens.GameScreen;
 
 public class SatelliteShip {
+
+    // TODO: change to 'EquipmentType' and move to own file
     public enum EShipTypes {
-        SPREAD_SHOT,
-        STRAIGHT_SHOT,
-        QUICK_SHOT
+        STRAIGHT_SHOT("Single Shot", "Just a normal bullet. It hurts people's bodies, and maybe spaceships."),
+        QUICK_SHOT("Quick Shot", "Just a normal bullet, but faster. Can't matrix your way out of this."),
+        SPREAD_SHOT("Spread Shot", "Shoots many bullets, in many directions. All of them super deadly and stuff.")
+        // TODO: remove me
+        , OTHER_THING0("Thing 0", "It's a temporary thing")
+        , OTHER_THING1("Thing 1", "It's another temporary thing")
+        , OTHER_THING2("Thing 2", "It's yet another temporary thing");
+
+        public String name;
+        public String description;
+        EShipTypes(String name, String description) {
+            this.name = name;
+            this.description = description;
+        }
     }
 
     public GameScreen gameScreen;

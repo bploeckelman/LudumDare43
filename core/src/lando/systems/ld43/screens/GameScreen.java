@@ -2,6 +2,7 @@ package lando.systems.ld43.screens;
 
 import aurelienribon.tweenengine.Tween;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -19,6 +20,7 @@ import lando.systems.ld43.entities.SatelliteShip;
 import lando.systems.ld43.entities.enemies.Enemy;
 import lando.systems.ld43.level.Level;
 import lando.systems.ld43.ui.Background;
+import lando.systems.ld43.ui.EquipmentUI;
 import lando.systems.ld43.ui.StarfieldBackground;
 import lando.systems.ld43.utils.Assets;
 import lando.systems.ld43.utils.Config;
@@ -43,6 +45,7 @@ public class GameScreen extends BaseScreen {
 
 
     private Level level;
+    private EquipmentUI equipmentUI;
 
     private Vector2 tempVec2;
     private Vector3 mousePos;
@@ -70,10 +73,16 @@ public class GameScreen extends BaseScreen {
         level = new Level(this, 1);
         bulletTree = new QuadTree(assets,0, new Rectangle(0,0, worldCamera.viewportWidth, worldCamera.viewportHeight));
         collisionEntities = new Array<QuadTreeable>();
+        this.equipmentUI = new EquipmentUI(assets);
     }
 
     @Override
     public void update(float dt) {
+        equipmentUI.update(dt);
+        if (equipmentUI.isVisible()) {
+            return;
+        }
+
         mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         worldCamera.unproject(mousePos);
 
@@ -85,6 +94,11 @@ public class GameScreen extends BaseScreen {
             int rand = MathUtils.random(0, player.playerShips.size - 1);
             SatelliteShip satShip = player.playerShips.get(rand);
             shoot(satShip.shipType, satShip.position);
+        }
+
+        // TODO: remove me, just testing for now
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            equipmentUI.reset(this).show();
         }
 
         level.update(dt);
@@ -154,6 +168,8 @@ public class GameScreen extends BaseScreen {
         {
             batch.setColor(Color.WHITE);
             batch.draw(player.pilot.textureHead, 5f, 5f, 64f, 64f);
+
+            equipmentUI.render(batch);
         }
         batch.end();
     }

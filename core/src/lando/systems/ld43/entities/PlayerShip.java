@@ -14,6 +14,8 @@ public class PlayerShip extends QuadTreeable {
     public float width;
     public float height;
     public GameScreen gameScreen;
+
+    // TODO: make this a map:SatelliteShip.EShipType -> SatelliteShip, one satellite per 'equipment' type
     public Array<SatelliteShip> playerShips;
 
     private Assets assets;

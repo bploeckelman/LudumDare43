@@ -1,5 +1,6 @@
 package lando.systems.ld43.screens;
 
+import aurelienribon.tweenengine.TweenManager;
 import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
@@ -18,6 +19,7 @@ public abstract class BaseScreen extends InputAdapter {
 
     public final LudumDare43 game;
     public final Assets assets;
+    public final TweenManager tween;
 
     public MutableFloat alpha;
     public OrthographicCamera worldCamera;
@@ -36,6 +38,7 @@ public abstract class BaseScreen extends InputAdapter {
         super();
         this.game = game;
         this.assets = assets;
+        this.tween = game.tween;
 
         this.allowInput = false;
         this.alpha = new MutableFloat(0f);
