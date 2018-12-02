@@ -56,6 +56,7 @@ public class Level {
                         gameScreen.enemies.add(new VerticalTrailingEnemy(gameScreen, enemy.x, enemy.y));
                         break;
                     case MiniBoss1:
+                        this.gameScreen.dialogUI.reset(this.gameScreen, "boss1-encounter.json").show();
                         gameScreen.enemies.add(new MiniBoss1(gameScreen, enemy.x, enemy.y));
                 }
                 enemies.remove(i);

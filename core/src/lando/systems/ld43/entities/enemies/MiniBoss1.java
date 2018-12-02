@@ -25,10 +25,6 @@ public class MiniBoss1 extends Enemy {
     @Override
     public void update(float dt){
         position.x -= 50 * dt;
-        if (position.x < 800 && encounterStarted == false) {
-            encounterStarted = true;
-            this.gameScreen.dialogUI.reset(this.gameScreen, "boss1-encounter.json").show();
-        }
         if (position.x < 700) position.x = 700;
 
         super.update(dt);
