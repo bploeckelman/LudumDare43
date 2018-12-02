@@ -11,7 +11,7 @@ import lando.systems.ld43.utils.QuadTreeable;
 
 import java.util.ArrayList;
 
-public class Enemy extends QuadTreeable {
+public class Enemy {
     public float width;
     public float height;
     public Vector2 position;
@@ -40,17 +40,20 @@ public class Enemy extends QuadTreeable {
         this.damageIndicator = 0;
         this.targetPoints = new ArrayList<TargetPoint>();
         this.targetPoints.add(new TargetPoint(new Vector2(0,0), 10, 4));
-        this.collisionBounds = new Rectangle(0,0, width, height);
         this.damageColor = new Color();
     }
 
     public void update(float dt){
         float healthLeft = 0;
         // Implement specific update in derived classes
-        collisionBounds.set(position.x - width/2, position.y - height/2, width, height);
         damageColor.set(1f, 1- (damageIndicator/damageIndicatorLength), 1- (damageIndicator/damageIndicatorLength), 1f);
         damageIndicator = Math.max(damageIndicator - dt, 0);
-        for (TargetPoint target : targetPoints){
+        for (int i = targetPoints.size() -1; i >= 0; i--){
+            TargetPoint target = targetPoints.get(i);
+            if (target.health <= 0){
+                target.health = 0;
+                targetPoints.remove(target);
+            }
             healthLeft += target.health;
             target.collisionBounds.set(position.x + target.positionOffset.x - target.diameter/2, position.y + target.positionOffset.y - target.diameter/2, target.diameter, target.diameter);
             target.damageIndicator = Math.max(target.damageIndicator - dt, 0);
@@ -65,10 +68,6 @@ public class Enemy extends QuadTreeable {
             damageIndicator = damageIndicatorLength;
             target.damageIndicator = damageIndicatorLength;
             target.health -= b.damage;
-            if (target.health <= 0){
-                target.health = 0;
-                targetPoints.remove(target);
-            }
         }
     }
 

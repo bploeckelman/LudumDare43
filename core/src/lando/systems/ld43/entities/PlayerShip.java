@@ -15,6 +15,9 @@ import lando.systems.ld43.utils.Assets;
 import lando.systems.ld43.utils.QuadTreeable;
 
 public class PlayerShip {
+
+    public static float MAX_LASER_TIME = 5f;
+    public static float LASER_COOLDOWN = 3f;
     public Vector2 position;
     public float width;
     public float height;
@@ -31,6 +34,11 @@ public class PlayerShip {
     private Vector2 tempVec2;
     private Vector3 tempVec3;
     public Pilot pilot;
+    public float laserCharge;
+    public float laserCooldown;
+    public boolean laserOn;
+    public float laserLength;
+    public float laserWidth;
 
     public PlayerShip(GameScreen gameScreen, Vector2 position, Pilot.Type pilotType) {
         this.gameScreen = gameScreen;
@@ -47,9 +55,23 @@ public class PlayerShip {
         this.targetPoint = new TargetPoint(new Vector2(0,0), 10, 4);
         this.targetPoint.collisionBounds = new Rectangle(position.x, position.y, width, height);
         this.damageColor = new Color();
+        this.laserOn = false;
+        this.laserLength = 0;
+        this.laserWidth = 20;
     }
 
     public void update(float dt, Vector2 mousePos) {
+        if (Gdx.input.isTouched() && laserCooldown <= 0){
+            laserOn = true;
+            laserCharge += dt;
+            if (laserCharge >= MAX_LASER_TIME) {
+                laserCooldown = LASER_COOLDOWN;
+            }
+        } else {
+            laserOn = false;
+            laserCharge = Math.max(laserCharge - 2f * dt, 0);
+        }
+        laserCooldown = Math.max(laserCooldown - dt, 0f);
         damageIndicator = Math.max(damageIndicator - dt, 0);
         targetPoint.damageIndicator = Math.max(targetPoint.damageIndicator - dt, 0);
         position.lerp(mousePos, .2f);
@@ -64,7 +86,7 @@ public class PlayerShip {
 
     public void checkBulletCollision(Bullet b){
         // Circle intersection
-        if (b.position.dst(position.x + targetPoint.positionOffset.x, position.y + targetPoint.positionOffset.y) < b.collisionRadius/2f + targetPoint.diameter /2f) {
+        if (damageIndicator <= 0 && b.position.dst(position.x + targetPoint.positionOffset.x, position.y + targetPoint.positionOffset.y) < b.collisionRadius/2f + targetPoint.diameter /2f) {
             b.isAlive = false;
             damageIndicator = damageIndicatorLength;
             targetPoint.damageIndicator = damageIndicatorLength;
@@ -93,6 +115,14 @@ public class PlayerShip {
         batch.setColor(Color.WHITE);
         for (SatelliteShip satShip: playerShips) {
             satShip.render(batch);
+        }
+    }
+
+    public void renderLaser(SpriteBatch batch){
+        batch.setColor(Color.WHITE);
+        if (laserOn){
+            batch.draw(assets.laserContinue, position.x + width/2 + 7, position.y - laserWidth/2f, laserLength-7, laserWidth);
+            batch.draw(assets.laser, position.x + width/2, position.y - laserWidth/2f, 8, laserWidth);
         }
     }
 }
