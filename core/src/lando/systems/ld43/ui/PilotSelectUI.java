@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import lando.systems.ld43.accessors.RectangleAccessor;
+import lando.systems.ld43.entities.Pilot;
 import lando.systems.ld43.screens.GameScreen;
 import lando.systems.ld43.screens.TitleScreen;
 import lando.systems.ld43.utils.Assets;
@@ -27,6 +28,7 @@ public class PilotSelectUI extends UserInterface {
     private TitleScreen screen;
     private NinePatch border;
     private Selected selected;
+    private Pilot.Type selectedPilotType;
     private Vector3 touchPos;
     private boolean launchButtonActive;
     private boolean launchButtonHidden;
@@ -44,6 +46,7 @@ public class PilotSelectUI extends UserInterface {
         super(assets);
 
         this.selected = Selected.none;
+        this.selectedPilotType = null;
         this.border = assets.ninePatch;
         this.touchPos = new Vector3();
         this.launchButtonActive = false;
@@ -63,6 +66,7 @@ public class PilotSelectUI extends UserInterface {
     public PilotSelectUI reset(TitleScreen screen) {
         this.screen = screen;
         this.selected = Selected.none;
+        this.selectedPilotType = null;
         this.launchButtonActive = false;
         this.bounds.set(screen.hudCamera.viewportWidth / 2f, screen.hudCamera.viewportHeight / 2f, 0f, 0f);
         this.boundsCat.set((1f / 4f) * screen.hudCamera.viewportWidth, screen.hudCamera.viewportHeight / 2f, 0f, 0f);
@@ -104,7 +108,7 @@ public class PilotSelectUI extends UserInterface {
         showPilots = false;
         Timeline.createSequence()
                 .push(
-                        Tween.to(bounds, RectangleAccessor.XYWH, 1f)
+                        Tween.to(bounds, RectangleAccessor.XYWH, 0.5f)
                              .target(finalBorderX, finalBorderY, finalBorderW, finalBorderH)
                              .ease(Bounce.OUT)
                 )
@@ -198,9 +202,7 @@ public class PilotSelectUI extends UserInterface {
                     @Override
                     public void onEvent(int i, BaseTween<?> baseTween) {
                         PilotSelectUI.super.hide();
-
-                        // TODO: pass selected pilot type
-                        screen.game.setScreen(new GameScreen(screen.game, assets));
+                        screen.game.setScreen(new GameScreen(screen.game, assets, selectedPilotType));
                     }
                 })
                 .start(screen.game.tween);
@@ -217,6 +219,12 @@ public class PilotSelectUI extends UserInterface {
 
             // Check for start button click first
             if (launchButtonActive && boundsLaunchButton.contains(touchPos.x, touchPos.y)) {
+                if      (selected == Selected.cat) selectedPilotType = Pilot.Type.cat;
+                else if (selected == Selected.dog) selectedPilotType = Pilot.Type.dog;
+                if (selectedPilotType == null) {
+                    throw new GdxRuntimeException("Invalid pilot type selected (shouldn't be able to get here)");
+                }
+
                 hide();
             }
 

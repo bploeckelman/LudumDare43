@@ -10,26 +10,27 @@ import lando.systems.ld43.utils.Assets;
 
 public class PlayerShip {
     public Vector2 position;
-    Assets assets;
     public float width;
     public float height;
     public Array<SatelliteShip> playerShips;
 
+    private Assets assets;
     private Vector2 tempVec2;
     private Vector3 tempVec3;
+    public Pilot pilot;
 
-    public PlayerShip(Assets assets, Vector2 position) {
+    public PlayerShip(Assets assets, Vector2 position, Pilot.Type pilotType) {
         this.assets = assets;
         this.position = position;
         this.width = this.height = 20;
-        tempVec2 = new Vector2();
-        tempVec3 = new Vector3();
-        playerShips = new Array<SatelliteShip>();
-        playerShips.add(new SatelliteShip(this.assets, position, 0f, 30f, SatelliteShip.EShipTypes.QUICK_SHOT));
-        playerShips.add(new SatelliteShip(this.assets, position, 0f, -30f, SatelliteShip.EShipTypes.STRAIGHT_SHOT));
-        playerShips.add(new SatelliteShip(this.assets, position, -30f, 0f, SatelliteShip.EShipTypes.TRIPLE_SHOT));
+        this.pilot = new Pilot(this, assets, pilotType);
+        this.tempVec2 = new Vector2();
+        this.tempVec3 = new Vector3();
+        this.playerShips = new Array<SatelliteShip>();
+        this.playerShips.add(new SatelliteShip(this.assets, position, 0f, 30f, SatelliteShip.EShipTypes.QUICK_SHOT));
+        this.playerShips.add(new SatelliteShip(this.assets, position, 0f, -30f, SatelliteShip.EShipTypes.STRAIGHT_SHOT));
+        this.playerShips.add(new SatelliteShip(this.assets, position, -30f, 0f, SatelliteShip.EShipTypes.TRIPLE_SHOT));
     }
-
 
     public void update(float dt, Vector2 mousePos) {
         position.lerp(mousePos, .1f);

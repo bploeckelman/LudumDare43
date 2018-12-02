@@ -1,8 +1,8 @@
 package lando.systems.ld43.screens;
 
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.equations.Back;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -12,11 +12,10 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import lando.systems.ld43.LudumDare43;
 import lando.systems.ld43.entities.Bullet;
+import lando.systems.ld43.entities.Pilot;
 import lando.systems.ld43.entities.PlayerShip;
 import lando.systems.ld43.entities.SatelliteShip;
-import lando.systems.ld43.entities.enemies.DroneEnemy;
 import lando.systems.ld43.entities.enemies.Enemy;
-import lando.systems.ld43.entities.enemies.VerticalEnemy;
 import lando.systems.ld43.level.Level;
 import lando.systems.ld43.ui.Background;
 import lando.systems.ld43.ui.StarfieldBackground;
@@ -40,12 +39,12 @@ public class GameScreen extends BaseScreen {
     private Vector2 tempVec2;
     private Vector3 mousePos;
 
-    public GameScreen(LudumDare43 game, Assets assets) {
+    public GameScreen(LudumDare43 game, Assets assets, Pilot.Type pilotType) {
         super(game, assets);
         tempVec2 = new Vector2();
         mousePos = new Vector3();
         Vector2 startPosition = new Vector2(40, worldCamera.viewportHeight/2);
-        player = new PlayerShip(assets, startPosition);
+        player = new PlayerShip(assets, startPosition, pilotType);
         enemies = new ArrayList<Enemy>();
         background = new StarfieldBackground(assets);
         shaker = new ScreenShakeCameraController(worldCamera);
@@ -122,6 +121,14 @@ public class GameScreen extends BaseScreen {
                 enemy.render(batch);
                 enemy.renderTarget(batch);
             }
+        }
+        batch.end();
+
+        batch.setProjectionMatrix(hudCamera.combined);
+        batch.begin();
+        {
+            batch.setColor(Color.WHITE);
+            batch.draw(player.pilot.textureHead, 5f, 5f, 64f, 64f);
         }
         batch.end();
     }
