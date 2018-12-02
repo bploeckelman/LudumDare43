@@ -30,13 +30,11 @@ public class BeelineEnemy extends Enemy {
         position.y += velocity.y * dt;
 
         directionChangetimer += dt;
-        System.out.println("timer:" + directionChangetimer + " | frequency: " + directionChangeFrequency);
         if(directionChangetimer >= directionChangeFrequency){
             directionChangetimer -= directionChangeFrequency;
             float directionChangeRange = maxDirectionChangeAmount - minDirectionChangeAmount;
             // calculate a random change amount between the minimum and max
             float directionChangeAmount = randomNumberGen.nextFloat() * directionChangeRange + minDirectionChangeAmount;
-            System.out.println("changeAmount: " + directionChangeAmount);
             // apply the change amount to the velocity;
             if(randomNumberGen.nextBoolean() || velocity.x > 0){
                 if(randomNumberGen.nextBoolean()){
