@@ -21,6 +21,7 @@ import lando.systems.ld43.entities.enemies.Enemy;
 import lando.systems.ld43.entities.enemies.TargetPoint;
 import lando.systems.ld43.level.Level;
 import lando.systems.ld43.ui.Background;
+import lando.systems.ld43.ui.DialogUI;
 import lando.systems.ld43.ui.EquipmentUI;
 import lando.systems.ld43.ui.StarfieldBackground;
 import lando.systems.ld43.utils.Assets;
@@ -33,21 +34,18 @@ import java.util.ArrayList;
 
 public class GameScreen extends BaseScreen {
 
-
     public ScreenShakeCameraController shaker;
     public Background background;
     public PlayerShip player;
     public ArrayList<Enemy> enemies;
     public Array<Bullet> aliveBullets;
     public Pool<Bullet> bulletPool;
-
     public QuadTree bulletTree;
+
     private Array<QuadTreeable> collisionEntities;
-
-
     private Level level;
+    private DialogUI dialogUI;
     private EquipmentUI equipmentUI;
-
     private Vector2 tempVec2;
     private Vector3 mousePos;
 
@@ -75,12 +73,14 @@ public class GameScreen extends BaseScreen {
         bulletTree = new QuadTree(assets,0, new Rectangle(0,0, worldCamera.viewportWidth, worldCamera.viewportHeight));
         collisionEntities = new Array<QuadTreeable>();
         this.equipmentUI = new EquipmentUI(assets);
+        this.dialogUI = new DialogUI(assets);
     }
 
     @Override
     public void update(float dt) {
+        dialogUI.update(dt);
         equipmentUI.update(dt);
-        if (equipmentUI.isVisible()) {
+        if (equipmentUI.isVisible() || dialogUI.isVisible()) {
             return;
         }
 
@@ -92,8 +92,9 @@ public class GameScreen extends BaseScreen {
         player.update(dt, tempVec2);
 
         // TODO: remove me, just testing for now
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            equipmentUI.reset(this).show();
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && dialogUI.isHidden()) {
+//            equipmentUI.reset(this).show();
+            dialogUI.reset(this, "dialog/dialog1.json").show();
         }
 
         level.update(dt);
@@ -166,6 +167,7 @@ public class GameScreen extends BaseScreen {
             batch.setColor(Color.WHITE);
             batch.draw(player.pilot.textureHead, 5f, 5f, 64f, 64f);
 
+            dialogUI.render(batch);
             equipmentUI.render(batch);
         }
         batch.end();

@@ -196,7 +196,7 @@ public class PilotSelectUI extends UserInterface {
                 )
                 .push(
                         Tween.to(bounds, RectangleAccessor.XYWH, 0.5f)
-                             .target(centerX, centerX, 0f, 0f)
+                             .target(centerX, centerY, 0f, 0f)
                              .ease(Quad.OUT)
                 )
                 .setCallback(new TweenCallback() {

@@ -39,6 +39,10 @@ public abstract class UserInterface {
         return visible;
     }
 
+    public boolean isHidden() {
+        return !visible;
+    }
+
     static void drawText(Assets assets, SpriteBatch batch, String text,
                          float x, float y, Color c, float scale) {
         batch.setShader(assets.fontShader);
