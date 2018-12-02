@@ -1,0 +1,46 @@
+[
+  {
+    class: Enemy
+    time: 1
+    x: 800
+    y: 200
+    type: Drone
+  }
+  {
+    class: Enemy
+    time: 1
+    x: 800
+    y: 400
+    type: Drone
+  }
+  /** Begin Verical Wave
+  **/
+  {
+    class: Enemy
+    time: 5.5
+    x: 800
+    y: 100
+    type: Vertical
+  }
+  {
+    class: Enemy
+    time: 6.1
+    x: 800
+    y: 200
+    type: Vertical
+  }
+  {
+    class: Enemy
+    time: 6.7
+    x: 800
+    y: 300
+    type: Vertical
+  }
+  {
+    class: Enemy
+    time: 20
+    x: 800
+    y: 300
+    type: Drone
+  }
+]

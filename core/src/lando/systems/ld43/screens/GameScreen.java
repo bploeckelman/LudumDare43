@@ -17,6 +17,7 @@ import lando.systems.ld43.entities.SatelliteShip;
 import lando.systems.ld43.entities.enemies.DroneEnemy;
 import lando.systems.ld43.entities.enemies.Enemy;
 import lando.systems.ld43.entities.enemies.VerticalEnemy;
+import lando.systems.ld43.level.Level;
 import lando.systems.ld43.ui.Background;
 import lando.systems.ld43.ui.StarfieldBackground;
 import lando.systems.ld43.utils.Assets;
@@ -34,6 +35,7 @@ public class GameScreen extends BaseScreen {
     public Array<Bullet> aliveBullets;
     public Pool<Bullet> bulletPool;
 
+    private Level level;
 
     private Vector2 tempVec2;
     private Vector3 mousePos;
@@ -58,6 +60,8 @@ public class GameScreen extends BaseScreen {
                 .target(100f)
                 .start(game.tween);
 
+        level = new Level(this, 1);
+
     }
 
     @Override
@@ -75,12 +79,7 @@ public class GameScreen extends BaseScreen {
             shoot(satShip.shipType, satShip.position);
         }
 
-        if (MathUtils.random(1000) > 990){
-            enemies.add(new DroneEnemy(assets, worldCamera.viewportWidth, MathUtils.random(worldCamera.viewportHeight)));
-        }
-        if (MathUtils.random(1000) > 990){
-            enemies.add(new VerticalEnemy(assets, worldCamera.viewportWidth, MathUtils.random(worldCamera.viewportHeight), worldCamera.viewportHeight));
-        }
+        level.update(dt);
 
         for (int i = 0; i < aliveBullets.size; i++) {
             Bullet bullet = aliveBullets.get(i);

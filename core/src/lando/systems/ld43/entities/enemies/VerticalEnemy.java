@@ -2,15 +2,16 @@ package lando.systems.ld43.entities.enemies;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import lando.systems.ld43.utils.Assets;
+import lando.systems.ld43.utils.Config;
 
 public class VerticalEnemy extends Enemy {
 
     public float direction = -1;
     public float viewportHeight;
-    public VerticalEnemy(Assets assets, float x, float y, float viewportHeight) {
+    public VerticalEnemy(Assets assets, float x, float y) {
         super(assets);
         position.set(x, y);
-        this.viewportHeight = viewportHeight;
+        this.viewportHeight = Config.window_height;
     }
 
     @Override
