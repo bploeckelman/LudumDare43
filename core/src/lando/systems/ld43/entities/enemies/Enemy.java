@@ -15,6 +15,9 @@ public class Enemy extends QuadTreeable {
     public float height;
     public Vector2 position;
     public boolean alive;
+    public float damageIndicator;
+    public float damageIndicatorLength = .3f;
+    public Color damageColor;
 
     /**
      * These should be where the enemy is able to be damaged at
@@ -31,14 +34,21 @@ public class Enemy extends QuadTreeable {
         this.width = 20;
         this.position = new Vector2();
         this.alive = true;
+        this.damageIndicator = 0;
         this.targetPoints = new ArrayList<TargetPoint>();
         this.targetPoints.add(new TargetPoint(this, new Vector2(0,0), 10, 4));
         this.collisionBounds = new Rectangle(0,0, width, height);
+        this.damageColor = new Color();
     }
 
     public void update(float dt){
         // Implement specific update in derived classes
         collisionBounds.set(position.x - width/2, position.y - height/2, width, height);
+        damageColor.set(1f, 1- (damageIndicator/damageIndicatorLength), 1- (damageIndicator/damageIndicatorLength), 1f);
+        damageIndicator = Math.max(damageIndicator - dt, 0);
+        for (TargetPoint target : targetPoints){
+            target.damageIndicator = Math.max(target.damageIndicator - dt, 0);
+        }
     }
 
     public void checkBulletCollision(Bullet b){
@@ -48,6 +58,8 @@ public class Enemy extends QuadTreeable {
             // Circle intersection
             if (b.position.dst(position.x + target.positionOffset.x, position.y + target.positionOffset.y) < b.collisionRadius/2f + target.diameter /2f) {
                 b.isAlive = false;
+                damageIndicator = damageIndicatorLength;
+                target.damageIndicator = damageIndicatorLength;
                 target.health -= b.damage;
                 if (target.health <= 0){
                     target.health = 0;
@@ -65,10 +77,9 @@ public class Enemy extends QuadTreeable {
     }
 
     public void renderTarget(SpriteBatch batch){
-        batch.setColor(0,.5f,.5f,.5f);
-        batch.draw(assets.whitePixel, collisionBounds.x, collisionBounds.y, collisionBounds.width, collisionBounds.height);
-        batch.setColor(Color.RED);
+
         for (TargetPoint targetPoint : targetPoints) {
+            batch.setColor(1f, targetPoint.damageIndicator/damageIndicatorLength, targetPoint.damageIndicator/damageIndicatorLength, 1f);
             batch.draw(assets.whiteCircle,
                     position.x + targetPoint.positionOffset.x - targetPoint.diameter / 2,
                     position.y + targetPoint.positionOffset.y - targetPoint.diameter / 2,

@@ -1,5 +1,6 @@
 package lando.systems.ld43.entities.enemies;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -31,6 +32,8 @@ public class MiniBoss1 extends Enemy {
 
     @Override
     public void render(SpriteBatch batch){
+        batch.setColor(damageColor);
         batch.draw(assets.whitePixel, position.x - width/2, position.y - height/2, width, height);
+        batch.setColor(Color.WHITE);
     }
 }
