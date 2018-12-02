@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -18,6 +19,7 @@ public class PlayerShip {
 
     public static float MAX_LASER_TIME = 5f;
     public static float LASER_COOLDOWN = 3f;
+    public static float MAX_HEALTH = 4;
     public Vector2 position;
     public float width;
     public float height;
@@ -52,7 +54,7 @@ public class PlayerShip {
         this.playerShips.add(new SatelliteShip(gameScreen, this, SatelliteShip.EShipTypes.QUICK_SHOT));
         this.playerShips.add(new SatelliteShip(gameScreen, this, SatelliteShip.EShipTypes.STRAIGHT_SHOT));
         this.playerShips.add(new SatelliteShip(gameScreen, this, SatelliteShip.EShipTypes.SPREAD_SHOT));
-        this.targetPoint = new TargetPoint(new Vector2(0,0), 10, 4);
+        this.targetPoint = new TargetPoint(new Vector2(0,0), 10, MAX_HEALTH);
         this.targetPoint.collisionBounds = new Rectangle(position.x, position.y, width, height);
         this.damageColor = new Color();
         this.laserOn = false;
@@ -95,7 +97,7 @@ public class PlayerShip {
                 Gdx.app.log("Player", "Player died");
                 // TODO show a "This is LD screen"
                 // TODO: remove me, just testing for now
-                targetPoint.health = 4;
+                targetPoint.health = MAX_HEALTH;
                 gameScreen.clearAllBullets();
                 gameScreen.scoreUI.resetScore();
                 gameScreen.dialogUI.reset(this.gameScreen, "youdied.json").show();
@@ -125,5 +127,21 @@ public class PlayerShip {
             batch.draw(assets.laserContinue, position.x + width/2 + 7, position.y - laserWidth/2f, laserLength-7, laserWidth);
             batch.draw(assets.laser, position.x + width/2, position.y - laserWidth/2f, 8, laserWidth);
         }
+    }
+
+    public float getCurrentHealthPercent(){
+        return targetPoint.health / MAX_HEALTH;
+    }
+
+    public void replenishHealth(){
+        targetPoint.health = MAX_HEALTH;
+    }
+
+    public float getLaserChargePercent() {
+        return laserCharge / MAX_LASER_TIME;
+    }
+
+    public float getLaserCooldownPercent() {
+        return laserCooldown / LASER_COOLDOWN;
     }
 }
