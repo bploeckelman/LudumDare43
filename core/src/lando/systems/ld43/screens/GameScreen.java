@@ -20,10 +20,7 @@ import lando.systems.ld43.entities.SatelliteShip;
 import lando.systems.ld43.entities.enemies.Enemy;
 import lando.systems.ld43.entities.enemies.TargetPoint;
 import lando.systems.ld43.level.Level;
-import lando.systems.ld43.ui.Background;
-import lando.systems.ld43.ui.DialogUI;
-import lando.systems.ld43.ui.EquipmentUI;
-import lando.systems.ld43.ui.StarfieldBackground;
+import lando.systems.ld43.ui.*;
 import lando.systems.ld43.utils.*;
 import lando.systems.ld43.utils.screenshake.ScreenShakeCameraController;
 
@@ -47,6 +44,7 @@ public class GameScreen extends BaseScreen {
     private EquipmentUI equipmentUI;
     private Vector2 tempVec2;
     private Vector3 mousePos;
+    public ScoreUI scoreUI;
 
     public GameScreen(LudumDare43 game, Assets assets, Pilot.Type pilotType) {
         super(game, assets);
@@ -73,11 +71,13 @@ public class GameScreen extends BaseScreen {
         collisionEntities = new Array<QuadTreeable>();
         this.equipmentUI = new EquipmentUI(assets);
         this.dialogUI = new DialogUI(assets);
+        this.scoreUI = new ScoreUI(assets, game);
         game.audio.playMusic(Audio.Musics.RockHardyWithMaster);
     }
 
     @Override
     public void update(float dt) {
+        scoreUI.update(dt);
         dialogUI.update(dt);
         equipmentUI.update(dt);
         if (equipmentUI.isVisible() || dialogUI.isVisible()) {
@@ -179,6 +179,7 @@ public class GameScreen extends BaseScreen {
             }
 
             if (!e.alive){
+                scoreUI.addScore(1);
                 // TODO: explosion
                 enemies.remove(i);
             }
@@ -216,6 +217,7 @@ public class GameScreen extends BaseScreen {
             batch.setColor(Color.WHITE);
             batch.draw(player.pilot.textureHead, 5f, 5f, 64f, 64f);
 
+            scoreUI.render(batch);
             dialogUI.render(batch);
             equipmentUI.render(batch);
         }
