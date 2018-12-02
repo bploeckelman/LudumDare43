@@ -8,6 +8,7 @@
     <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld39.PACKAGE.TO.REFLECT" />
     -->
 	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion" />
+    <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld43.level.EnemyDef" />
 
 	<inherits name='LudumDare43' />
 	<entry-point class='lando.systems.ld43.client.HtmlLauncher' />
