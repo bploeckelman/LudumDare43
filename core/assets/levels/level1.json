@@ -1,46 +1,46 @@
 [
-  {
-    class: Enemy
-    time: 1
-    x: 800
-    y: 200
-    type: Drone
-  }
-  {
-    class: Enemy
-    time: 1
-    x: 800
-    y: 400
-    type: Drone
-  }
-  /** Begin Verical Wave
-  **/
-  {
-    class: Enemy
-    time: 5.5
-    x: 800
-    y: 100
-    type: Vertical
-  }
-  {
-    class: Enemy
-    time: 6.1
-    x: 800
-    y: 200
-    type: Vertical
-  }
-  {
-    class: Enemy
-    time: 6.7
-    x: 800
-    y: 300
-    type: Vertical
-  }
-  {
-    class: Enemy
-    time: 20
-    x: 800
-    y: 300
-    type: Drone
-  }
+  {"class":"Enemy","x":600,"y":100,"time":4,"type":"VerticalTrailing"},
+  {"class":"Enemy","time":4,"x":650,"y":500,"type":"VerticalTrailing"},
+  {"class":"Enemy","time":4.5,"x":500,"y":600,"type":"Vertical"},
+  {"class":"Enemy","time":4.5,"x":600,"y":0,"type":"Vertical"},
+  {"class":"Enemy","time":5.5,"x":800,"y":50,"type":"Drone"},
+  {"class":"Enemy","time":5.5,"x":800,"y":550,"type":"Drone"},
+  {"class":"Enemy","time":6,"x":800,"y":150,"type":"Drone"},
+  {"class":"Enemy","time":6,"x":800,"y":450,"type":"Drone"},
+  {"class":"Enemy","time":6.5,"x":800,"y":650,"type":"Drone"},
+  {"class":"Enemy","time":7,"x":800,"y":600,"type":"Vertical"},
+  {"class":"Enemy","time":8,"x":800,"y":0,"type":"Vertical"},
+  {"class":"Enemy","time":9.5,"x":600,"y":600,"type":"VerticalTrailing"},
+  {"class":"Enemy","time":9.5,"x":400,"y":0,"type":"VerticalTrailing"},
+  {"class":"Enemy","time":10.5,"x":400,"y":0,"type":"VerticalTrailing"},
+  {"class":"Enemy","time":10.5,"x":600,"y":600,"type":"VerticalTrailing"},
+  {"class":"Enemy","time":15,"x":800,"y":200,"type":"Drone"},
+  {"class":"Enemy","time":15,"x":800,"y":400,"type":"Drone"},
+  {"class":"Enemy","time":17,"x":800,"y":300,"type":"Drone"},
+  {"class":"Enemy","time":20,"x":500,"y":0,"type":"Vertical"},
+  {"class":"Enemy","time":20,"x":700,"y":600,"type":"Vertical"},
+  {"class":"Enemy","time":24,"x":800,"y":200,"type":"Drone"},
+  {"class":"Enemy","time":24,"x":800,"y":100,"type":"Drone"},
+  {"class":"Enemy","time":24,"x":800,"y":400,"type":"Drone"},
+  {"class":"Enemy","time":24,"x":800,"y":500,"type":"Drone"},
+  {"class":"Enemy","time":26,"x":800,"y":600,"type":"VerticalTrailing"},
+  {"class":"Enemy","time":26,"x":800,"y":0,"type":"VerticalTrailing"},
+  {"class":"Enemy","time":28,"x":800,"y":100,"type":"Drone"},
+  {"class":"Enemy","time":29,"x":800,"y":200,"type":"Drone"},
+  {"class":"Enemy","time":30,"x":600,"y":600,"type":"Vertical"},
+  {"class":"Enemy","time":30,"x":800,"y":300,"type":"Drone"},
+  {"class":"Enemy","time":31,"x":800,"y":400,"type":"Drone"},
+  {"class":"Enemy","time":32,"x":800,"y":500,"type":"Drone"},
+  {"class":"Enemy","time":34,"x":800,"y":600,"type":"Drone"},
+  {"class":"Enemy","time":35,"x":800,"y":500,"type":"Drone"},
+  {"class":"Enemy","time":36,"x":800,"y":400,"type":"Drone"},
+  {"class":"Enemy","time":37,"x":800,"y":0,"type":"Beeline"},
+  {"class":"Enemy","time":37,"x":800,"y":600,"type":"Beeline"},
+  {"class":"Enemy","time":37,"x":800,"y":300,"type":"Drone"},
+  {"class":"Enemy","time":38,"x":800,"y":200,"type":"Beeline"},
+  {"class":"Enemy","time":40,"x":800,"y":200,"type":"Beeline"},
+  {"class":"Enemy","time":40,"x":800,"y":300,"type":"Beeline"},
+  {"class":"Enemy","time":40,"x":800,"y":400,"type":"Beeline"},
+  {"class":"Enemy","time":40,"x":800,"y":500,"type":"Beeline"},
+  {"class":"Enemy","time":45,"x":800,"y":200,"type":"MiniBoss1"}
 ]
