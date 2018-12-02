@@ -35,12 +35,13 @@ export class AppComponent {
 
   public addObj(): void {
     this.levelObjects.push({
-      class: '',
+      class: 'Enemy',
       time: 0.0,
       x: 0.0,
       y: 0.0,
-      type: ''
+      type: 'Drone'
     });
+    this.sortObjectsByTime();
   }
 
   public export(): void {
@@ -50,5 +51,13 @@ export class AppComponent {
 
   public delete(index: number): void {
     this.levelObjects.splice(index, 1);
+  }
+
+  public sortObjectsByTime(): void {
+    this.levelObjects.sort((a, b) => {
+      const aNum = a.time as number;
+      const bNum = b.time as number;
+      return aNum - bNum;
+    });
   }
 }

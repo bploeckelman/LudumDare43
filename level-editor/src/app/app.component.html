@@ -8,39 +8,30 @@
         <div fxFlex style="margin-bottom: 30px">
             <input type="file" (change)="onFileChange($event)"/>
         </div>
-        <!--<div fxLayout="row" fxLayoutAlign="space-around center" style="margin-bottom: 20px">
-          <div fxFlex>
-            Class
-          </div>
-          <div fxFlex>
-            Time
-          </div>
-          <div fxFlex>
-            X
-          </div>
-          <div fxFlex>
-            Y
-          </div>
-          <div fxFlex>
-            Type
-          </div>
-        </div>-->
         <div *ngFor="let levelObj of levelObjects; let i = index" >
             <div fxLayout="row" fxLayoutAlign="space-around center">
                 <mat-form-field fxFlex>
-                    <input matInput placeholder="Name" [(ngModel)]="levelObj.class"/>
+                  <input matInput placeholder="Time" [(ngModel)]="levelObj.time" (input)="sortObjectsByTime()" type="number" />
                 </mat-form-field>
                 <mat-form-field fxFlex>
-                  <input matInput placeholder="Time" [(ngModel)]="levelObj.time"/>
-                </mat-form-field>
-                <mat-form-field fxFlex>
-                  <input matInput placeholder="X" [(ngModel)]="levelObj.x"/>
+                  <input matInput placeholder="X" [(ngModel)]="levelObj.x" type="number"/>
                 </mat-form-field>
                 <mat-form-field>
-                  <input matInput placeholder="Y" [(ngModel)]="levelObj.y"/>
+                  <input matInput placeholder="Y" [(ngModel)]="levelObj.y" type="number"/>
                 </mat-form-field>
                 <mat-form-field>
-                  <input matInput placeholder="Type" [(ngModel)]="levelObj.type"/>
+                  <mat-select placeholder="Enemy Type" [(value)]="levelObj.type">
+                    <mat-option value="Drone">Drone</mat-option>
+                    <mat-option value="Vertical">Vertical</mat-option>
+                    <mat-option value="Beeline">Beeline</mat-option>
+                    <mat-option value="VerticalTrailing">VerticalTrailing</mat-option>
+                    <mat-option value="MiniBoss1">MiniBoss1</mat-option>
+                    <mat-option value="MiniBoss2">MiniBoss2</mat-option>
+                    <mat-option value="MiniBoss3">MiniBoss3</mat-option>
+                    <mat-option value="MiniBoss4">MiniBoss4</mat-option>
+                    <mat-option value="MiniBoss5">MiniBoss5</mat-option>
+                    <mat-option value="MiniBoss6">MiniBoss6</mat-option>
+                  </mat-select>
                 </mat-form-field>
                 <button mat-raised-button color="warn" (click)="delete(i)">DELETE</button>
             </div>

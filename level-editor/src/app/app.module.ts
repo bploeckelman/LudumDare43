@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatInputModule, MatFormFieldModule, MatButtonModule, MatTableModule, MatCardModule } from '@angular/material';
+import { MatInputModule, MatFormFieldModule, MatButtonModule, MatTableModule, MatCardModule, MatSelectModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 
@@ -20,7 +20,8 @@ import { FormsModule } from '@angular/forms';
     MatTableModule,
     FlexLayoutModule,
     FormsModule,
-    MatCardModule
+    MatCardModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
