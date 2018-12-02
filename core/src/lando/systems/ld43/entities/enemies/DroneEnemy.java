@@ -13,6 +13,7 @@ public class DroneEnemy extends Enemy {
     public void update(float dt){
         position.x -= 50 * dt;
         if (position.x < -width) alive = false;
+        super.update(dt);
     }
 
     @Override

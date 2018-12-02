@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -21,6 +22,7 @@ import lando.systems.ld43.ui.Background;
 import lando.systems.ld43.ui.StarfieldBackground;
 import lando.systems.ld43.utils.Assets;
 import lando.systems.ld43.utils.Config;
+import lando.systems.ld43.utils.QuadTree;
 import lando.systems.ld43.utils.screenshake.ScreenShakeCameraController;
 
 import java.util.ArrayList;
@@ -39,6 +41,7 @@ public class GameScreen extends BaseScreen {
     public Pool<Bullet> bulletPool;
 
     private Level level;
+    private QuadTree bulletTree;
 
     private Vector2 tempVec2;
     private Vector3 mousePos;
@@ -64,7 +67,7 @@ public class GameScreen extends BaseScreen {
                 .start(game.tween);
 
         level = new Level(this, 1);
-
+        bulletTree = new QuadTree(assets,0, new Rectangle(0,0, worldCamera.viewportWidth, worldCamera.viewportHeight));
     }
 
     @Override
@@ -84,15 +87,19 @@ public class GameScreen extends BaseScreen {
 
         level.update(dt);
 
+        bulletTree.clear();
         for (int i = 0; i < aliveBullets.size; i++) {
             Bullet bullet = aliveBullets.get(i);
-            if (bullet.position.x > Config.window_width) {
+            if (bullet.position.x > Config.window_width || bullet.position.x < 0 ||
+                bullet.position.y > Config.window_height || bullet.position.y < 0 ||
+                !bullet.isAlive) {
                 aliveBullets.removeIndex(i);
                 bullet.reset();
                 bulletPool.free(bullet);
                 i--;
             } else {
                 bullet.update(dt);
+                bulletTree.insert(bullet);
             }
         }
 
@@ -123,6 +130,7 @@ public class GameScreen extends BaseScreen {
         batch.begin();
         {
             background.render(batch);
+            bulletTree.renderDebug(batch);
             player.render(batch);
             for (Bullet bullet: aliveBullets) {
                 bullet.render(batch);

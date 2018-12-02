@@ -2,13 +2,15 @@ package lando.systems.ld43.entities.enemies;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import lando.systems.ld43.utils.Assets;
+import lando.systems.ld43.utils.QuadTreeable;
 
 import java.util.ArrayList;
 
-public class Enemy {
+public class Enemy extends QuadTreeable {
     public float width;
     public float height;
     public Vector2 position;
@@ -31,10 +33,12 @@ public class Enemy {
         alive = true;
         this.targetOffsets = new ArrayList<Vector3>();
         this.targetOffsets.add(new Vector3(0, 0, 10));
+        this.collisionBounds = new Rectangle(0,0, width, height);
     }
 
     public void update(float dt){
         // Implement specific update in derived classes
+        collisionBounds.set(position.x - width/2, position.y - height/2, width, height);
     }
 
     public void render(SpriteBatch batch){

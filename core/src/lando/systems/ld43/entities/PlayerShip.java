@@ -1,14 +1,14 @@
 package lando.systems.ld43.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld43.utils.Assets;
+import lando.systems.ld43.utils.QuadTreeable;
 
-public class PlayerShip {
+public class PlayerShip extends QuadTreeable {
     public Vector2 position;
     public float width;
     public float height;
@@ -30,11 +30,12 @@ public class PlayerShip {
         this.playerShips.add(new SatelliteShip(this.assets.satelliteShip, position, 0f, 30f, SatelliteShip.EShipTypes.QUICK_SHOT));
         this.playerShips.add(new SatelliteShip(this.assets.satelliteShip, position, 0f, -30f, SatelliteShip.EShipTypes.STRAIGHT_SHOT));
         this.playerShips.add(new SatelliteShip(this.assets.satelliteSpreadShip, position, -30f, 0f, SatelliteShip.EShipTypes.TRIPLE_SHOT));
+        this.collisionBounds = new Rectangle(position.x, position.y, width, height);
     }
 
     public void update(float dt, Vector2 mousePos) {
         position.lerp(mousePos, .1f);
-
+        collisionBounds.set(position.x - width/2, position.y - height/2f, width, height);
         for (SatelliteShip satShip: playerShips) {
             satShip.updatePosition(position);
             satShip.update(dt);

@@ -27,6 +27,7 @@ public class VerticalTrailingEnemy extends Enemy {
             position.y += direction * 25 * dt;
         }
         if (position.x < -width) alive = false;
+        super.update(dt);
     }
 
     @Override

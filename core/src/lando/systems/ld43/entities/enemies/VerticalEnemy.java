@@ -24,6 +24,7 @@ public class VerticalEnemy extends Enemy {
         }
         position.y += direction * 100 * dt;
         if (position.x < -width) alive = false;
+        super.update(dt);
     }
 
     @Override

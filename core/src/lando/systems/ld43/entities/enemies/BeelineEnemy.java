@@ -45,6 +45,7 @@ public class BeelineEnemy extends Enemy {
                 velocity.x -= directionChangeAmount;
             }
         }
+        super.update(dt);
     }
 
     @Override
