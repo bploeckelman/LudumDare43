@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import lando.systems.ld43.utils.Assets;
 import lando.systems.ld43.utils.QuadTreeable;
 
@@ -15,6 +16,7 @@ public class Enemy extends QuadTreeable {
     public float height;
     public Vector2 position;
     public boolean alive;
+
 
     /**
      * These should be where the enemy is able to be damaged at
@@ -30,7 +32,7 @@ public class Enemy extends QuadTreeable {
         this.height = 20;
         this.width = 20;
         this.position = new Vector2();
-        alive = true;
+        this.alive = true;
         this.targetOffsets = new ArrayList<Vector3>();
         this.targetOffsets.add(new Vector3(0, 0, 10));
         this.collisionBounds = new Rectangle(0,0, width, height);
@@ -40,6 +42,7 @@ public class Enemy extends QuadTreeable {
         // Implement specific update in derived classes
         collisionBounds.set(position.x - width/2, position.y - height/2, width, height);
     }
+
 
     public void render(SpriteBatch batch){
         // Implement specific render in derived classes

@@ -23,6 +23,7 @@ import lando.systems.ld43.ui.StarfieldBackground;
 import lando.systems.ld43.utils.Assets;
 import lando.systems.ld43.utils.Config;
 import lando.systems.ld43.utils.QuadTree;
+import lando.systems.ld43.utils.QuadTreeable;
 import lando.systems.ld43.utils.screenshake.ScreenShakeCameraController;
 
 import java.util.ArrayList;
@@ -40,8 +41,11 @@ public class GameScreen extends BaseScreen {
     public Array<Bullet> aliveBullets;
     public Pool<Bullet> bulletPool;
 
+    public QuadTree bulletTree;
+    private Array<QuadTreeable> collisionEntities;
+
+
     private Level level;
-    private QuadTree bulletTree;
 
     private Vector2 tempVec2;
     private Vector3 mousePos;
@@ -68,6 +72,7 @@ public class GameScreen extends BaseScreen {
 
         level = new Level(this, 1);
         bulletTree = new QuadTree(assets,0, new Rectangle(0,0, worldCamera.viewportWidth, worldCamera.viewportHeight));
+        collisionEntities = new Array<QuadTreeable>();
     }
 
     @Override
@@ -103,6 +108,7 @@ public class GameScreen extends BaseScreen {
             }
         }
 
+        collisionEntities.clear();
         for (int i = enemies.size()-1; i >= 0; i--){
             Enemy e = enemies.get(i);
             e.update(dt);
@@ -130,7 +136,7 @@ public class GameScreen extends BaseScreen {
         batch.begin();
         {
             background.render(batch);
-            bulletTree.renderDebug(batch);
+//            bulletTree.renderDebug(batch);
             player.render(batch);
             for (Bullet bullet: aliveBullets) {
                 bullet.render(batch);

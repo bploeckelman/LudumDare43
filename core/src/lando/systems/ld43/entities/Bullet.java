@@ -34,7 +34,7 @@ public class Bullet extends QuadTreeable implements Pool.Poolable {
     }
 
     public void update(float dt) {
-        position.add(velocity.x * dt * .1f, velocity.y * dt * .1f);
+        position.add(velocity.x * dt, velocity.y * dt);
         collisionBounds.set(position.x - width/2, position.y - height/2, width, height);
     }
 
