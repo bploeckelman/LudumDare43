@@ -127,14 +127,7 @@ public class GameScreen extends BaseScreen {
             }
         }
 
-        // TODO: remove me, just testing for now
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            equipmentUI.reset(this).show();
-        }
-
         level.update(dt);
-
-
 
         for (int i = enemies.size()-1; i >= 0; i--){
             Enemy e = enemies.get(i);
