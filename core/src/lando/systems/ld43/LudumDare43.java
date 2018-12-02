@@ -16,6 +16,7 @@ import lando.systems.ld43.screens.BaseScreen;
 import lando.systems.ld43.screens.LoadingScreen;
 import lando.systems.ld43.screens.TitleScreen;
 import lando.systems.ld43.utils.Assets;
+import lando.systems.ld43.utils.Audio;
 import lando.systems.ld43.utils.Config;
 
 public class LudumDare43 extends ApplicationAdapter {
@@ -23,6 +24,7 @@ public class LudumDare43 extends ApplicationAdapter {
 //	public Audio audio;
 	public Assets assets;
 	public TweenManager tween;
+	public Audio audio;
 
 	private BaseScreen screen;
 
@@ -43,9 +45,9 @@ public class LudumDare43 extends ApplicationAdapter {
 			assets = new Assets();
 		}
 
-//        if (audio == null) {
-//            audio = new Audio();
-//        }
+        if (audio == null) {
+            audio = new Audio(false, this);
+        }
 
 		// Go to bullshit start screen for web
 		if (Gdx.app.getType() == Application.ApplicationType.WebGL){

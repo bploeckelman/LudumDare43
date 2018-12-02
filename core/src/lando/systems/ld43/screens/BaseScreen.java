@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import lando.systems.ld43.LudumDare43;
 import lando.systems.ld43.utils.Assets;
+import lando.systems.ld43.utils.Audio;
 import lando.systems.ld43.utils.Config;
 
 /**
@@ -20,6 +21,7 @@ public abstract class BaseScreen extends InputAdapter {
     public final LudumDare43 game;
     public final Assets assets;
     public final TweenManager tween;
+    public final Audio audio;
 
     public MutableFloat alpha;
     public OrthographicCamera worldCamera;
@@ -39,6 +41,7 @@ public abstract class BaseScreen extends InputAdapter {
         this.game = game;
         this.assets = assets;
         this.tween = game.tween;
+        this.audio = game.audio;
 
         this.allowInput = false;
         this.alpha = new MutableFloat(0f);

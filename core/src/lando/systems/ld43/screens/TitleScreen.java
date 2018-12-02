@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import lando.systems.ld43.LudumDare43;
 import lando.systems.ld43.ui.PilotSelectUI;
 import lando.systems.ld43.utils.Assets;
+import lando.systems.ld43.utils.Audio;
 
 public class TitleScreen extends BaseScreen {
 
@@ -28,9 +29,12 @@ public class TitleScreen extends BaseScreen {
             Gdx.app.exit();
         }
 
+        audio.update(dt);
+
         pilotSelectUI.update(dt);
 
         if (Gdx.input.justTouched() && !pilotSelectUI.isVisible()) {
+            audio.playMusic(Audio.Musics.SpaceAmbWithMaster);
             pilotSelectUI.reset(this).show();
         }
     }

@@ -24,10 +24,7 @@ import lando.systems.ld43.ui.Background;
 import lando.systems.ld43.ui.DialogUI;
 import lando.systems.ld43.ui.EquipmentUI;
 import lando.systems.ld43.ui.StarfieldBackground;
-import lando.systems.ld43.utils.Assets;
-import lando.systems.ld43.utils.Config;
-import lando.systems.ld43.utils.QuadTree;
-import lando.systems.ld43.utils.QuadTreeable;
+import lando.systems.ld43.utils.*;
 import lando.systems.ld43.utils.screenshake.ScreenShakeCameraController;
 
 import java.util.ArrayList;
@@ -76,6 +73,7 @@ public class GameScreen extends BaseScreen {
         collisionEntities = new Array<QuadTreeable>();
         this.equipmentUI = new EquipmentUI(assets);
         this.dialogUI = new DialogUI(assets);
+        game.audio.playMusic(Audio.Musics.RockHardyWithMaster);
     }
 
     @Override
@@ -85,6 +83,8 @@ public class GameScreen extends BaseScreen {
         if (equipmentUI.isVisible() || dialogUI.isVisible()) {
             return;
         }
+
+        audio.update(dt);
 
         mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         worldCamera.unproject(mousePos);
