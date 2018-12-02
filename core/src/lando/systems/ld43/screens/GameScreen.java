@@ -99,6 +99,12 @@ public class GameScreen extends BaseScreen {
         for (int i = enemies.size()-1; i >= 0; i--){
             Enemy e = enemies.get(i);
             e.update(dt);
+
+            int randBulletInt = MathUtils.random(1000);
+            if (randBulletInt > 980) {
+                enemyShoot(e.position);
+            }
+
             if (!e.alive){
                 // TODO: explosion
                 enemies.remove(i);
@@ -161,5 +167,11 @@ public class GameScreen extends BaseScreen {
                 aliveBullets.add(bullet);
                 break;
         }
+    }
+
+    public void enemyShoot(Vector2 position) {
+        Bullet bullet = bulletPool.obtain();
+        bullet.init(assets.redBullet, new Vector2(position.x, position.y), new Vector2(-1f * BULLET_BASE_X_VELOCITY, 0f), false, BULLET_BASE_WIDTH, BULLET_BASE_HEIGHT);
+        aliveBullets.add(bullet);
     }
 }
