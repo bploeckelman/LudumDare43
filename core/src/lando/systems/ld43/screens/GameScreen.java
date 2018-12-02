@@ -91,12 +91,6 @@ public class GameScreen extends BaseScreen {
                      MathUtils.clamp(mousePos.y, player.height, worldCamera.viewportHeight - player.height));
         player.update(dt, tempVec2);
 
-        if (Gdx.input.justTouched()) {
-            int rand = MathUtils.random(0, player.playerShips.size - 1);
-            SatelliteShip satShip = player.playerShips.get(rand);
-            shoot(satShip.shipType, satShip.position);
-        }
-
         // TODO: remove me, just testing for now
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             equipmentUI.reset(this).show();
@@ -177,35 +171,4 @@ public class GameScreen extends BaseScreen {
         batch.end();
     }
 
-    public void shoot(SatelliteShip.EShipTypes shipType, Vector2 position) {
-//        Bullet bullet = bulletPool.obtain();
-//        switch (shipType) {
-//            case SPREAD_SHOT:
-//                Bullet bullet1 = bulletPool.obtain();
-//                Bullet bullet2 = bulletPool.obtain();
-//
-//                bullet1.init(assets.spreadBullet, new Vector2(position.x, position.y), new Vector2(BULLET_BASE_X_VELOCITY, BULLET_BASE_Y_VELOCITY), true, BULLET_BASE_WIDTH, BULLET_BASE_HEIGHT, BULLET_BASE_WIDTH, 1f);
-//                bullet2.init(assets.spreadBullet, new Vector2(position.x, position.y), new Vector2(BULLET_BASE_X_VELOCITY, 0f), true, BULLET_BASE_WIDTH, BULLET_BASE_HEIGHT, BULLET_BASE_WIDTH, 1f);
-//                bullet.init(assets.spreadBullet, new Vector2(position.x, position.y), new Vector2(BULLET_BASE_X_VELOCITY, -1f * BULLET_BASE_Y_VELOCITY), true, BULLET_BASE_WIDTH, BULLET_BASE_HEIGHT, BULLET_BASE_WIDTH, 1f);
-//
-//                aliveBullets.add(bullet1);
-//                aliveBullets.add(bullet2);
-//                aliveBullets.add(bullet);
-//                break;
-//            case STRAIGHT_SHOT:
-//                bullet.init(assets.redBullet, new Vector2(position.x, position.y), new Vector2(BULLET_BASE_X_VELOCITY, 0f), true, 1.5f * BULLET_BASE_WIDTH, 1.5f * BULLET_BASE_HEIGHT, 1.5f * BULLET_BASE_WIDTH, 2f);
-//                aliveBullets.add(bullet);
-//                break;
-//            case QUICK_SHOT:
-//                bullet.init(assets.satelliteLaserBullet, new Vector2(position.x, position.y), new Vector2(1.5f * BULLET_BASE_X_VELOCITY, 0f), true, 5f * BULLET_BASE_WIDTH, 1.5f * BULLET_BASE_HEIGHT, 1.5f * BULLET_BASE_HEIGHT, 1f);
-//                aliveBullets.add(bullet);
-//                break;
-//        }
-    }
-
-    public void enemyShoot(Vector2 position) {
-//        Bullet bullet = bulletPool.obtain();
-//        bullet.init(assets.redBullet, new Vector2(position.x, position.y), new Vector2(-1f * BULLET_BASE_X_VELOCITY, 0f), false, BULLET_BASE_WIDTH, BULLET_BASE_HEIGHT, BULLET_BASE_WIDTH, 1f);
-//        aliveBullets.add(bullet);
-    }
 }
