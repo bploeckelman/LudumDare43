@@ -97,6 +97,7 @@ public class PlayerShip {
                 // TODO: remove me, just testing for now
                 targetPoint.health = 4;
                 gameScreen.clearAllBullets();
+                gameScreen.scoreUI.resetScore();
                 gameScreen.dialogUI.reset(this.gameScreen, "youdied.json").show();
             }
         }

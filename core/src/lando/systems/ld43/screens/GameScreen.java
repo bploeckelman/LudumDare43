@@ -44,7 +44,7 @@ public class GameScreen extends BaseScreen {
     private EquipmentUI equipmentUI;
     private Vector2 tempVec2;
     private Vector3 mousePos;
-    private ScoreUI scoreUI;
+    public ScoreUI scoreUI;
 
     public GameScreen(LudumDare43 game, Assets assets, Pilot.Type pilotType) {
         super(game, assets);
