@@ -47,23 +47,23 @@ public class SatelliteShip {
         switch(this.shipType){
             case SPREAD_SHOT:
                 this.texture = gameScreen.assets.satelliteSpreadShip;
-                this.xPosOffset = -30;
+                this.xPosOffset = -60;
                 this.yPosOffset = 0;
                 break;
             case STRAIGHT_SHOT:
                 this.texture = gameScreen.assets.satelliteShip;
                 this.xPosOffset = 0;
-                this.yPosOffset = 30;
+                this.yPosOffset = 60;
                 break;
             case QUICK_SHOT:
                 this.texture = gameScreen.assets.satelliteShip;
                 this.xPosOffset = 0;
-                this.yPosOffset = -30;
+                this.yPosOffset = -60;
                 break;
         }
         this.shootDelay = 1f;
         this.recoil = new MutableFloat(0);
-        this.width = this.height = 25;
+        this.width = this.height = 35;
         this.position = new Vector2(player.position.x + this.xPosOffset, player.position.y + this.yPosOffset);
 
     }
@@ -75,7 +75,7 @@ public class SatelliteShip {
         if (shootDelay <= 0){
             switch (shipType){
                 case SPREAD_SHOT:
-                    int spreadshots = 9;
+                    int spreadshots = 10;
                     for (int i = 0; i < spreadshots; i++){
                         float dir = -90 + ((float)i / (spreadshots-1)) * 180;
                         Bullet bullet = gameScreen.bulletPool.obtain();

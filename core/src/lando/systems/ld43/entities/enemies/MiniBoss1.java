@@ -17,8 +17,8 @@ public class MiniBoss1 extends Enemy {
         this.alive = true;
         this.targetPoints.clear();
         this.targetPoints.add(new TargetPoint(this, new Vector2(0,0), 30, 40));
-        this.targetPoints.add(new TargetPoint(this, new Vector2(0,-50), 30, 40));
-        this.targetPoints.add(new TargetPoint(this, new Vector2(0,50), 30, 40));
+        this.targetPoints.add(new TargetPoint(this, new Vector2(0,-50), 30, 20));
+        this.targetPoints.add(new TargetPoint(this, new Vector2(0,50), 30, 20));
         this.collisionBounds = new Rectangle(0,0, width, height);
     }
 

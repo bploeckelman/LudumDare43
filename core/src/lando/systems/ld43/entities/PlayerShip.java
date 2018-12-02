@@ -27,7 +27,7 @@ public class PlayerShip extends QuadTreeable {
         this.gameScreen = gameScreen;
         this.assets = assets;
         this.position = position;
-        this.width = this.height = 20;
+        this.width = this.height = 40;
         this.pilot = new Pilot(this, assets, pilotType);
         this.tempVec2 = new Vector2();
         this.tempVec3 = new Vector3();
