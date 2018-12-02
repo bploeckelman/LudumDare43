@@ -133,20 +133,20 @@ public class GameScreen extends BaseScreen {
                 Bullet bullet1 = bulletPool.obtain();
                 Bullet bullet2 = bulletPool.obtain();
 
-                bullet1.init(assets, new Vector2(position.x, position.y), new Vector2(600f, 600f), true);
-                bullet2.init(assets, new Vector2(position.x, position.y), new Vector2(600f, 0f), true);
-                bullet.init(assets, new Vector2(position.x, position.y), new Vector2(600f, -600f), true);
+                bullet1.init(assets.spreadBullet, new Vector2(position.x, position.y), new Vector2(600f, 600f), true);
+                bullet2.init(assets.spreadBullet, new Vector2(position.x, position.y), new Vector2(600f, 0f), true);
+                bullet.init(assets.spreadBullet, new Vector2(position.x, position.y), new Vector2(600f, -600f), true);
 
                 aliveBullets.add(bullet1);
                 aliveBullets.add(bullet2);
                 aliveBullets.add(bullet);
                 break;
             case STRAIGHT_SHOT:
-                bullet.init(assets, new Vector2(position.x, position.y), new Vector2(600f, 0f), true);
+                bullet.init(assets.redBullet, new Vector2(position.x, position.y), new Vector2(600f, 0f), true);
                 aliveBullets.add(bullet);
                 break;
             case QUICK_SHOT:
-                bullet.init(assets, new Vector2(position.x, position.y), new Vector2(900f, 0f), true);
+                bullet.init(assets.redBullet, new Vector2(position.x, position.y), new Vector2(900f, 0f), true);
                 aliveBullets.add(bullet);
                 break;
         }

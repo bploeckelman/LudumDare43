@@ -10,7 +10,6 @@ public class Bullet implements Pool.Poolable {
     public Vector2 velocity;
     public Vector2 position;
     public boolean isFriendlyBullet;
-    public Assets assets;
     public TextureRegion texture;
     public int width;
     public int height;
@@ -20,11 +19,10 @@ public class Bullet implements Pool.Poolable {
         width = height = 10;
     }
 
-    public void init(Assets assets, Vector2 position, Vector2 velocity, boolean isFriendlyBullet) {
+    public void init(TextureRegion texture, Vector2 position, Vector2 velocity, boolean isFriendlyBullet) {
         this.position = position;
         this.velocity = velocity;
-        this.assets = assets;
-        texture = assets.redBullet;
+        this.texture = texture;
         this.isFriendlyBullet = isFriendlyBullet;
         isAlive = true;
     }
@@ -41,6 +39,7 @@ public class Bullet implements Pool.Poolable {
     public void reset() {
         position.set(0, 0);
         velocity.set(0, 0);
+        texture = null;
         isFriendlyBullet = false;
         isAlive = false;
     }
