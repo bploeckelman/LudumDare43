@@ -29,10 +29,7 @@ import lando.systems.ld43.utils.screenshake.ScreenShakeCameraController;
 import java.util.ArrayList;
 
 public class GameScreen extends BaseScreen {
-    public final float BULLET_BASE_X_VELOCITY = 600f;
-    public final float BULLET_BASE_Y_VELOCITY = 600f;
-    public final float BULLET_BASE_WIDTH = 10f;
-    public final float BULLET_BASE_HEIGHT = 10f;
+
 
     public ScreenShakeCameraController shaker;
     public Background background;
@@ -55,7 +52,7 @@ public class GameScreen extends BaseScreen {
         tempVec2 = new Vector2();
         mousePos = new Vector3();
         Vector2 startPosition = new Vector2(40, worldCamera.viewportHeight/2);
-        player = new PlayerShip(assets, startPosition, pilotType);
+        player = new PlayerShip(this, assets, startPosition, pilotType);
         enemies = new ArrayList<Enemy>();
         background = new StarfieldBackground(assets);
         shaker = new ScreenShakeCameraController(worldCamera);
@@ -113,6 +110,14 @@ public class GameScreen extends BaseScreen {
             Enemy e = enemies.get(i);
             e.update(dt);
 
+            bulletTree.retrieve(collisionEntities, e);
+            for (QuadTreeable entity : collisionEntities){
+                if (entity instanceof Bullet){
+                    Bullet b = (Bullet) entity;
+                    if (b.isFriendlyBullet && b.isAlive) e.checkBulletCollision(b);
+                }
+            }
+            // TODO: This should be in the enemies update
             int randBulletInt = MathUtils.random(1000);
             if (randBulletInt > 980) {
                 enemyShoot(e.position);
@@ -158,34 +163,34 @@ public class GameScreen extends BaseScreen {
     }
 
     public void shoot(SatelliteShip.EShipTypes shipType, Vector2 position) {
-        Bullet bullet = bulletPool.obtain();
-        switch (shipType) {
-            case TRIPLE_SHOT:
-                Bullet bullet1 = bulletPool.obtain();
-                Bullet bullet2 = bulletPool.obtain();
-
-                bullet1.init(assets.spreadBullet, new Vector2(position.x, position.y), new Vector2(BULLET_BASE_X_VELOCITY, BULLET_BASE_Y_VELOCITY), true, BULLET_BASE_WIDTH, BULLET_BASE_HEIGHT);
-                bullet2.init(assets.spreadBullet, new Vector2(position.x, position.y), new Vector2(BULLET_BASE_X_VELOCITY, 0f), true, BULLET_BASE_WIDTH, BULLET_BASE_HEIGHT);
-                bullet.init(assets.spreadBullet, new Vector2(position.x, position.y), new Vector2(BULLET_BASE_X_VELOCITY, -1f * BULLET_BASE_Y_VELOCITY), true, BULLET_BASE_WIDTH, BULLET_BASE_HEIGHT);
-
-                aliveBullets.add(bullet1);
-                aliveBullets.add(bullet2);
-                aliveBullets.add(bullet);
-                break;
-            case STRAIGHT_SHOT:
-                bullet.init(assets.redBullet, new Vector2(position.x, position.y), new Vector2(BULLET_BASE_X_VELOCITY, 0f), true, 1.5f * BULLET_BASE_WIDTH, 1.5f * BULLET_BASE_HEIGHT);
-                aliveBullets.add(bullet);
-                break;
-            case QUICK_SHOT:
-                bullet.init(assets.satelliteLaserBullet, new Vector2(position.x, position.y), new Vector2(1.5f * BULLET_BASE_X_VELOCITY, 0f), true, 5f * BULLET_BASE_WIDTH, 1.5f * BULLET_BASE_HEIGHT);
-                aliveBullets.add(bullet);
-                break;
-        }
+//        Bullet bullet = bulletPool.obtain();
+//        switch (shipType) {
+//            case SPREAD_SHOT:
+//                Bullet bullet1 = bulletPool.obtain();
+//                Bullet bullet2 = bulletPool.obtain();
+//
+//                bullet1.init(assets.spreadBullet, new Vector2(position.x, position.y), new Vector2(BULLET_BASE_X_VELOCITY, BULLET_BASE_Y_VELOCITY), true, BULLET_BASE_WIDTH, BULLET_BASE_HEIGHT, BULLET_BASE_WIDTH, 1f);
+//                bullet2.init(assets.spreadBullet, new Vector2(position.x, position.y), new Vector2(BULLET_BASE_X_VELOCITY, 0f), true, BULLET_BASE_WIDTH, BULLET_BASE_HEIGHT, BULLET_BASE_WIDTH, 1f);
+//                bullet.init(assets.spreadBullet, new Vector2(position.x, position.y), new Vector2(BULLET_BASE_X_VELOCITY, -1f * BULLET_BASE_Y_VELOCITY), true, BULLET_BASE_WIDTH, BULLET_BASE_HEIGHT, BULLET_BASE_WIDTH, 1f);
+//
+//                aliveBullets.add(bullet1);
+//                aliveBullets.add(bullet2);
+//                aliveBullets.add(bullet);
+//                break;
+//            case STRAIGHT_SHOT:
+//                bullet.init(assets.redBullet, new Vector2(position.x, position.y), new Vector2(BULLET_BASE_X_VELOCITY, 0f), true, 1.5f * BULLET_BASE_WIDTH, 1.5f * BULLET_BASE_HEIGHT, 1.5f * BULLET_BASE_WIDTH, 2f);
+//                aliveBullets.add(bullet);
+//                break;
+//            case QUICK_SHOT:
+//                bullet.init(assets.satelliteLaserBullet, new Vector2(position.x, position.y), new Vector2(1.5f * BULLET_BASE_X_VELOCITY, 0f), true, 5f * BULLET_BASE_WIDTH, 1.5f * BULLET_BASE_HEIGHT, 1.5f * BULLET_BASE_HEIGHT, 1f);
+//                aliveBullets.add(bullet);
+//                break;
+//        }
     }
 
     public void enemyShoot(Vector2 position) {
-        Bullet bullet = bulletPool.obtain();
-        bullet.init(assets.redBullet, new Vector2(position.x, position.y), new Vector2(-1f * BULLET_BASE_X_VELOCITY, 0f), false, BULLET_BASE_WIDTH, BULLET_BASE_HEIGHT);
-        aliveBullets.add(bullet);
+//        Bullet bullet = bulletPool.obtain();
+//        bullet.init(assets.redBullet, new Vector2(position.x, position.y), new Vector2(-1f * BULLET_BASE_X_VELOCITY, 0f), false, BULLET_BASE_WIDTH, BULLET_BASE_HEIGHT, BULLET_BASE_WIDTH, 1f);
+//        aliveBullets.add(bullet);
     }
 }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import lando.systems.ld43.screens.GameScreen;
 import lando.systems.ld43.utils.Assets;
 import lando.systems.ld43.utils.QuadTreeable;
 
@@ -12,6 +13,7 @@ public class PlayerShip extends QuadTreeable {
     public Vector2 position;
     public float width;
     public float height;
+    public GameScreen gameScreen;
     public Array<SatelliteShip> playerShips;
 
     private Assets assets;
@@ -19,7 +21,8 @@ public class PlayerShip extends QuadTreeable {
     private Vector3 tempVec3;
     public Pilot pilot;
 
-    public PlayerShip(Assets assets, Vector2 position, Pilot.Type pilotType) {
+    public PlayerShip(GameScreen gameScreen, Assets assets, Vector2 position, Pilot.Type pilotType) {
+        this.gameScreen = gameScreen;
         this.assets = assets;
         this.position = position;
         this.width = this.height = 20;
@@ -27,9 +30,9 @@ public class PlayerShip extends QuadTreeable {
         this.tempVec2 = new Vector2();
         this.tempVec3 = new Vector3();
         this.playerShips = new Array<SatelliteShip>();
-        this.playerShips.add(new SatelliteShip(this.assets.satelliteShip, position, 0f, 30f, SatelliteShip.EShipTypes.QUICK_SHOT));
-        this.playerShips.add(new SatelliteShip(this.assets.satelliteShip, position, 0f, -30f, SatelliteShip.EShipTypes.STRAIGHT_SHOT));
-        this.playerShips.add(new SatelliteShip(this.assets.satelliteSpreadShip, position, -30f, 0f, SatelliteShip.EShipTypes.TRIPLE_SHOT));
+        this.playerShips.add(new SatelliteShip(gameScreen, this, SatelliteShip.EShipTypes.QUICK_SHOT));
+        this.playerShips.add(new SatelliteShip(gameScreen, this, SatelliteShip.EShipTypes.STRAIGHT_SHOT));
+        this.playerShips.add(new SatelliteShip(gameScreen, this, SatelliteShip.EShipTypes.SPREAD_SHOT));
         this.collisionBounds = new Rectangle(position.x, position.y, width, height);
     }
 
@@ -37,7 +40,6 @@ public class PlayerShip extends QuadTreeable {
         position.lerp(mousePos, .1f);
         collisionBounds.set(position.x - width/2, position.y - height/2f, width, height);
         for (SatelliteShip satShip: playerShips) {
-            satShip.updatePosition(position);
             satShip.update(dt);
         }
     }
