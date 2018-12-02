@@ -1,0 +1,55 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<mat-card>
+  <h4 style="text-align: center">
+    Extremely Cool Level Editor
+  </h4>
+  <mat-card-content>
+    <div fxLayout="column" fxLayoutAlign="start stretch">
+        <div fxFlex style="margin-bottom: 30px">
+            <input type="file" (change)="onFileChange($event)"/>
+        </div>
+        <!--<div fxLayout="row" fxLayoutAlign="space-around center" style="margin-bottom: 20px">
+          <div fxFlex>
+            Class
+          </div>
+          <div fxFlex>
+            Time
+          </div>
+          <div fxFlex>
+            X
+          </div>
+          <div fxFlex>
+            Y
+          </div>
+          <div fxFlex>
+            Type
+          </div>
+        </div>-->
+        <div *ngFor="let levelObj of levelObjects; let i = index" >
+            <div fxLayout="row" fxLayoutAlign="space-around center">
+                <mat-form-field fxFlex>
+                    <input matInput placeholder="Name" [(ngModel)]="levelObj.class"/>
+                </mat-form-field>
+                <mat-form-field fxFlex>
+                  <input matInput placeholder="Time" [(ngModel)]="levelObj.time"/>
+                </mat-form-field>
+                <mat-form-field fxFlex>
+                  <input matInput placeholder="X" [(ngModel)]="levelObj.x"/>
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput placeholder="Y" [(ngModel)]="levelObj.y"/>
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput placeholder="Type" [(ngModel)]="levelObj.type"/>
+                </mat-form-field>
+                <button mat-raised-button color="warn" (click)="delete(i)">DELETE</button>
+            </div>
+          
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="addObj()">Add</button>
+        <button mat-raised-button color="primary" (click)="export()">Export</button>
+      </mat-card-actions>
+</mat-card>
