@@ -27,9 +27,9 @@ public class PlayerShip {
         this.tempVec2 = new Vector2();
         this.tempVec3 = new Vector3();
         this.playerShips = new Array<SatelliteShip>();
-        this.playerShips.add(new SatelliteShip(this.assets, position, 0f, 30f, SatelliteShip.EShipTypes.QUICK_SHOT));
-        this.playerShips.add(new SatelliteShip(this.assets, position, 0f, -30f, SatelliteShip.EShipTypes.STRAIGHT_SHOT));
-        this.playerShips.add(new SatelliteShip(this.assets, position, -30f, 0f, SatelliteShip.EShipTypes.TRIPLE_SHOT));
+        this.playerShips.add(new SatelliteShip(this.assets.satelliteShip, position, 0f, 30f, SatelliteShip.EShipTypes.QUICK_SHOT));
+        this.playerShips.add(new SatelliteShip(this.assets.satelliteShip, position, 0f, -30f, SatelliteShip.EShipTypes.STRAIGHT_SHOT));
+        this.playerShips.add(new SatelliteShip(this.assets.satelliteSpreadShip, position, -30f, 0f, SatelliteShip.EShipTypes.TRIPLE_SHOT));
     }
 
     public void update(float dt, Vector2 mousePos) {

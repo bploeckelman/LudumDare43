@@ -1,12 +1,10 @@
 package lando.systems.ld43.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
-import lando.systems.ld43.utils.Assets;
-import lando.systems.ld43.utils.Config;
 
-public class SatelliteShip extends GameObject {
+public class SatelliteShip {
     public enum EShipTypes {
         TRIPLE_SHOT,
         STRAIGHT_SHOT,
@@ -15,16 +13,17 @@ public class SatelliteShip extends GameObject {
 
     public float xPosOffset;
     public float yPosOffset;
-    public Assets assets;
+    public TextureRegion texture;
     public EShipTypes shipType;
+    public Vector2 position;
+    public float width;
+    public float height;
 
-    public SatelliteShip(Assets assets, Vector2 playerPosition, float xPosOffset, float yPosOffset, EShipTypes shipType) {
-        super(assets);
-        this.texture = assets.satelliteShip;
+    public SatelliteShip(TextureRegion texture, Vector2 playerPosition, float xPosOffset, float yPosOffset, EShipTypes shipType) {
+        this.texture = texture;
         this.xPosOffset = xPosOffset;
         this.yPosOffset = yPosOffset;
         width = height = 25;
-        this.assets = assets;
         this.position = new Vector2(playerPosition.x + xPosOffset, playerPosition.y + yPosOffset);
         this.shipType = shipType;
     }

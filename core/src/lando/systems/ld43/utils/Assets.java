@@ -62,6 +62,7 @@ public class Assets implements Disposable {
     public TextureRegion satelliteShip;
     public TextureRegion spreadBullet;
     public TextureRegion satelliteLaserBullet;
+    public TextureRegion satelliteSpreadShip;
 
 //    public Animation<TextureRegion> animation;
 
@@ -143,6 +144,7 @@ public class Assets implements Disposable {
         satelliteShip = atlas.findRegion("satellite");
         spreadBullet = atlas.findRegion("spread_bullet");
         satelliteLaserBullet = atlas.findRegion("satellite_laser");
+        satelliteSpreadShip = atlas.findRegion("satellite_spread");
 
         titleTexture = mgr.get(titleTextureAsset);
         pixelTexture = mgr.get(pixelTextureAsset);
