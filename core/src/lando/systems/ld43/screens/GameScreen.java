@@ -46,7 +46,7 @@ public class GameScreen extends BaseScreen {
 
 
     private Level level;
-    private DialogUI dialogUI;
+    public DialogUI dialogUI;
     private EquipmentUI equipmentUI;
     private Vector2 tempVec2;
     private Vector3 mousePos;

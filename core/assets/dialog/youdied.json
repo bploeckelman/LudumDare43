@@ -1,0 +1,22 @@
+[
+  {
+    class: Dialog,
+    speaker: player,
+    text: "I died?"
+  }
+  {
+    class: Dialog,
+    speaker: enemy1,
+    text: "You died."
+  }
+  {
+    class: Dialog,
+    speaker: player,
+    text: "But this is only a ludum dare! This game is too ruff."
+  }
+  {
+    class: Dialog,
+    speaker: enemy1,
+    text: "So you are brought back to life right meow!"
+  }
+]

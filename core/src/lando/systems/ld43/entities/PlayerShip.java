@@ -1,6 +1,7 @@
 package lando.systems.ld43.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld43.entities.enemies.TargetPoint;
 import lando.systems.ld43.screens.GameScreen;
+import lando.systems.ld43.ui.DialogUI;
 import lando.systems.ld43.utils.Assets;
 import lando.systems.ld43.utils.QuadTreeable;
 
@@ -70,8 +72,10 @@ public class PlayerShip {
             if (targetPoint.health <= 0){
                 Gdx.app.log("Player", "Player died");
                 // TODO show a "This is LD screen"
+                // TODO: remove me, just testing for now
                 targetPoint.health = 4;
                 gameScreen.clearAllBullets();
+                gameScreen.dialogUI.reset(this.gameScreen, "youdied.json").show();
             }
         }
     }
