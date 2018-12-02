@@ -2,11 +2,8 @@ package lando.systems.ld43.entities.enemies;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
 import lando.systems.ld43.entities.Bullet;
 import lando.systems.ld43.utils.Assets;
 import lando.systems.ld43.utils.QuadTreeable;
@@ -22,7 +19,7 @@ public class Enemy extends QuadTreeable {
     /**
      * These should be where the enemy is able to be damaged at
      * x and y are offsets from the ship position
-     * z is the radius of the circle
+     * z is the diameter of the circle
      */
     public ArrayList<TargetPoint> targetPoints;
 
@@ -46,13 +43,19 @@ public class Enemy extends QuadTreeable {
 
     public void checkBulletCollision(Bullet b){
         float healthLeft = 0;
-        for (TargetPoint target : targetPoints){
+        for (int i = targetPoints.size() -1; i >= 0; i--){
+            TargetPoint target = targetPoints.get(i);
             // Circle intersection
-            if (b.position.dst2(position.x + target.positionOffset.x, position.y + target.positionOffset.y) < b.collisionRadius * b.collisionRadius + target.radius * target.radius) {
+            if (b.position.dst(position.x + target.positionOffset.x, position.y + target.positionOffset.y) < b.collisionRadius/2f + target.diameter /2f) {
                 b.isAlive = false;
                 target.health -= b.damage;
+                if (target.health <= 0){
+                    target.health = 0;
+                    targetPoints.remove(i);
+                }
             }
             healthLeft += target.health;
+
         }
         if (healthLeft <= 0) alive = false;
     }
@@ -62,13 +65,15 @@ public class Enemy extends QuadTreeable {
     }
 
     public void renderTarget(SpriteBatch batch){
+        batch.setColor(0,.5f,.5f,.5f);
+        batch.draw(assets.whitePixel, collisionBounds.x, collisionBounds.y, collisionBounds.width, collisionBounds.height);
         batch.setColor(Color.RED);
         for (TargetPoint targetPoint : targetPoints) {
             batch.draw(assets.whiteCircle,
-                    position.x + targetPoint.positionOffset.x - targetPoint.radius / 2,
-                    position.y + targetPoint.positionOffset.y - targetPoint.radius / 2,
-                    targetPoint.radius,
-                    targetPoint.radius);
+                    position.x + targetPoint.positionOffset.x - targetPoint.diameter / 2,
+                    position.y + targetPoint.positionOffset.y - targetPoint.diameter / 2,
+                    targetPoint.diameter,
+                    targetPoint.diameter);
         }
         batch.setColor(Color.WHITE);
     }

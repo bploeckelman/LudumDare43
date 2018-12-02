@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import lando.systems.ld43.entities.enemies.DroneEnemy;
 import lando.systems.ld43.entities.enemies.Enemy;
+import lando.systems.ld43.entities.enemies.MiniBoss1;
 import lando.systems.ld43.entities.enemies.VerticalEnemy;
 import lando.systems.ld43.screens.GameScreen;
 
@@ -35,7 +36,7 @@ public class Level {
         json.addClassTag("Enemy", EnemyDef.class);
 //        System.out.println(json.prettyPrint(enemies));
         enemies = json.fromJson(ArrayList.class, levelFile);
-
+        enemies.add(new EnemyDef(10f, 900, 300, EnemyDef.EnemyType.MiniBoss1));
     }
 
 
@@ -51,6 +52,8 @@ public class Level {
                     case Vertical:
                         gameScreen.enemies.add(new VerticalEnemy(gameScreen.assets, enemy.x, enemy.y));
                         break;
+                    case MiniBoss1:
+                        gameScreen.enemies.add(new MiniBoss1(gameScreen.assets, enemy.x, enemy.y));
                 }
                 enemies.remove(i);
             }

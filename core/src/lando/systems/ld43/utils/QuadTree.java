@@ -117,6 +117,10 @@ public class QuadTree {
 
             if (index != -1) {
                 childNodes.get(index).retrieve(entitiesToReturn, entityToSearch);
+            } else {
+                for(QuadTree node : childNodes){
+                    node.retrieve(entitiesToReturn, entityToSearch);
+                }
             }
         }
 

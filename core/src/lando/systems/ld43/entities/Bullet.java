@@ -1,5 +1,6 @@
 package lando.systems.ld43.entities;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -48,6 +49,7 @@ public class Bullet extends QuadTreeable implements Pool.Poolable {
     }
 
     public void render(SpriteBatch batch) {
+        batch.setColor(Color.WHITE);
         batch.draw(texture, position.x - width / 2, position.y - height / 2, width, height);
     }
 

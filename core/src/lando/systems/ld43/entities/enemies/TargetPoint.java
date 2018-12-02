@@ -4,14 +4,14 @@ import com.badlogic.gdx.math.Vector2;
 
 public class TargetPoint {
     public Vector2 positionOffset;
-    public float radius;
+    public float diameter;
     public Enemy owner;
     public float health;
 
-    public TargetPoint(Enemy owner, Vector2 positionOffset, float radius, float health){
+    public TargetPoint(Enemy owner, Vector2 positionOffset, float diameter, float health){
         this.owner = owner;
         this.positionOffset = positionOffset;
-        this.radius = radius;
+        this.diameter = diameter;
         this.health = health;
     }
 }

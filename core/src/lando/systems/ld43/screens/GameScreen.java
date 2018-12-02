@@ -117,11 +117,6 @@ public class GameScreen extends BaseScreen {
                     if (b.isFriendlyBullet && b.isAlive) e.checkBulletCollision(b);
                 }
             }
-            // TODO: This should be in the enemies update
-            int randBulletInt = MathUtils.random(1000);
-            if (randBulletInt > 980) {
-                enemyShoot(e.position);
-            }
 
             if (!e.alive){
                 // TODO: explosion
@@ -143,12 +138,13 @@ public class GameScreen extends BaseScreen {
             background.render(batch);
 //            bulletTree.renderDebug(batch);
             player.render(batch);
-            for (Bullet bullet: aliveBullets) {
-                bullet.render(batch);
-            }
+
             for (Enemy enemy : enemies){
                 enemy.render(batch);
                 enemy.renderTarget(batch);
+            }
+            for (Bullet bullet: aliveBullets) {
+                bullet.render(batch);
             }
         }
         batch.end();
