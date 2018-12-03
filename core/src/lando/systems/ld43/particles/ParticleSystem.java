@@ -42,6 +42,23 @@ public class ParticleSystem {
         }
     }
 
+    public void addExplosion(float x, float y, float width, float height){
+        Particle particle = particlePool.obtain();
+
+        float posX = x - width/2f;
+        float posY = y - height/2f;
+
+        float velX = 0;
+        float velY = 0;
+        float ttl = MathUtils.random(.5f, 1.5f);
+        float white = 1f;
+
+        particle.init(posX, posY, velX, velY, -velX, -velY,
+                0f, white, white, white, 1f,
+                white, white, white, .5f, width, height, ttl, null, assets.explosionAnimation);
+        activeParticles.add(particle);
+    }
+
     public void update(float dt){
         int len = activeParticles.size;
         for (int i = len -1; i >= 0; i--){

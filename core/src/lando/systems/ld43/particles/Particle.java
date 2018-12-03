@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.Pool;
 
 public class Particle implements Pool.Poolable {
 
-    Animation animation;
+    Animation<TextureRegion> animation;
     TextureRegion region;
     Vector2 pos;
     Vector2 vel;
@@ -129,7 +129,12 @@ public class Particle implements Pool.Poolable {
         a = (a < 0) ? 0 : (a > 1) ? 1 : a;
 
         batch.setColor(r, g, b, a);
-        batch.draw(region, pos.x, pos.y, scaleX, scaleY);
+        if (animation != null){
+            float totalDuration = animation.getAnimationDuration();
+            batch.draw(animation.getKeyFrame(t * totalDuration), pos.x, pos.y, scaleX, scaleY);
+        } else {
+            batch.draw(region, pos.x, pos.y, scaleX, scaleY);
+        }
         batch.setColor(Color.WHITE);
     }
 }

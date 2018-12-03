@@ -80,6 +80,7 @@ public class Enemy {
             damageIndicator = damageIndicatorLength;
             target.damageIndicator = damageIndicatorLength;
             target.health -= b.damage;
+            if (target.health <= 0) gameScreen.particleSystem.addExplosion(position.x + target.positionOffset.x, position.y + target.positionOffset.y, target.diameter * 5f, target.diameter* 5f);
         }
     }
 

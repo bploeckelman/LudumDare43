@@ -89,6 +89,7 @@ public class Assets implements Disposable {
     public Animation<TextureRegion> talkingDogAnimation;
     public Animation<TextureRegion> badLogicAnimation;
     public Animation<TextureRegion> computerAnimation;
+    public Animation<TextureRegion> explosionAnimation;
 
     public NinePatch ninePatch;
 
@@ -200,6 +201,8 @@ public class Assets implements Disposable {
         badLogicAnimation = new Animation<TextureRegion>(0.1f, talkingBadLogic, Animation.PlayMode.LOOP);
         Array<TextureAtlas.AtlasRegion> talkingComputer = atlas.findRegions("computer");
         computerAnimation = new Animation<TextureRegion>(0.1f, talkingComputer, Animation.PlayMode.LOOP);
+        Array<TextureAtlas.AtlasRegion> explosion = atlas.findRegions("explosion");
+        explosionAnimation = new Animation<TextureRegion>(.1f, explosion, Animation.PlayMode.REVERSED);
 
         ninePatch = new NinePatch(atlas.findRegion("ninepatch-screws"), 6, 6, 6, 6);
 

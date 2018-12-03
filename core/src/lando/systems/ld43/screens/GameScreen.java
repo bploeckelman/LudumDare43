@@ -153,6 +153,7 @@ public class GameScreen extends BaseScreen {
         if (player.laserOn){
             player.laserLength = Config.window_width - player.position.x;
             TargetPoint enemyHit = null;
+            Enemy targetEnemy = null;
             for (Enemy e : enemies){
                 for (TargetPoint target : e.targetPoints){
                     if (target.health <= 0) continue;
@@ -161,6 +162,7 @@ public class GameScreen extends BaseScreen {
                         float dist = target.collisionBounds.x + target.diameter/2f - player.position.x - player.width/2f;
                         if (dist < player.laserLength){
                             enemyHit = target;
+                            targetEnemy = e;
                             player.laserLength = dist;
                         }
                     }
@@ -169,6 +171,8 @@ public class GameScreen extends BaseScreen {
             if (enemyHit != null){
                 enemyHit.health -= 10 * dt;
                 enemyHit.damageIndicator = .3f;
+                if (enemyHit.health <= 0) particleSystem.addExplosion(targetEnemy.position.x + enemyHit.positionOffset.x, targetEnemy.position.y + enemyHit.positionOffset.y, enemyHit.diameter * 5f, enemyHit.diameter* 5f);
+
                 // TODO: laser particles on hits
             }
         }
@@ -344,10 +348,9 @@ public class GameScreen extends BaseScreen {
                 sacrificedShip = player.playerShips.removeIndex(i);
                 player.resetSatelliteLayout();
                 Timeline.createSequence()
-                        .push(Tween.to(sacrificedShip.position, Vector2Accessor.XY, .5f)
+                        .push(Tween.to(sacrificedShip.position, Vector2Accessor.XY, .2f)
                             .target(50, worldCamera.viewportHeight/2f))
-                        .pushPause(.3f)
-                        .push(Tween.to(sacrificedShip.position, Vector2Accessor.XY, 3f)
+                        .push(Tween.to(sacrificedShip.position, Vector2Accessor.XY, 2.5f)
                             .target(600, worldCamera.viewportHeight/2f)
                             .waypoint(50, 500)
                             .waypoint(300, 500)
@@ -357,9 +360,17 @@ public class GameScreen extends BaseScreen {
                             public void onEvent(int i, BaseTween<?> baseTween) {
                                 sacrificedShip = null;
                                 boss.destroyed = true;
+                                shaker.addDamage(1f);
                             }
                         }))
-                        .pushPause(3f)
+                        .pushPause(.5f)
+                        .push(Tween.call(new TweenCallback() {
+                            @Override
+                            public void onEvent(int i, BaseTween<?> baseTween) {
+                                shaker.addDamage(1f);
+                            }
+                        }))
+                        .pushPause(2f)
                         .push(Timeline.createParallel()
                                 .push(Tween.to(background.speed, 0, 1f)
                                         .target(1000))
