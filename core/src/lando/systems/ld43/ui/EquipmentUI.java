@@ -219,6 +219,7 @@ public class EquipmentUI extends UserInterface {
             // Check for accept button click first
             if (acceptButtonActive && boundsAcceptButton.contains(touchPos.x, touchPos.y)) {
                 hide();
+                return;
             }
 
             selectedEquipmentType = null;

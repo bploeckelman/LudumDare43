@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -21,6 +22,7 @@ public class PlayerShip {
     public static float MAX_HEALTH = 4;
 
     public Vector2 position;
+    public Vector2 targetPosition;
     public float width;
     public float height;
     public GameScreen gameScreen;
@@ -60,8 +62,8 @@ public class PlayerShip {
         this.tempVec3 = new Vector3();
         this.playerShips = new Array<SatelliteShip>();
         this.playerShips.add(new SatelliteShip(gameScreen, this, SatelliteShip.EShipTypes.QUICK_SHOT));
-        this.playerShips.add(new SatelliteShip(gameScreen, this, SatelliteShip.EShipTypes.STRAIGHT_SHOT));
         this.playerShips.add(new SatelliteShip(gameScreen, this, SatelliteShip.EShipTypes.SPREAD_SHOT));
+        this.playerShips.add(new SatelliteShip(gameScreen, this, SatelliteShip.EShipTypes.STRAIGHT_SHOT));
         this.targetPoint = new TargetPoint(new Vector2(0,0), 10, MAX_HEALTH);
         this.targetPoint.collisionBounds = new Rectangle(position.x, position.y, width, height);
         this.damageColor = new Color();
@@ -74,9 +76,22 @@ public class PlayerShip {
         this.shieldKeyframe = assets.animationShield.getKeyFrame(0f);
         this.fastWeaponsOn = false;
         this.fastWeaponsTimer = 0f;
+        this.targetPosition = new Vector2();
+        resetSatelliteLayout();
     }
 
-    public void update(float dt, Vector2 mousePos) {
+    public void resetSatelliteLayout(){
+        int satellitesLeft = playerShips.size;
+        float delta = 180 / (satellitesLeft + 1);
+        float dir = 90;
+        for (SatelliteShip ship : playerShips){
+            dir += delta;
+            ship.xPosOffset = 60 * MathUtils.cosDeg(dir);
+            ship.yPosOffset = 60 * MathUtils.sinDeg(dir);
+        }
+    }
+
+    public void update(float dt, boolean allowShooting) {
         if (shieldOn) {
             shieldTimer -= dt;
             if (shieldTimer < 0f) {
@@ -95,7 +110,7 @@ public class PlayerShip {
             }
         }
 
-        if (Gdx.input.isTouched() && laserCooldown <= 0){
+        if (allowShooting && Gdx.input.isTouched() && laserCooldown <= 0){
             laserOn = true;
             laserCharge += dt;
             if (laserCharge >= MAX_LASER_TIME) {
@@ -109,14 +124,18 @@ public class PlayerShip {
         laserCooldown = Math.max(laserCooldown - dt, 0f);
         damageIndicator = Math.max(damageIndicator - dt, 0);
         targetPoint.damageIndicator = Math.max(targetPoint.damageIndicator - dt, 0);
-        position.lerp(mousePos, .2f);
+        position.lerp(targetPosition, .2f);
         damageColor.set(1f, 1- (damageIndicator/damageIndicatorLength), 1- (damageIndicator/damageIndicatorLength), 1f);
         targetPoint.collisionBounds.set(position.x + targetPoint.positionOffset.x - targetPoint.diameter/2,
                                         position.y + targetPoint.positionOffset.y - targetPoint.diameter/2f,
                                            targetPoint.diameter, targetPoint.diameter);
         for (SatelliteShip satShip: playerShips) {
-            satShip.update(dt, fastWeaponsOn);
+            satShip.update(dt, allowShooting, fastWeaponsOn);
         }
+    }
+
+    public void setTargetPosition(Vector2 pos){
+        targetPosition.set(pos);
     }
 
     public void checkBulletCollision(Bullet b){

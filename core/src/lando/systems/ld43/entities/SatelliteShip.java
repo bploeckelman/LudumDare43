@@ -81,11 +81,12 @@ public class SatelliteShip {
         this.targetPoint.collisionBounds.set(position.x, position.y, targetPoint.diameter, targetPoint.diameter);
     }
 
-    public void update(float dt, boolean fastWeapons) {
+
+    public void update(float dt, boolean allowShooting, boolean fastWeapons) {
         damageIndicator = Math.max(damageIndicator - dt, 0);
         targetPoint.damageIndicator = Math.max(targetPoint.damageIndicator - dt, 0);
         driftAccum += MathUtils.random(dt);
-        targetPosition.set(player.position.x + xPosOffset + (MathUtils.cos(driftAccum * 2.5f)*5), player.position.y + yPosOffset + (MathUtils.sin(driftAccum * 2)*10));
+        targetPosition.set(player.position.x + xPosOffset + (MathUtils.cos(driftAccum * 2.5f)*5), player.position.y + yPosOffset + (MathUtils.sin(driftAccum * 2)*5));
         float dist = position.dst(player.position);
         dist = MathUtils.clamp(dist/50f, 0f, 1f);
         dist = MathUtils.clamp(1f - dist, 0.2f, .3f);
@@ -103,7 +104,7 @@ public class SatelliteShip {
             shootDelay -= dt * (fastWeapons ? 4f : 1f);
         }
 
-        if (shootDelay <= 0){
+        if (shootDelay <= 0 && allowShooting){
             switch (shipType){
                 case SPREAD_SHOT:
                     int spreadshots = 10;

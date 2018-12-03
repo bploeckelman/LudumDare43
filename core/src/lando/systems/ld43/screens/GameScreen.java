@@ -38,12 +38,15 @@ public class GameScreen extends BaseScreen {
     public PlayerShip player;
     public ArrayList<Enemy> enemies;
     public Array<PowerUp> powerUps;
+    public Enemy boss;
     public Array<Bullet> aliveBullets;
     public Pool<Bullet> bulletPool;
 
     public QuadTree bulletTree;
     public Array<QuadTreeable> collisionEntities;
 
+
+    public int levelIndex;
     private Level level;
     public DialogUI dialogUI;
     private EquipmentUI equipmentUI;
@@ -51,8 +54,11 @@ public class GameScreen extends BaseScreen {
     private Vector3 mousePos;
     public ScoreUI scoreUI;
 
+    private SatelliteShip sacrificedShip;
+
     public GameScreen(LudumDare43 game, Assets assets, Pilot.Type pilotType) {
         super(game, assets);
+        levelIndex = 0;
         tempVec2 = new Vector2();
         mousePos = new Vector3();
         Vector2 startPosition = new Vector2(40, worldCamera.viewportHeight/2);
@@ -64,6 +70,16 @@ public class GameScreen extends BaseScreen {
         aliveBullets = new Array<Bullet>();
         bulletPool = Pools.get(Bullet.class);
         level = new Level(this, 1);
+        bulletPool = new Pool<Bullet>() {
+            @Override
+            protected Bullet newObject() {
+                return new Bullet();
+            }
+        };
+        Tween.to(background.speed, 0, 2f)
+                .target(100f)
+                .start(game.tween);
+
         bulletTree = new QuadTree(assets,0, new Rectangle(0,0, worldCamera.viewportWidth, worldCamera.viewportHeight));
         collisionEntities = new Array<QuadTreeable>();
 
@@ -71,6 +87,8 @@ public class GameScreen extends BaseScreen {
         this.dialogUI = new DialogUI(assets);
         this.scoreUI = new ScoreUI(assets, game);
 
+        this.boss = null;
+        nextLevel();
         game.audio.playMusic(Audio.Musics.RockHardyWithMaster);
 
         Tween.to(background.speed, 0, 2f)
@@ -80,23 +98,29 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void update(float dt) {
+        audio.update(dt);
+        background.update(dt);
+        shaker.update(dt);
         scoreUI.update(dt);
         dialogUI.update(dt);
         equipmentUI.update(dt);
+        if (boss != null && !boss.alive){
+            handleEndLevel(dt);
+            return;
+        }
         if (equipmentUI.isVisible() || dialogUI.isVisible()) {
             return;
         }
 
-        audio.update(dt);
 
         mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         worldCamera.unproject(mousePos);
 
-        // TODO: remove me, just testing for now
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && dialogUI.isHidden()) {
-//            equipmentUI.reset(this).show();
-            dialogUI.reset(this, "dialog.json").show();
-        }
+//        // TODO: remove me, just testing for now
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && dialogUI.isHidden()) {
+////            equipmentUI.reset(this).show();
+//            dialogUI.reset(this, "dialog.json").show();
+//        }
 
         level.update(dt);
 
@@ -118,7 +142,8 @@ public class GameScreen extends BaseScreen {
 
         tempVec2.set(MathUtils.clamp(mousePos.x, player.width, worldCamera.viewportWidth/2),
                      MathUtils.clamp(mousePos.y, player.height, worldCamera.viewportHeight - player.height));
-        player.update(dt, tempVec2);
+        player.setTargetPosition(tempVec2);
+        player.update(dt, true);
 
         if (player.laserOn){
             player.laserLength = Config.window_width - player.position.x;
@@ -208,8 +233,6 @@ public class GameScreen extends BaseScreen {
             }
         }
 
-        background.update(dt);
-        shaker.update(dt);
     }
 
     @Override
@@ -236,6 +259,14 @@ public class GameScreen extends BaseScreen {
             for (PowerUp powerUp : powerUps) {
                 powerUp.render(batch);
             }
+            player.renderLaser(batch);
+
+            if (boss != null && !boss.alive){
+                boss.render(batch);
+            }
+            if (sacrificedShip != null){
+                sacrificedShip.render(batch);
+            }
         }
         batch.end();
 
@@ -250,6 +281,45 @@ public class GameScreen extends BaseScreen {
             equipmentUI.render(batch);
         }
         batch.end();
+    }
+
+    private boolean showingEndTween;
+    public void nextLevel() {
+        boss = null;
+        sacrificedShip = null;
+        showingEndTween = false;
+        enemies.clear();
+        clearAllBullets();
+        level = new Level(this, levelIndex);
+
+    }
+
+    public void handleEndLevel(float dt){
+        player.update(dt, false);
+        boss.damageIndicator = 0;
+        boss.damageColor.set(Color.WHITE);
+        enemies.clear();
+        clearAllBullets();
+        if (dialogUI.isVisible()){
+            return;
+        }
+        if (equipmentUI.selectedEquipmentType == null && equipmentUI.isHidden()){
+            equipmentUI.reset(this);
+            equipmentUI.show();
+            return;
+        }
+        if (equipmentUI.selectedEquipmentType != null && !showingEndTween){
+            player.setTargetPosition(tempVec2.set(150, worldCamera.viewportHeight/2f));
+            boss.position.set(600, worldCamera.viewportHeight/2f);
+            showingEndTween = true;
+            for (int i = player.playerShips.size -1; i >= 0; i--){
+                SatelliteShip ship = player.playerShips.get(i);
+                if (ship.shipType != equipmentUI.selectedEquipmentType) continue;
+                sacrificedShip = player.playerShips.removeIndex(i);
+                sacrificedShip.position.set(50, worldCamera.viewportHeight/2f);
+                player.resetSatelliteLayout();
+            }
+        }
     }
 
     public void clearAllBullets(){

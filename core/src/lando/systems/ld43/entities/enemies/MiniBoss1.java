@@ -17,9 +17,9 @@ public class MiniBoss1 extends Enemy {
         this.width = 100;
         this.alive = true;
         this.targetPoints.clear();
-        this.targetPoints.add(new TargetPoint( new Vector2(0,0), 30, 40));
-        this.targetPoints.add(new TargetPoint( new Vector2(0,-50), 30, 20));
-        this.targetPoints.add(new TargetPoint( new Vector2(0,50), 30, 20));
+        this.targetPoints.add(new TargetPoint( new Vector2(0,0), 30, 20));
+        this.targetPoints.add(new TargetPoint( new Vector2(0,-50), 30, 10));
+        this.targetPoints.add(new TargetPoint( new Vector2(0,50), 30, 10));
     }
 
     @Override
@@ -28,6 +28,9 @@ public class MiniBoss1 extends Enemy {
         if (position.x < 700) position.x = 700;
 
         super.update(dt);
+        if (!alive){
+            gameScreen.dialogUI.reset(this.gameScreen, "boss1-fatality.json").show();
+        }
     }
 
     @Override

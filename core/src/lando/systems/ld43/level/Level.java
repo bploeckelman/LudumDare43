@@ -57,7 +57,9 @@ public class Level {
                         break;
                     case MiniBoss1:
                         this.gameScreen.dialogUI.reset(this.gameScreen, "boss1-encounter.json").show();
-                        gameScreen.enemies.add(new MiniBoss1(gameScreen, enemy.x, enemy.y));
+                        Enemy miniBoss = new MiniBoss1(gameScreen, enemy.x, enemy.y);
+                        gameScreen.enemies.add(miniBoss);
+                        gameScreen.boss = miniBoss;
                 }
                 enemies.remove(i);
             }

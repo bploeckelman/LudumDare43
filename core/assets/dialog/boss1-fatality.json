@@ -1,0 +1,17 @@
+[
+  {
+    class: Dialog,
+    speaker: player,
+    text: "He is almost defeated, but we ran out of power."
+  }
+  {
+    class: Dialog,
+    speaker: boss1,
+    text: "HAHAHA!"
+  }
+  {
+    class: Dialog,
+    speaker: player,
+    text: "Sorry guys, but we will need to sacrifice one of you to destroy him."
+  }
+]
