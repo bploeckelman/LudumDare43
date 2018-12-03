@@ -20,7 +20,8 @@ public class PlayerShip {
     public static float MAX_LASER_TIME = 5f;
     public static float LASER_COOLDOWN = 3f;
     public static float MAX_HEALTH = 4;
-    public static float TEXTURE_CHANGE_EPSILON = 15f;
+    public static float TEXTURE_CHANGE_EPSILON = 5f;
+    public static float MAX_SPEED; // SET IN GameScreen.nextLevel() and ending scripts
 
     public Vector2 position;
     public Vector2 targetPosition;
@@ -33,12 +34,14 @@ public class PlayerShip {
     public Color damageColor;
     public boolean fireFinalLaser;
     public boolean hide;
+    public float speed;
 
     // TODO: make this a map:SatelliteShip.EShipType -> SatelliteShip, one satellite per 'equipment' type
     public Array<SatelliteShip> playerShips;
 
     private Assets assets;
     private Vector2 tempVec2;
+    private Vector2 deltaVec2;
     private Vector3 tempVec3;
     public Pilot pilot;
     public float laserCharge;
@@ -67,6 +70,7 @@ public class PlayerShip {
         this.width = this.height = 40;
         this.pilot = new Pilot(this, assets, pilotType);
         this.tempVec2 = new Vector2();
+        this.deltaVec2 = new Vector2();
         this.tempVec3 = new Vector3();
         this.playerShips = new Array<SatelliteShip>();
         this.playerShips.add(new SatelliteShip(gameScreen, this, Equipment.Type.LASER));
@@ -106,6 +110,7 @@ public class PlayerShip {
         }
     }
 
+
     public void update(float dt, boolean allowShooting) {
         if (shieldOn) {
             shieldTimer -= dt;
@@ -140,11 +145,23 @@ public class PlayerShip {
         damageIndicator = Math.max(damageIndicator - dt, 0);
         targetPoint.damageIndicator = Math.max(targetPoint.damageIndicator - dt, 0);
 
-        if      (targetPosition.y < position.y - TEXTURE_CHANGE_EPSILON) keyframe = textureDown;
-        else if (targetPosition.y > position.y + TEXTURE_CHANGE_EPSILON) keyframe = textureUp;
-        else                                                             keyframe = textureNormal;
+        tempVec2.set(targetPosition).sub(position);
 
-        position.lerp(targetPosition, .1f);
+        if      (tempVec2.y < -TEXTURE_CHANGE_EPSILON) keyframe = textureDown;
+        else if (tempVec2.y > TEXTURE_CHANGE_EPSILON)  keyframe = textureUp;
+        else                                           keyframe = textureNormal;
+
+        float length = tempVec2.len();
+        speed = MAX_SPEED;
+        tempVec2.nor();
+        if (speed * dt > length){
+            position.set(targetPosition);
+        } else {
+            position.add(tempVec2.x * speed * dt, tempVec2.y * speed * dt);
+        }
+
+
+//        position.lerp(targetPosition, .1f);
         damageColor.set(1f, 1- (damageIndicator/damageIndicatorLength), 1- (damageIndicator/damageIndicatorLength), 1f);
         targetPoint.collisionBounds.set(position.x + targetPoint.positionOffset.x - targetPoint.diameter/2,
                                         position.y + targetPoint.positionOffset.y - targetPoint.diameter/2f,

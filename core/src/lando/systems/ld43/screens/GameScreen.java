@@ -345,6 +345,7 @@ public class GameScreen extends BaseScreen {
     private boolean showingEndTween;
     public void nextLevel() {
         levelIndex++;
+        PlayerShip.MAX_SPEED = 300;
         finalStage = FinalStage.dialog;
         if (levelIndex == 5){
             for (int i = 0; i < 10; i++){
@@ -410,6 +411,7 @@ public class GameScreen extends BaseScreen {
                             public void onEvent(int i, BaseTween<?> baseTween) {
                                 sacrificedShip = null;
                                 boss.destroyed = true;
+                                PlayerShip.MAX_SPEED = 1000;
                                 shaker.addDamage(1f);
                             }
                         }))
