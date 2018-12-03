@@ -181,6 +181,7 @@ public class GameScreen extends BaseScreen {
                     float dist = asteroid.position.x - asteroid.size /2f - player.position.x - player.width/2f;
                     if (dist < player.laserLength){
                         player.laserLength = dist;
+                        enemyHit = null;
                     }
                 }
             }

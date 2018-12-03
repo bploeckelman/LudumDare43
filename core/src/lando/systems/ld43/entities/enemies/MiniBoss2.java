@@ -19,7 +19,7 @@ public class MiniBoss2 extends Enemy {
         this.width = 100;
         this.shootDelay = 2f;
         this.shootCount = 0;
-        this.yDir = 200;
+        this.yDir = 20;
         this.alive = true;
         this.tempVec2 = new Vector2();
         this.pointWorth = 10000;
@@ -46,7 +46,15 @@ public class MiniBoss2 extends Enemy {
 
         position.x -= 50 * dt;
         if (position.x < 700) position.x = 700;
-
+        position.y += yDir * dt;
+        if (position.y > 350){
+            yDir *= -1;
+            position.y = 350;
+        }
+        if (position.y < 250){
+            yDir *= -1;
+            position.y = 250;
+        }
 
         super.update(dt);
         if (!alive){

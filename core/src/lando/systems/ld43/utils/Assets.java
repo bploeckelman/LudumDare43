@@ -62,6 +62,7 @@ public class Assets implements Disposable {
     public TextureRegion smoke;
     public TextureRegion shotRed;
     public TextureRegion shotMagenta;
+    public TextureRegion shotCyan;
     public TextureRegion satelliteShip;
     public TextureRegion spreadBullet;
     public TextureRegion satelliteLaserBullet;
@@ -222,6 +223,7 @@ public class Assets implements Disposable {
         pointer = atlas.findRegion("pointer");
         shotYellow = atlas.findRegion("shot-yellow");
         shotMagenta = atlas.findRegion("shot-magenta");
+        shotCyan = atlas.findRegion("shot-cyan");
         specialBoss = atlas.findRegion("boss-seal");
 
         titleTexture = mgr.get(titleTextureAsset);

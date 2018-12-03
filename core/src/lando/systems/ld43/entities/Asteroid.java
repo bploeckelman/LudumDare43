@@ -15,7 +15,7 @@ public class Asteroid {
 
     public Asteroid(GameScreen screen){
         this.gameScreen = screen;
-        int side = MathUtils.random(3);
+        int side = MathUtils.random(2);
         this.position = new Vector2();
         this.velocity = new Vector2();
         this.size = MathUtils.random(10f, 50f);
@@ -28,11 +28,11 @@ public class Asteroid {
                 this.position.set(MathUtils.random(size + 10, gameScreen.worldCamera.viewportWidth - size - 10), - size);
                 this.velocity.set(MathUtils.random(-MAXSPEED, MAXSPEED), MathUtils.random(10f, MAXSPEED));
                 break;
-            case 2: // LEFT
-                this.position.set(-size, MathUtils.random(size + 10, gameScreen.worldCamera.viewportHeight - size - 10));
-                this.velocity.set(MathUtils.random(10f, MAXSPEED), MathUtils.random(-MAXSPEED, MAXSPEED));
-                break;
-            case 3: // RIGHT
+//            case 2: // LEFT
+//                this.position.set(-size, MathUtils.random(size + 10, gameScreen.worldCamera.viewportHeight - size - 10));
+//                this.velocity.set(MathUtils.random(10f, MAXSPEED), MathUtils.random(-MAXSPEED, MAXSPEED));
+//                break;
+            case 2: // RIGHT
                 this.position.set(gameScreen.worldCamera.viewportWidth  + size, MathUtils.random(size + 10, gameScreen.worldCamera.viewportHeight - size - 10));
                 this.velocity.set(MathUtils.random(-10f, -MAXSPEED), MathUtils.random(-MAXSPEED, MAXSPEED));
                 break;
