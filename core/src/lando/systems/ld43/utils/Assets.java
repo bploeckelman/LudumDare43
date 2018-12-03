@@ -237,7 +237,7 @@ public class Assets implements Disposable {
         talkingDogAnimation = new Animation<TextureRegion>(0.1f, talkingDog, Animation.PlayMode.LOOP);
         Array<TextureAtlas.AtlasRegion> talkingBadLogic = atlas.findRegions("badlogic");
         badLogicAnimation = new Animation<TextureRegion>(0.1f, talkingBadLogic, Animation.PlayMode.LOOP);
-        Array<TextureAtlas.AtlasRegion> talkingComputer = atlas.findRegions("computer");
+        Array<TextureAtlas.AtlasRegion> talkingComputer = atlas.findRegions("portrait-computer");
         computerAnimation = new Animation<TextureRegion>(0.1f, talkingComputer, Animation.PlayMode.LOOP);
         Array<TextureAtlas.AtlasRegion> explosion = atlas.findRegions("explosion");
         explosionAnimation = new Animation<TextureRegion>(.1f, explosion, Animation.PlayMode.REVERSED);
