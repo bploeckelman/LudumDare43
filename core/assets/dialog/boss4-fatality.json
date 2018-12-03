@@ -1,0 +1,22 @@
+[
+  {
+    class: Dialog,
+    speaker: system,
+    text: "Hate to bring this up again."
+  },
+  {
+    class: Dialog,
+    speaker: player,
+    text: "Did I expect anything else?  I only have one ship left!"
+  },
+  {
+    class: Dialog,
+    speaker: boss4,
+    text: "What are you jabbering about?"
+  },
+  {
+    class: Dialog,
+    speaker: player,
+    text: "Get Ready."
+  }
+]

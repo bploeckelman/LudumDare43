@@ -91,6 +91,7 @@ public class Enemy {
 
     public void renderTarget(SpriteBatch batch){
         for (TargetPoint targetPoint : targetPoints) {
+            if (targetPoint.health <= 0) continue;
             batch.setColor(1f, targetPoint.damageIndicator/damageIndicatorLength, targetPoint.damageIndicator/damageIndicatorLength, 1f);
             batch.draw(assets.whiteCircle,
                     position.x + targetPoint.positionOffset.x - targetPoint.diameter / 2,
@@ -99,5 +100,9 @@ public class Enemy {
                     targetPoint.diameter);
         }
         batch.setColor(Color.WHITE);
+    }
+
+    public String getKilledScript(){
+        return null;
     }
 }

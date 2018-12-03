@@ -40,6 +40,9 @@ public class DialogUI extends UserInterface {
     private Discourser system;
     private Discourser boss1;
     private Discourser boss2;
+    private Discourser boss3;
+    private Discourser boss4;
+    private Discourser finalBoss;
     private TextureRegion leftMouse;
     private MutableFloat scale;
     private ArrayList<Dialog> dialogs;
@@ -73,6 +76,9 @@ public class DialogUI extends UserInterface {
         this.system = new Discourser(assets, Discourser.Type.system);
         this.boss1 = new Discourser(assets, Discourser.Type.boss1);
         this.boss2 = new Discourser(assets, Discourser.Type.boss2);
+        this.boss3 = new Discourser(assets, Discourser.Type.boss3);
+        this.boss4 = new Discourser(assets, Discourser.Type.boss4);
+        this.finalBoss = new Discourser(assets, Discourser.Type.finalBoss);
         this.bounds.set(screen.hudCamera.viewportWidth / 2f, screen.hudCamera.viewportHeight / 2f, 0f, 0f);
         this.typing = false;
         this.transitioning = false;
@@ -240,6 +246,45 @@ public class DialogUI extends UserInterface {
                     batch.draw(keyFrame, bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
                 } else {
                     batch.draw(boss2.textureAnimation.getKeyFrame(0), bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
+                }
+                float textWidth = bounds.width - iconW - 3f * margin;
+                layout.setText(assets.fontPixel16, dialog.text.substring(0, typingIndex), Color.LIGHT_GRAY, textWidth, Align.right, true);
+                assets.fontPixel16.draw(batch, layout,
+                        bounds.x + bounds.width - 3f * margin - iconW - textWidth,
+                        bounds.y + bounds.height / 2f + layout.height / 2f);
+            }
+            else if (dialog.speaker == Speaker.boss3) {
+                if (typing) {
+                    keyFrame = boss3.textureAnimation.getKeyFrame(animationTimer);
+                    batch.draw(keyFrame, bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
+                } else {
+                    batch.draw(boss3.textureAnimation.getKeyFrame(0), bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
+                }
+                float textWidth = bounds.width - iconW - 3f * margin;
+                layout.setText(assets.fontPixel16, dialog.text.substring(0, typingIndex), Color.LIGHT_GRAY, textWidth, Align.right, true);
+                assets.fontPixel16.draw(batch, layout,
+                        bounds.x + bounds.width - 3f * margin - iconW - textWidth,
+                        bounds.y + bounds.height / 2f + layout.height / 2f);
+            }
+            else if (dialog.speaker == Speaker.boss4) {
+                if (typing) {
+                    keyFrame = boss4.textureAnimation.getKeyFrame(animationTimer);
+                    batch.draw(keyFrame, bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
+                } else {
+                    batch.draw(boss4.textureAnimation.getKeyFrame(0), bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
+                }
+                float textWidth = bounds.width - iconW - 3f * margin;
+                layout.setText(assets.fontPixel16, dialog.text.substring(0, typingIndex), Color.LIGHT_GRAY, textWidth, Align.right, true);
+                assets.fontPixel16.draw(batch, layout,
+                        bounds.x + bounds.width - 3f * margin - iconW - textWidth,
+                        bounds.y + bounds.height / 2f + layout.height / 2f);
+            }
+            else if (dialog.speaker == Speaker.finalBoss) {
+                if (typing) {
+                    keyFrame = finalBoss.textureAnimation.getKeyFrame(animationTimer);
+                    batch.draw(keyFrame, bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
+                } else {
+                    batch.draw(finalBoss.textureAnimation.getKeyFrame(0), bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
                 }
                 float textWidth = bounds.width - iconW - 3f * margin;
                 layout.setText(assets.fontPixel16, dialog.text.substring(0, typingIndex), Color.LIGHT_GRAY, textWidth, Align.right, true);

@@ -18,6 +18,15 @@ public class Level {
         switch (levelIndex){
             case 1:
                 levelFile = Gdx.files.internal("levels/level1.json");
+                break;
+            case 2:
+                levelFile = Gdx.files.internal("levels/level2.json");
+                break;
+            case 3:
+                levelFile = Gdx.files.internal("levels/level3.json");
+                break;
+            case 4:
+                levelFile = Gdx.files.internal("levels/level4.json");
         }
         this.gameScreen = gameScreen;
         this.timer = 0;
@@ -60,6 +69,27 @@ public class Level {
                         Enemy miniBoss = new MiniBoss1(gameScreen, enemy.x, enemy.y);
                         gameScreen.enemies.add(miniBoss);
                         gameScreen.boss = miniBoss;
+                        break;
+                    case MiniBoss2:
+                        this.gameScreen.dialogUI.reset(this.gameScreen, "boss2-encounter.json").show();
+                        miniBoss = new MiniBoss2(gameScreen, enemy.x, enemy.y);
+                        gameScreen.enemies.add(miniBoss);
+                        gameScreen.boss = miniBoss;
+                        break;
+                    case MiniBoss3:
+                        this.gameScreen.dialogUI.reset(this.gameScreen, "boss3-encounter.json").show();
+                        miniBoss = new MiniBoss3(gameScreen, enemy.x, enemy.y);
+                        gameScreen.enemies.add(miniBoss);
+                        gameScreen.boss = miniBoss;
+                        break;
+                    case MiniBoss4:
+                        this.gameScreen.dialogUI.reset(this.gameScreen, "boss4-encounter.json").show();
+                        miniBoss = new MiniBoss4(gameScreen, enemy.x, enemy.y);
+                        gameScreen.enemies.add(miniBoss);
+                        gameScreen.boss = miniBoss;
+                        break;
+                    case FinalBoss:
+                        break;
                 }
                 enemies.remove(i);
             }

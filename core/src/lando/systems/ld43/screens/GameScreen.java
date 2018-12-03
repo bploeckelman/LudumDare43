@@ -62,7 +62,7 @@ public class GameScreen extends BaseScreen {
 
     public GameScreen(LudumDare43 game, Assets assets, Pilot.Type pilotType) {
         super(game, assets);
-        levelIndex = 1;
+        levelIndex = 0;
         tempVec2 = new Vector2();
         mousePos = new Vector3();
         Vector2 startPosition = new Vector2(40, worldCamera.viewportHeight/2);
@@ -73,7 +73,6 @@ public class GameScreen extends BaseScreen {
         shaker = new ScreenShakeCameraController(worldCamera);
         aliveBullets = new Array<Bullet>();
         bulletPool = Pools.get(Bullet.class);
-        level = new Level(this, 1);
         bulletTree = new QuadTree(assets,0, new Rectangle(0,0, worldCamera.viewportWidth, worldCamera.viewportHeight));
         collisionEntities = new Array<QuadTreeable>();
 
@@ -308,6 +307,7 @@ public class GameScreen extends BaseScreen {
         enemies.clear();
         player.resetAllPositions(tempVec2.set(-100, worldCamera.viewportHeight/2));
         clearAllBullets();
+        levelIndex++;
         level = new Level(this, levelIndex);
         background.speed.setValue(0);
         Tween.to(background.speed, 0, 2f)

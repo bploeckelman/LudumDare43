@@ -1,7 +1,7 @@
 package lando.systems.ld43.level;
 
 public class EnemyDef {
-    public enum EnemyType {Drone, Vertical, Beeline, VerticalTrailing, MiniBoss1}
+    public enum EnemyType {Drone, Vertical, Beeline, VerticalTrailing, MiniBoss1, MiniBoss2, MiniBoss3, MiniBoss4, FinalBoss}
     public float time;
     public float x;
     public float y;

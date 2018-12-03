@@ -1,0 +1,22 @@
+[
+  {
+    class: Dialog,
+    speaker: system,
+    text: "Warning! Warning! We are ..."
+  },
+  {
+    class: Dialog,
+    speaker: player,
+    text: "Again? Alright I know what we need to do!"
+  },
+  {
+    class: Dialog,
+    speaker: boss2,
+    text: "Run away?"
+  },
+  {
+    class: Dialog,
+    speaker: player,
+    text: "You wish."
+  }
+]

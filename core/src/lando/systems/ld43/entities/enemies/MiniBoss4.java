@@ -2,15 +2,13 @@ package lando.systems.ld43.entities.enemies;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld43.screens.GameScreen;
-import lando.systems.ld43.utils.Assets;
 
 
-public class MiniBoss1 extends Enemy {
+public class MiniBoss4 extends Enemy {
     private Boolean encounterStarted = false;
-    public MiniBoss1(GameScreen gameScreen, float xPos, float yPos) {
+    public MiniBoss4(GameScreen gameScreen, float xPos, float yPos) {
         super(gameScreen);
         this.position.set(xPos, yPos);
         this.height = 200;
@@ -30,7 +28,7 @@ public class MiniBoss1 extends Enemy {
 
         super.update(dt);
         if (!alive){
-            gameScreen.dialogUI.reset(this.gameScreen, "boss1-fatality.json").show();
+            gameScreen.dialogUI.reset(this.gameScreen, "boss4-fatality.json").show();
         }
     }
 
@@ -40,10 +38,5 @@ public class MiniBoss1 extends Enemy {
         batch.draw(assets.whitePixel, position.x - width/2, position.y - height/2, width, height);
         batch.setColor(Color.WHITE);
         super.render(batch);
-    }
-
-    @Override
-    public String getKilledScript(){
-        return "boss1-killed.json";
     }
 }

@@ -1,0 +1,22 @@
+[
+  {
+    class: Dialog,
+    speaker: system,
+    text: "Warning! Warning! We are out of power again."
+  },
+  {
+    class: Dialog,
+    speaker: boss2,
+    text: "I can get away!"
+  },
+  {
+    class: Dialog,
+    speaker: player,
+    text: "Oh no you won't!"
+  }
+  {
+    class: Dialog,
+    speaker: player,
+    text: "Looks like we'll have to lose one more ship."
+  }
+]
