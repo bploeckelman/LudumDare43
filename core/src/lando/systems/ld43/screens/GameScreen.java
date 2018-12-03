@@ -186,7 +186,7 @@ public class GameScreen extends BaseScreen {
                 }
             }
             if (enemyHit != null){
-                enemyHit.health -= 10 * dt;
+                enemyHit.health -= 20 * dt;
                 enemyHit.damageIndicator = .3f;
                 if (enemyHit.health <= 0) particleSystem.addExplosion(targetEnemy.position.x + enemyHit.positionOffset.x, targetEnemy.position.y + enemyHit.positionOffset.y, enemyHit.diameter * 5f, enemyHit.diameter* 5f);
                 particleSystem.addLaserHit(player.position.x + player.width/2f + player.laserLength, player.position.y);
