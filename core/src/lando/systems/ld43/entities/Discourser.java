@@ -5,14 +5,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import lando.systems.ld43.utils.Assets;
 
-import javax.xml.soap.Text;
-
 public class Discourser {
     public enum Type { system, boss1, boss2, boss3, boss4, finalBoss, specialBoss }
 
     private Discourser.Type type;
 
-    // TODO: cache pilot related textures and such here
     public TextureRegion textureFull;
     public TextureRegion textureHead;
     public Animation<TextureRegion> textureAnimation;

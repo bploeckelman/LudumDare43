@@ -6,6 +6,7 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Bounce;
 import aurelienribon.tweenengine.equations.Quad;
+import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
@@ -33,10 +34,13 @@ public class PilotSelectUI extends UserInterface {
     private Selected selected;
     private Pilot.Type selectedPilotType;
     private Vector3 mousePos;
+    private MutableFloat pulser;
+    private MutableFloat alpha;
     private boolean launchButtonActive;
     private boolean launchButtonHidden;
     private boolean showPilots;
     private boolean transitionComplete;
+    private boolean hiding;
 
     private TextureRegion texturePointer;
     private TextureRegion textureCat;
@@ -52,11 +56,14 @@ public class PilotSelectUI extends UserInterface {
         this.selected = Selected.none;
         this.selectedPilotType = null;
         this.border = assets.ninePatch;
+        this.mousePos = new Vector3();
+        this.pulser = new MutableFloat(1f);
+        this.alpha = new MutableFloat(0f);
         this.launchButtonActive = false;
         this.launchButtonHidden = true;
         this.showPilots = false;
         this.transitionComplete = false;
-        this.mousePos = new Vector3();
+        this.hiding = false;
 
         this.texturePointer = assets.pointer;
         this.textureCat = assets.atlas.findRegion("cat-spacesuit");
@@ -81,13 +88,17 @@ public class PilotSelectUI extends UserInterface {
         this.boundsLaunchButton.set(screen.hudCamera.viewportWidth / 2f,
                                     screen.hudCamera.viewportHeight - 2f * margin,
                                     0f, 0f);
+        this.alpha.setValue(0f);
+        this.pulser.setValue(1f);
+        Tween.to(pulser, -1, 0.33f)
+             .target(0.2f).repeatYoyo(-1, 0f)
+             .start(screen.tween);
         return this;
     }
 
     @Override
     public void show() {
         super.show();
-        transitionComplete = false;
 
         float finalBorderW = screen.hudCamera.viewportWidth - 2f * margin;
         float finalBorderH = screen.hudCamera.viewportHeight - 2f * margin;
@@ -109,12 +120,21 @@ public class PilotSelectUI extends UserInterface {
         float finalLaunchX = finalBorderX + 2f * margin;
         float finalLaunchY = finalBorderY + margin;
 
+        alpha.setValue(0f);
+
         showPilots = false;
+        transitionComplete = false;
         Timeline.createSequence()
                 .push(
-                        Tween.to(bounds, RectangleAccessor.XYWH, 0.5f)
-                             .target(finalBorderX, finalBorderY, finalBorderW, finalBorderH)
-                             .ease(Bounce.OUT)
+                        Timeline.createParallel()
+                                .push(
+                                        Tween.to(alpha, -1, 0.4f).target(1f)
+                                )
+                                .push(
+                                        Tween.to(bounds, RectangleAccessor.XYWH, 0.5f)
+                                             .target(finalBorderX, finalBorderY, finalBorderW, finalBorderH)
+                                             .ease(Bounce.OUT)
+                                )
                 )
                 .push(
                         Tween.call(new TweenCallback() {
@@ -166,6 +186,9 @@ public class PilotSelectUI extends UserInterface {
         float centerX = screen.hudCamera.viewportWidth / 2f;
         float centerY = screen.hudCamera.viewportHeight / 2f;
 
+        alpha.setValue(1f);
+
+        hiding = true;
         showPilots = true;
         transitionComplete = false;
         Timeline.createSequence()
@@ -200,15 +223,22 @@ public class PilotSelectUI extends UserInterface {
                         })
                 )
                 .push(
-                        Tween.to(bounds, RectangleAccessor.XYWH, 0.5f)
-                             .target(centerX, centerY, 0f, 0f)
-                             .ease(Quad.OUT)
+                        Timeline.createParallel()
+                                .push(
+                                        Tween.to(alpha, -1, 0.4f).target(0f)
+                                )
+                                .push(
+                                        Tween.to(bounds, RectangleAccessor.XYWH, 0.5f)
+                                             .target(centerX, centerY, 0f, 0f)
+                                             .ease(Quad.OUT)
+                                )
                 )
                 .setCallback(new TweenCallback() {
                     @Override
                     public void onEvent(int i, BaseTween<?> baseTween) {
                         PilotSelectUI.super.hide();
                         screen.game.setScreen(new GameScreen(screen.game, assets, selectedPilotType));
+                        hiding = false;
                     }
                 })
                 .start(screen.tween);
@@ -260,21 +290,23 @@ public class PilotSelectUI extends UserInterface {
         if (!isVisible()) return;
 
         // background
-        batch.setColor(Color.LIGHT_GRAY);
+        batch.setColor(0xbf / 255f, 0xbf / 255f, 0xbf / 255f, alpha.floatValue());
         batch.draw(assets.whitePixel, bounds.x, bounds.y, bounds.width, bounds.height);
-        batch.setColor(Color.WHITE);
+        batch.setColor(1f, 1f, 1f, alpha.floatValue());
         border.draw(batch, bounds.x, bounds.y, bounds.width, bounds.height);
 
         if (showPilots) {
             // cat
-            batch.setColor((selected == Selected.cat) ? Color.YELLOW : Color.DARK_GRAY);
+            if (selected == Selected.cat) batch.setColor(1f, 1f, 0f, pulser.floatValue());
+            else                          batch.setColor(Color.DARK_GRAY);
             batch.draw(assets.whitePixel, boundsCat.x, boundsCat.y, boundsCat.width, boundsCat.height);
             batch.setColor(Color.WHITE);
             border.draw(batch, boundsCat.x, boundsCat.y, boundsCat.width, boundsCat.height);
             batch.draw(textureCat, boundsCat.x, boundsCat.y, boundsCat.width, boundsCat.height);
             // TODO: draw flavor text
 
-            batch.setColor((selected == Selected.dog) ? Color.YELLOW : Color.DARK_GRAY);
+            if (selected == Selected.dog) batch.setColor(1f, 1f, 0f, pulser.floatValue());
+            else                          batch.setColor(Color.DARK_GRAY);
             batch.draw(assets.whitePixel, boundsDog.x, boundsDog.y, boundsDog.width, boundsDog.height);
             batch.setColor(Color.WHITE);
             border.draw(batch, boundsDog.x, boundsDog.y, boundsDog.width, boundsDog.height);
@@ -284,13 +316,13 @@ public class PilotSelectUI extends UserInterface {
 
         // draw start button
         if (!launchButtonHidden) {
-            if (launchButtonActive) batch.setColor(Color.FOREST);
+            if (launchButtonActive) batch.setColor(0f, 1f, 0f, pulser.floatValue());
             else                    batch.setColor(Color.GRAY);
             batch.draw(assets.whitePixel, boundsLaunchButton.x, boundsLaunchButton.y, boundsLaunchButton.width, boundsLaunchButton.height);
             batch.setColor(Color.WHITE);
             border.draw(batch, boundsLaunchButton.x, boundsLaunchButton.y, boundsLaunchButton.width, boundsLaunchButton.height);
 
-            if (showPilots) {
+            if (showPilots && !hiding) {
                 String buttonText = "Choose your pilot...";
                 if (launchButtonActive) {
                     buttonText = "Pilot: ";
