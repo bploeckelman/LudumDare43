@@ -259,7 +259,7 @@ public class GameScreen extends BaseScreen {
                     asteroid.alive = false;
                     player.targetPoint.health--;
                     if (player.targetPoint.health <= 0){
-                        dialogUI.reset(this, "youdied.json").show();
+                        dialogUI.reset(this, "respawn.json").show();
                         player.replenishHealth();
                     }
                 }

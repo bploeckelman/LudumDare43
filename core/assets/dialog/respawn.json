@@ -1,0 +1,12 @@
+[
+  {
+    class: Dialog,
+    speaker: player,
+    text: "There's too many of them, it's all over!"
+  }
+  {
+    class: Dialog,
+    speaker: system,
+    text: "It's just a game jam, just keep playing and don't worry about it"
+  }
+]

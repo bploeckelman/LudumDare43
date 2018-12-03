@@ -203,7 +203,7 @@ public class PlayerShip {
             if (targetPoint.health <= 0){
                 gameScreen.clearAllBullets();
                 gameScreen.scoreUI.subScore(PlayerShip.DEATH_SCORE_REDUCTION);
-                gameScreen.dialogUI.reset(this.gameScreen, "youdied.json").show();
+                gameScreen.dialogUI.reset(this.gameScreen, "respawn.json").show();
                 replenishHealth();
             }
         }
