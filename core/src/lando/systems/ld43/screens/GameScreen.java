@@ -341,7 +341,7 @@ public class GameScreen extends BaseScreen {
                 cooldownMeter.render(batch);
                 progressUI.render(batch);
 
-                if (mouseIndicator.dst(player.position) > player.width / 2f) {
+                if (mouseIndicator.dst(player.position) > player.width / 2f && dialogUI.isHidden() && ((boss == null) || (boss != null && boss.alive != false))) {
                     float mouseSize = 5f;
                     batch.setColor(Color.MAGENTA);
                     batch.draw(assets.whitePixel, mousePos.x - mouseSize / 2f, mousePos.y - mouseSize / 2f, mouseSize, mouseSize);
