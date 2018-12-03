@@ -82,6 +82,14 @@ public class Assets implements Disposable {
     public TextureRegion powerUpShield;
     public TextureRegion powerUpSpeed;
     public TextureRegion shipEnemy;
+    public TextureRegion progressCatLeft;
+    public TextureRegion progressCatRight;
+    public TextureRegion progressCatCenter;
+    public TextureRegion progressDogLeft;
+    public TextureRegion progressDogRight;
+    public TextureRegion progressDogCenter;
+    public TextureRegion iconHeart;
+    public TextureRegion iconBeam;
     public TextureRegion pointer;
 
     public Animation<TextureRegion> animationShield;
@@ -186,6 +194,14 @@ public class Assets implements Disposable {
         powerUpShield = atlas.findRegion("powerup-shield");
         powerUpSpeed = atlas.findRegion("powerup-speed");
         shipEnemy = atlas.findRegion("ship-enemy1");
+        progressCatLeft = atlas.findRegion("progress-cat-left");
+        progressCatRight = atlas.findRegion("progress-cat-right");
+        progressCatCenter = atlas.findRegion("progress-cat-center");
+        progressDogLeft = atlas.findRegion("progress-dog-left");
+        progressDogRight = atlas.findRegion("progress-dog-right");
+        progressDogCenter = atlas.findRegion("progress-dog-center");
+        iconHeart = atlas.findRegion("icon-heart");
+        iconBeam = atlas.findRegion("icon-beam");
         pointer = atlas.findRegion("pointer");
 
         titleTexture = mgr.get(titleTextureAsset);

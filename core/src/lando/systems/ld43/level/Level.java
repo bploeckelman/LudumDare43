@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public class Level {
     public float timer;
+    public float latestTime;
     public ArrayList<EnemyDef> enemies;
     GameScreen gameScreen;
 
@@ -42,6 +43,12 @@ public class Level {
         json.addClassTag("Enemy", EnemyDef.class);
 //        System.out.println(json.prettyPrint(enemies));
         enemies = json.fromJson(ArrayList.class, levelFile);
+        latestTime = Float.MIN_VALUE;
+        for (EnemyDef enemy : enemies) {
+            if (latestTime < enemy.time) {
+                latestTime = enemy.time;
+            }
+        }
 //        enemies.add(new EnemyDef(10f, 900, 300, EnemyDef.EnemyType.MiniBoss1));
     }
 

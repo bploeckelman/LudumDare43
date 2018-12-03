@@ -28,6 +28,7 @@ public class TitleScreen extends BaseScreen {
         this.texturePointer = assets.pointer;
 
         Gdx.input.setInputProcessor(this);
+        Gdx.input.setCursorPosition((int) (hudCamera.viewportWidth / 2f), (int) (hudCamera.viewportHeight / 2f));
     }
 
     @Override

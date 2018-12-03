@@ -38,4 +38,6 @@ public class Pilot {
         if (textureHead == null) throw new GdxRuntimeException("Couldn't find head sprite for pilot of type '" + type.name() + "'");
     }
 
+    public Type getType() { return type; }
+
 }

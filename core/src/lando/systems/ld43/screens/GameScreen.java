@@ -37,6 +37,8 @@ import java.util.ArrayList;
 
 public class GameScreen extends BaseScreen {
 
+    public final int NUM_LEVELS = 5;
+
     public ScreenShakeCameraController shaker;
     public ParticleSystem particleSystem;
     public Background background;
@@ -49,16 +51,16 @@ public class GameScreen extends BaseScreen {
     public QuadTree bulletTree;
     public Array<QuadTreeable> collisionEntities;
     public int levelIndex;
-    private Level level;
-    public DialogUI dialogUI;
-    private EquipmentUI equipmentUI;
+    public Level level;
     private Vector2 tempVec2;
     private Vector3 mousePos;
-    public ScoreUI scoreUI;
-    private HealthMeter healthMeter;
-    private CooldownMeter cooldownMeter;
-
     private SatelliteShip sacrificedShip;
+    public ScoreUI scoreUI;
+    public DialogUI dialogUI;
+    public ProgressUI progressUI;
+    public EquipmentUI equipmentUI;
+    public HealthMeter healthMeter;
+    public CooldownMeter cooldownMeter;
 
     public GameScreen(LudumDare43 game, Assets assets, Pilot.Type pilotType) {
         super(game, assets);
@@ -79,7 +81,9 @@ public class GameScreen extends BaseScreen {
         this.particleSystem = new ParticleSystem(assets);
         this.equipmentUI = new EquipmentUI(assets);
         this.dialogUI = new DialogUI(assets);
-        this.scoreUI = new ScoreUI(assets, game);
+        this.scoreUI = new ScoreUI(assets, this);
+        this.progressUI = new ProgressUI(assets);
+        this.progressUI.reset(this, player).show();
         this.healthMeter = new HealthMeter(assets, this);
         this.cooldownMeter = new CooldownMeter(assets, this);
 
@@ -108,6 +112,7 @@ public class GameScreen extends BaseScreen {
         cooldownMeter.update(dt);
         dialogUI.update(dt);
         equipmentUI.update(dt);
+        progressUI.update(dt);
         if (boss != null && !boss.alive){
             handleEndLevel(dt);
             return;
@@ -116,15 +121,8 @@ public class GameScreen extends BaseScreen {
             return;
         }
 
-
         mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         worldCamera.unproject(mousePos);
-
-//        // TODO: remove me, just testing for now
-//        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && dialogUI.isHidden()) {
-////            equipmentUI.reset(this).show();
-//            dialogUI.reset(this, "dialog.json").show();
-//        }
 
         level.update(dt);
 
@@ -221,7 +219,6 @@ public class GameScreen extends BaseScreen {
             if (!e.alive){
                 enemies.remove(i);
 
-                // TODO: change score scale based on enemy type
                 scoreUI.addScore(e.pointWorth);
 
                 // TODO: create explosion
@@ -293,6 +290,7 @@ public class GameScreen extends BaseScreen {
                 scoreUI.render(batch);
                 healthMeter.render(batch);
                 cooldownMeter.render(batch);
+                progressUI.render(batch);
             }
         }
         batch.end();
