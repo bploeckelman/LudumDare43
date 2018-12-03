@@ -298,4 +298,8 @@ public class EquipmentUI extends UserInterface {
         assets.fontPixel16.draw(batch, layout, boundsAcceptButton.x, boundsAcceptButton.y + boundsAcceptButton.height / 2f + layout.height / 2f);
     }
 
+    public boolean isVisibleAndTransitionComplete(){
+        return isVisible() && transitionComplete;
+    }
+
 }

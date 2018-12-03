@@ -88,7 +88,7 @@ public class SatelliteShip {
         driftAccum += MathUtils.random(dt);
         targetPosition.set(player.position.x + xPosOffset + (MathUtils.cos(driftAccum * 2.5f)*5), player.position.y + yPosOffset + (MathUtils.sin(driftAccum * 2)*5));
         float dist = position.dst(player.position);
-        dist = MathUtils.clamp(dist/50f, 0f, 1f);
+        dist = MathUtils.clamp(dist/20f, 0f, 1f);
         dist = MathUtils.clamp(1f - dist, 0.2f, .3f);
         position.x += recoil.floatValue();
         position.lerp(targetPosition, dist);

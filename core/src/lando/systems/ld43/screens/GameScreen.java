@@ -1,6 +1,10 @@
 package lando.systems.ld43.screens;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.equations.Expo;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -14,6 +18,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
 import lando.systems.ld43.LudumDare43;
+import lando.systems.ld43.accessors.Vector2Accessor;
 import lando.systems.ld43.entities.Bullet;
 import lando.systems.ld43.entities.Pilot;
 import lando.systems.ld43.entities.PlayerShip;
@@ -91,9 +96,7 @@ public class GameScreen extends BaseScreen {
         nextLevel();
         game.audio.playMusic(Audio.Musics.RockHardyWithMaster);
 
-        Tween.to(background.speed, 0, 2f)
-             .target(100f)
-             .start(game.tween);
+
     }
 
     @Override
@@ -261,7 +264,7 @@ public class GameScreen extends BaseScreen {
             }
             player.renderLaser(batch);
 
-            if (boss != null && !boss.alive){
+            if (boss != null && !boss.alive && !boss.destroyed){
                 boss.render(batch);
             }
             if (sacrificedShip != null){
@@ -289,17 +292,25 @@ public class GameScreen extends BaseScreen {
         sacrificedShip = null;
         showingEndTween = false;
         enemies.clear();
+        player.resetAllPositions(tempVec2.set(-100, worldCamera.viewportHeight/2));
         clearAllBullets();
         level = new Level(this, levelIndex);
-
+        background.speed.setValue(0);
+        Tween.to(background.speed, 0, 2f)
+                .target(100f)
+                .start(game.tween);
     }
 
     public void handleEndLevel(float dt){
         player.update(dt, false);
-        boss.damageIndicator = 0;
-        boss.damageColor.set(Color.WHITE);
+        powerUps.clear();
+        if (boss != null) {
+            boss.damageIndicator = 0;
+            boss.damageColor.set(Color.WHITE);
+        }
         enemies.clear();
         clearAllBullets();
+
         if (dialogUI.isVisible()){
             return;
         }
@@ -308,16 +319,49 @@ public class GameScreen extends BaseScreen {
             equipmentUI.show();
             return;
         }
-        if (equipmentUI.selectedEquipmentType != null && !showingEndTween){
-            player.setTargetPosition(tempVec2.set(150, worldCamera.viewportHeight/2f));
+        if (equipmentUI.selectedEquipmentType == null && equipmentUI.isVisibleAndTransitionComplete()){
             boss.position.set(600, worldCamera.viewportHeight/2f);
+            player.setTargetPosition(tempVec2.set(150, worldCamera.viewportHeight/2f));
+        }
+        if (equipmentUI.selectedEquipmentType != null && equipmentUI.isHidden() && !showingEndTween){
             showingEndTween = true;
             for (int i = player.playerShips.size -1; i >= 0; i--){
                 SatelliteShip ship = player.playerShips.get(i);
                 if (ship.shipType != equipmentUI.selectedEquipmentType) continue;
                 sacrificedShip = player.playerShips.removeIndex(i);
-                sacrificedShip.position.set(50, worldCamera.viewportHeight/2f);
                 player.resetSatelliteLayout();
+                Timeline.createSequence()
+                        .push(Tween.to(sacrificedShip.position, Vector2Accessor.XY, .5f)
+                            .target(50, worldCamera.viewportHeight/2f))
+                        .pushPause(1f)
+                        .push(Tween.to(sacrificedShip.position, Vector2Accessor.XY, 3f)
+                            .target(600, worldCamera.viewportHeight/2f)
+                            .waypoint(50, 500)
+                            .waypoint(300, 500)
+                            .ease(Expo.IN))
+                        .push(Tween.call(new TweenCallback() {
+                            @Override
+                            public void onEvent(int i, BaseTween<?> baseTween) {
+                                sacrificedShip = null;
+                                boss.destroyed = true;
+                            }
+                        }))
+                        .pushPause(3f)
+                        .push(Timeline.createParallel()
+                                .push(Tween.to(background.speed, 0, 1f)
+                                        .target(1000))
+                                .push(Tween.to(player.targetPosition, Vector2Accessor.X, 1f)
+                                        .target(1000)
+                                        .delay(.5f)))
+                        .pushPause(2f)
+                        .push(Tween.call(new TweenCallback() {
+                            @Override
+                            public void onEvent(int i, BaseTween<?> baseTween) {
+                                nextLevel();
+                            }
+                        }))
+                        .start(tween);
+
             }
         }
     }

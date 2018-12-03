@@ -19,6 +19,7 @@ public class Enemy {
     public float damageIndicator;
     public float damageIndicatorLength = .3f;
     public Color damageColor;
+    public boolean destroyed;
     public GameScreen gameScreen;
 
     /**
@@ -41,6 +42,7 @@ public class Enemy {
         this.targetPoints = new ArrayList<TargetPoint>();
         this.targetPoints.add(new TargetPoint(new Vector2(0,0), 10, 4));
         this.damageColor = new Color();
+        this.destroyed = false;
     }
 
     public void update(float dt){

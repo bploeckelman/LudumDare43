@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import lando.systems.ld43.accessors.Vector2Accessor;
 import lando.systems.ld43.entities.enemies.TargetPoint;
 import lando.systems.ld43.screens.GameScreen;
 import lando.systems.ld43.utils.Assets;
@@ -136,6 +137,14 @@ public class PlayerShip {
 
     public void setTargetPosition(Vector2 pos){
         targetPosition.set(pos);
+    }
+
+    public void resetAllPositions(Vector2 pos){
+        targetPosition.set(pos);
+        position.set(pos);
+        for (SatelliteShip ship : playerShips){
+            ship.position.set(pos);
+        }
     }
 
     public void checkBulletCollision(Bullet b){
