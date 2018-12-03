@@ -12,7 +12,6 @@ public class Pilot {
     private Type type;
     private PlayerShip ship;
 
-    // TODO: cache pilot related textures and such here
     public TextureRegion textureFull;
     public TextureRegion textureHead;
     public Animation<TextureRegion> textureAnimation;
@@ -29,7 +28,7 @@ public class Pilot {
             } break;
             case dog: {
                 this.textureFull = assets.atlas.findRegion("spacesuit-dog");
-                this.textureHead = assets.atlas.findRegion("dog-head");
+                this.textureHead = assets.atlas.findRegion("portrait-dog");
                 this.textureAnimation = assets.talkingDogAnimation;
 
             } break;
