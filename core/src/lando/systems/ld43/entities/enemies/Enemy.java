@@ -2,6 +2,7 @@ package lando.systems.ld43.entities.enemies;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld43.entities.Bullet;
@@ -92,7 +93,7 @@ public class Enemy {
     public void renderTarget(SpriteBatch batch){
         for (TargetPoint targetPoint : targetPoints) {
             if (targetPoint.health <= 0) continue;
-            batch.setColor(1f, targetPoint.damageIndicator/damageIndicatorLength, targetPoint.damageIndicator/damageIndicatorLength, 1f);
+            batch.setColor(targetPoint.damageIndicator/damageIndicatorLength, 0, 0, targetPoint.damageIndicator/damageIndicatorLength * .3f);
             batch.draw(assets.whiteCircle,
                     position.x + targetPoint.positionOffset.x - targetPoint.diameter / 2,
                     position.y + targetPoint.positionOffset.y - targetPoint.diameter / 2,
@@ -102,7 +103,12 @@ public class Enemy {
         batch.setColor(Color.WHITE);
     }
 
-    public String getKilledScript(){
-        return null;
+    public void explodingAnimations(){
+        if (MathUtils.randomBoolean(.1f)){
+            gameScreen.particleSystem.addExplosion(
+                    MathUtils.random(position.x - width/2f, position.x + width/2f),
+                    MathUtils.random(position.y - height/2f, position.y + height/2f),
+                    60, 60);
+        }
     }
 }

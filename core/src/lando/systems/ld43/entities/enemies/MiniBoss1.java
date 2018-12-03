@@ -13,14 +13,12 @@ public class MiniBoss1 extends Enemy {
     public MiniBoss1(GameScreen gameScreen, float xPos, float yPos) {
         super(gameScreen);
         this.position.set(xPos, yPos);
-        this.height = 200;
+        this.height = 100;
         this.width = 100;
         this.alive = true;
         this.pointWorth = 10000;
         this.targetPoints.clear();
-        this.targetPoints.add(new TargetPoint( new Vector2(0,0), 30, 20));
-        this.targetPoints.add(new TargetPoint( new Vector2(0,-50), 30, 10));
-        this.targetPoints.add(new TargetPoint( new Vector2(0,50), 30, 10));
+        this.targetPoints.add(new TargetPoint( new Vector2(0,0), 50, 100));
     }
 
     @Override
@@ -37,13 +35,8 @@ public class MiniBoss1 extends Enemy {
     @Override
     public void render(SpriteBatch batch){
         batch.setColor(damageColor);
-        batch.draw(assets.whitePixel, position.x - width/2, position.y - height/2, width, height);
+        batch.draw(assets.shipEnemyPlane, position.x - width/2, position.y - height/2, width, height);
         batch.setColor(Color.WHITE);
         super.render(batch);
-    }
-
-    @Override
-    public String getKilledScript(){
-        return "boss1-killed.json";
     }
 }

@@ -36,7 +36,7 @@ import java.util.ArrayList;
 public class GameScreen extends BaseScreen {
 
     public final int NUM_LEVELS = 5;
-    private enum FinalStage {dialog, movingShips, fireLaser, firingLaser, nextBoss, finalSequence, transition}
+    private enum FinalStage {dialog, movingShips, fireLaser, firingLaser, nextBoss, finalCharge, finalExplosion, transition}
 
     public ScreenShakeCameraController shaker;
     public ParticleSystem particleSystem;
@@ -419,6 +419,7 @@ public class GameScreen extends BaseScreen {
                         .push(Tween.call(new TweenCallback() {
                             @Override
                             public void onEvent(int i, BaseTween<?> baseTween) {
+                                particleSystem.addExplosion(boss.position.x, boss.position.y, boss.width, boss.height);
                                 sacrificedShip = null;
                                 boss.destroyed = true;
                                 PlayerShip.MAX_SPEED = 1000;
@@ -453,7 +454,7 @@ public class GameScreen extends BaseScreen {
     }
 
     public void gameEnding(float dt){
-        if (finalStage != FinalStage.finalSequence) {
+        if (finalStage != FinalStage.finalCharge) {
             player.update(dt, false);
         }
         powerUps.clear();
@@ -473,7 +474,8 @@ public class GameScreen extends BaseScreen {
         switch (finalStage){
             case dialog:
                 finalStage = FinalStage.movingShips;
-                Tween.to(boss.position, Vector2Accessor.XY, 1f)
+                PlayerShip.MAX_SPEED = 1000;
+                Tween.to(boss.position, Vector2Accessor.XY, 2f)
                         .target(600, worldCamera.viewportHeight/2f)
                         .setCallback(new TweenCallback() {
                             @Override
@@ -501,16 +503,17 @@ public class GameScreen extends BaseScreen {
 
                         }
                     })
-                     .delay( 2f)
+                     .delay( 4f)
                      .start(tween);
                 break;
             case firingLaser:
+                boss.explodingAnimations();
                 shaker.addDamage(1f);
                 break;
             case nextBoss:
                 finalBossDir = new MutableFloat(90);
                 finalBossRadius = new MutableFloat(400);
-                finalStage = FinalStage.finalSequence;
+                finalStage = FinalStage.finalCharge;
                 Timeline.createSequence()
                         .push(Timeline.createParallel()
                             .push(Tween.to(finalBossDir, 0, 4f)
@@ -529,11 +532,33 @@ public class GameScreen extends BaseScreen {
                                 finalBossDir = null;
                                 player.hide = true;
                                 shaker.addDamage(1f);
+                                finalStage = FinalStage.finalExplosion;
+                                Tween.call(new TweenCallback() {
+                                        @Override
+                                        public void onEvent(int i, BaseTween<?> baseTween) {
+                                            finalStage = FinalStage.transition;
+
+                                            Tween.call(new TweenCallback() {
+                                                @Override
+                                                public void onEvent(int i, BaseTween<?> baseTween) {
+                                                    game.setScreen(new EndScreen(game, assets));
+                                                }
+                                            }).delay(2f).start(tween);
+                                        }
+                                    }).delay(2f)
+                                        .start(tween);
                             }
                         }))
                         .start(tween);
                 break;
-            case finalSequence:
+            case finalCharge:
+                // NOOP
+                break;
+            case finalExplosion:
+                particleSystem.addExplosion(
+                        MathUtils.random(500, 700),
+                        MathUtils.random(200, 400),
+                        80, 80);
                 break;
         }
     }
