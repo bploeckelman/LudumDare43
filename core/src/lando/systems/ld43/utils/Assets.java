@@ -231,7 +231,7 @@ public class Assets implements Disposable {
 
         Array<TextureAtlas.AtlasRegion> animationShieldTextures = atlas.findRegions("shield");
         animationShield = new Animation<TextureRegion>(0.1f, animationShieldTextures, Animation.PlayMode.LOOP);
-        Array<TextureAtlas.AtlasRegion> talkingCat = atlas.findRegions("cat-head");
+        Array<TextureAtlas.AtlasRegion> talkingCat = atlas.findRegions("portrait-cat");
         talkingCatAnimation = new Animation<TextureRegion>(0.1f, talkingCat, Animation.PlayMode.LOOP);
         Array<TextureAtlas.AtlasRegion> talkingDog = atlas.findRegions("dog-head");
         talkingDogAnimation = new Animation<TextureRegion>(0.1f, talkingDog, Animation.PlayMode.LOOP);

@@ -66,10 +66,10 @@ public class PilotSelectUI extends UserInterface {
         this.hiding = false;
 
         this.texturePointer = assets.pointer;
-        this.textureCat = assets.atlas.findRegion("cat-spacesuit");
-        this.textureDog = assets.atlas.findRegion("dog-spacesuit");
-        if (textureCat == null) throw new GdxRuntimeException("Couldn't find sprite: 'cat-spacesuit'");
-        if (textureDog == null) throw new GdxRuntimeException("Couldn't find sprite: 'dog-spacesuit'");
+        this.textureCat = assets.atlas.findRegion("spacesuit-cat");
+        this.textureDog = assets.atlas.findRegion("spacesuit-dog");
+        if (textureCat == null) throw new GdxRuntimeException("Couldn't find sprite: 'spacesuit-cat'");
+        if (textureDog == null) throw new GdxRuntimeException("Couldn't find sprite: 'spacesuit-dog'");
 
         this.boundsCat = new Rectangle();
         this.boundsDog = new Rectangle();
