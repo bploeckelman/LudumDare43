@@ -83,6 +83,7 @@ public class Assets implements Disposable {
     public TextureRegion powerUpSpeed;
     public TextureRegion shipEnemy;
     public TextureRegion shipEnemy2;
+    public TextureRegion shipEnemyStar;
     public TextureRegion specialBoss;
     public TextureRegion progressCatLeft;
     public TextureRegion progressCatRight;
@@ -198,6 +199,7 @@ public class Assets implements Disposable {
         powerUpSpeed = atlas.findRegion("powerup-speed");
         shipEnemy = atlas.findRegion("ship-enemy1");
         shipEnemy2 = atlas.findRegion("ship-enemy2");
+        shipEnemyStar = atlas.findRegion("ship-enemy-star");
         progressCatLeft = atlas.findRegion("progress-cat-left");
         progressCatRight = atlas.findRegion("progress-cat-right");
         progressCatCenter = atlas.findRegion("progress-cat-center");
