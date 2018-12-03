@@ -1,8 +1,13 @@
 [
   {
     class: Dialog,
+    speaker: system,
+    text: "Warning! Warning! He is almost defeated, but we ran out of power."
+  }
+  {
+    class: Dialog,
     speaker: player,
-    text: "He is almost defeated, but we ran out of power."
+    text: "Oh no! What should we do?"
   }
   {
     class: Dialog,
