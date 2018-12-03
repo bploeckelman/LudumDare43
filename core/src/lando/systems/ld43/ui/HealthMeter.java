@@ -21,6 +21,7 @@ public class HealthMeter extends UserInterface {
     private PlayerShip playerShip;
     private TextureRegion icon;
     private float healthPercentage;
+    private float pulseTimer;
 
     public HealthMeter(Assets assets, GameScreen gameScreen) {
         super(assets);
@@ -29,10 +30,14 @@ public class HealthMeter extends UserInterface {
         this.icon = assets.iconHeart;
         this.healthPercentage = 1;
         this.bounds.set(margin, screen.hudCamera.viewportHeight - screen.progressUI.bounds.height - height - 3f * margin, width, height);
+        this.pulseTimer = 0;
     }
 
     public void update(float dt) {
+
         healthPercentage = playerShip.getCurrentHealthPercent();
+        pulseTimer += dt;
+        System.out.println();
     }
 
     public void render(SpriteBatch batch) {
@@ -48,6 +53,10 @@ public class HealthMeter extends UserInterface {
 
         // TODO: pulse heart on damage / heal (diff betw. prev and curr frame healthPercent)
         float iconSize = icon.getRegionHeight();
+        if (pulseTimer % 1.1f > (healthPercentage)) {
+            float pulsePercentage = (pulseTimer % 0.25f) +1f;
+            iconSize = iconSize * pulsePercentage;
+        }
         batch.draw(icon, bounds.x + bounds.width + margin, bounds.y + bounds.height / 2f - iconSize / 2f, iconSize, iconSize);
     }
 
