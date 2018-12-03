@@ -36,6 +36,7 @@ public class DialogUI extends UserInterface {
     private Json json;
     private Pilot pilot;
     // TODO: enemy(s)?
+    private TextureRegion pilotKeyFrame;
     private Discourser system;
     private Discourser boss1;
     private Discourser boss2;
@@ -45,6 +46,7 @@ public class DialogUI extends UserInterface {
     private int currentDialog;
     private int typingIndex;
     private float typingTimer;
+    private float animationTimer;
     private boolean typing;
     private boolean transitioning;
 
@@ -58,6 +60,7 @@ public class DialogUI extends UserInterface {
         this.currentDialog = -1;
         this.typingIndex = -1;
         this.typingTimer = 0f;
+        this.animationTimer = 0f;
         this.typing = false;
         this.transitioning = false;
         this.json = new Json();
@@ -149,6 +152,9 @@ public class DialogUI extends UserInterface {
         int lastLetter = dialogs.get(currentDialog).text.length();
         if (typing) {
             typingTimer += dt;
+            animationTimer += dt;
+            pilotKeyFrame = pilot.textureAnimation.getKeyFrame(animationTimer);
+
             if (typingTimer > threshold) {
                 typingTimer -= threshold;
                 typingIndex++;
@@ -192,8 +198,11 @@ public class DialogUI extends UserInterface {
             float iconW = 64f;
             float iconH = 64f;
             if (dialog.speaker == Speaker.player) {
-                batch.draw(pilot.textureHead, bounds.x + margin, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
-
+                if (typing) {
+                    batch.draw(pilotKeyFrame, bounds.x + margin, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
+                } else {
+                    batch.draw(pilot.textureAnimation.getKeyFrame(0), bounds.x + margin, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
+                }
                 float textWidth = bounds.width - iconW - 3f * margin;
                 layout.setText(assets.fontPixel16, dialog.text.substring(0, typingIndex), Color.LIGHT_GRAY, textWidth, Align.left, true);
                 assets.fontPixel16.draw(batch, layout,

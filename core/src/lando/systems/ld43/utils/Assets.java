@@ -77,6 +77,8 @@ public class Assets implements Disposable {
 //    public Animation<TextureRegion> animationPlayer;
 //    public Animation<TextureRegion> animationPlayerUp;
 //    public Animation<TextureRegion> animationPlayerDown;
+    public Animation<TextureRegion> talkingCatAnimation;
+    public Animation<TextureRegion> talkingDogAnimation;
 
     public NinePatch ninePatch;
 
@@ -169,6 +171,12 @@ public class Assets implements Disposable {
 
         Array<TextureAtlas.AtlasRegion> animationShieldTextures = atlas.findRegions("shield");
         animationShield = new Animation<TextureRegion>(0.1f, animationShieldTextures, Animation.PlayMode.LOOP);
+
+        Array<TextureAtlas.AtlasRegion> talkingCat = atlas.findRegions("cat-head");
+        talkingCatAnimation = new Animation<TextureRegion>(0.1f, talkingCat, Animation.PlayMode.LOOP);
+
+        Array<TextureAtlas.AtlasRegion> talkingDog = atlas.findRegions("dog-head");
+        talkingDogAnimation = new Animation<TextureRegion>(0.1f, talkingDog, Animation.PlayMode.LOOP);
 
         ninePatch = new NinePatch(atlas.findRegion("ninepatch-screws"), 6, 6, 6, 6);
 
