@@ -53,6 +53,7 @@ public class GameScreen extends BaseScreen {
     private Vector2 tempVec2;
     private Vector3 mousePos;
     public ScoreUI scoreUI;
+    private HealthMeter healthMeter;
 
     private SatelliteShip sacrificedShip;
 
@@ -76,6 +77,7 @@ public class GameScreen extends BaseScreen {
         this.equipmentUI = new EquipmentUI(assets);
         this.dialogUI = new DialogUI(assets);
         this.scoreUI = new ScoreUI(assets, game);
+        this.healthMeter = new HealthMeter(assets, this);
 
         this.boss = null;
         nextLevel();
@@ -97,6 +99,7 @@ public class GameScreen extends BaseScreen {
         background.update(dt);
         shaker.update(dt);
         scoreUI.update(dt);
+        healthMeter.update(dt);
         dialogUI.update(dt);
         equipmentUI.update(dt);
         if (boss != null && !boss.alive){
@@ -274,6 +277,7 @@ public class GameScreen extends BaseScreen {
             scoreUI.render(batch);
             dialogUI.render(batch);
             equipmentUI.render(batch);
+            healthMeter.render(batch);
         }
         batch.end();
     }
