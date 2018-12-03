@@ -33,7 +33,7 @@ public class Level {
         json.addClassTag("Enemy", EnemyDef.class);
 //        System.out.println(json.prettyPrint(enemies));
         enemies = json.fromJson(ArrayList.class, levelFile);
-        enemies.add(new EnemyDef(10f, 900, 300, EnemyDef.EnemyType.MiniBoss1));
+//        enemies.add(new EnemyDef(10f, 900, 300, EnemyDef.EnemyType.MiniBoss1));
     }
 
 
