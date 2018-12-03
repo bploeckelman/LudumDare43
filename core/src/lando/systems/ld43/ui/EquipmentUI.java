@@ -6,6 +6,7 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Bounce;
 import aurelienribon.tweenengine.equations.Quad;
+import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
@@ -40,12 +41,14 @@ public class EquipmentUI extends UserInterface {
     private boolean acceptButtonActive;
     private Vector3 mousePos;
     private TextureRegion texturePointer;
+    private MutableFloat alpha;
 
     public Equipment.Type selectedEquipmentType;
 
     public EquipmentUI(Assets assets) {
         super(assets);
 
+        this.alpha = new MutableFloat(0f);
         this.border = assets.ninePatch;
         this.boundsEquipment = new Rectangle();
         this.boundsDescription = new Rectangle();
@@ -130,15 +133,24 @@ public class EquipmentUI extends UserInterface {
         float finalBorderX = margin;
         float finalBorderY = margin;
 
+        alpha.setValue(0f);
+
         for (Equipment equipment : equipments) {
             equipment.bounds.set(equipment.boundsInitial);
         }
 
         Timeline.createSequence()
                 .push(
-                        Tween.to(bounds, RectangleAccessor.XYWH, 0.5f)
-                             .target(finalBorderX, finalBorderY, finalBorderW, finalBorderH)
-                             .ease(Bounce.OUT)
+                        Timeline.createParallel()
+                                .push(
+                                        Tween.to(alpha, -1, 0.4f).target(1f)
+                                )
+                                .push(
+                                        Tween.to(bounds, RectangleAccessor.XYWH, 0.5f)
+                                                .target(finalBorderX, finalBorderY, finalBorderW, finalBorderH)
+                                                .ease(Bounce.OUT)
+                                )
+
                 )
                 .push(
                         // Dumb, but effective?
@@ -168,14 +180,22 @@ public class EquipmentUI extends UserInterface {
     public void hide() {
         transitionComplete = false;
 
+        alpha.setValue(1f);
+
         float centerX = screen.hudCamera.viewportWidth / 2f;
         float centerY = screen.hudCamera.viewportHeight / 2f;
 
         Timeline.createSequence()
                 .push(
-                        Tween.to(bounds, RectangleAccessor.XYWH, 0.33f)
-                             .target(centerX, centerY, 0f, 0f)
-                             .ease(Quad.OUT)
+                        Timeline.createParallel()
+                                .push(
+                                        Tween.to(alpha, -1, 0.4f).target(0f)
+                                )
+                                .push(
+                                        Tween.to(bounds, RectangleAccessor.XYWH, 0.33f)
+                                                .target(centerX, centerY, 0f, 0f)
+                                                .ease(Quad.OUT)
+                                )
                 )
                 .setCallback(new TweenCallback() {
                     @Override
@@ -229,9 +249,9 @@ public class EquipmentUI extends UserInterface {
         if (!isVisible()) return;
 
         // background
-        batch.setColor(Color.LIGHT_GRAY);
+        batch.setColor(0xbf / 255f, 0xbf / 255f, 0xbf / 255f, alpha.floatValue());
         batch.draw(assets.whitePixel, bounds.x, bounds.y, bounds.width, bounds.height);
-        batch.setColor(Color.WHITE);
+        batch.setColor(1f, 1f, 1f, alpha.floatValue());
         border.draw(batch, bounds.x, bounds.y, bounds.width, bounds.height);
 
         // TODO: draw components (highlight selected, visible active, dim inactive)
