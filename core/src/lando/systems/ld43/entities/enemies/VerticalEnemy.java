@@ -29,7 +29,7 @@ public class VerticalEnemy extends Enemy {
             for (int i = 0; i < spreadCount; i++) {
                 float dir = 135 + ((float)i / (spreadCount-1)) * 90;
                 Bullet b = gameScreen.bulletPool.obtain();
-                b.init(assets.redBullet, position.x, position.y, 100 * MathUtils.cosDeg(dir), 100 * MathUtils.sinDeg(dir), false, 10, 10, 10, 1);
+                b.init(assets.shotMagenta, position.x, position.y, 100 * MathUtils.cosDeg(dir), 100 * MathUtils.sinDeg(dir), false, 10, 10, 10, 1);
                 gameScreen.aliveBullets.add(b);
             }
             shootDelay += 4f;

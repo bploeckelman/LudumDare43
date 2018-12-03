@@ -2,11 +2,9 @@ package lando.systems.ld43.entities.enemies;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld43.entities.Bullet;
 import lando.systems.ld43.screens.GameScreen;
-import lando.systems.ld43.utils.Assets;
 
 
 public class MiniBoss1 extends Enemy {
@@ -33,7 +31,7 @@ public class MiniBoss1 extends Enemy {
         shootDelay -= dt;
         if (shootDelay <= 0){
             Bullet b = gameScreen.bulletPool.obtain();
-            b.init(assets.redBullet, position.x, position.y, -150, 0, false, 20, 20, 20, 1);
+            b.init(assets.shotRed, position.x, position.y, -150, 0, false, 20, 20, 20, 1);
             gameScreen.aliveBullets.add(b);
             shootCount++;
             shootDelay += .2f;

@@ -32,7 +32,7 @@ public class DroneEnemy extends Enemy {
         shootDelay -= dt;
         if (shootDelay <= 0){
             Bullet b = gameScreen.bulletPool.obtain();
-            b.init(assets.redBullet, position.x, position.y, -150, 0, false, 10, 10, 10, 1);
+            b.init(assets.shotRed, position.x, position.y, -150, 0, false, 10, 10, 10, 1);
             gameScreen.aliveBullets.add(b);
             shootDelay += 2f;
         }

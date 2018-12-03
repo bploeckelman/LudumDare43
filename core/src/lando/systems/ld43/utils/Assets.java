@@ -60,7 +60,8 @@ public class Assets implements Disposable {
     public TextureRegion whitePixel;
     public TextureRegion whiteCircle;
     public TextureRegion smoke;
-    public TextureRegion redBullet;
+    public TextureRegion shotRed;
+    public TextureRegion shotMagenta;
     public TextureRegion satelliteShip;
     public TextureRegion spreadBullet;
     public TextureRegion satelliteLaserBullet;
@@ -92,6 +93,7 @@ public class Assets implements Disposable {
     public TextureRegion iconHeart;
     public TextureRegion iconBeam;
     public TextureRegion asteroid;
+    public TextureRegion shotYellow;
     public TextureRegion pointer;
 
     public Animation<TextureRegion> animationShield;
@@ -176,7 +178,7 @@ public class Assets implements Disposable {
         whitePixel = atlas.findRegion("white-pixel");
         whiteCircle = atlas.findRegion("white-circle");
         smoke = atlas.findRegion("smoke");
-        redBullet = atlas.findRegion("regular-shot");
+        shotRed = atlas.findRegion("regular-shot");
         satelliteShip = atlas.findRegion("satellite");
         spreadBullet = atlas.findRegion("spread_bullet");
         satelliteLaserBullet = atlas.findRegion("satellite_laser");
@@ -208,6 +210,8 @@ public class Assets implements Disposable {
         iconBeam = atlas.findRegion("icon-beam");
         asteroid = atlas.findRegion("asteroid");
         pointer = atlas.findRegion("pointer");
+        shotYellow = atlas.findRegion("shot-yellow");
+        shotMagenta = atlas.findRegion("shot-magenta");
         specialBoss = atlas.findRegion("boss-seal");
 
         titleTexture = mgr.get(titleTextureAsset);

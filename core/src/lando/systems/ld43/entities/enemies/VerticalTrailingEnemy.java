@@ -35,7 +35,7 @@ public class VerticalTrailingEnemy extends Enemy {
             float dirDelta = 360f/bulletAmmount;
             for (int i = 0; i < bulletAmmount; i++) {
                 Bullet b = gameScreen.bulletPool.obtain();
-                b.init(assets.redBullet, position.x, position.y, 100 * MathUtils.cosDeg(dirDelta * i), 100 * MathUtils.sinDeg(dirDelta * i), false, 10, 10, 10, 1);
+                b.init(assets.shotYellow, position.x, position.y, 60 * MathUtils.cosDeg(dirDelta * i), 60 * MathUtils.sinDeg(dirDelta * i), false, 10, 10, 10, 1);
                 gameScreen.aliveBullets.add(b);
             }
             shootDelay += 2f;
