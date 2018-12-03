@@ -2,21 +2,21 @@
   {
     class: Dialog,
     speaker: system,
-    text: "Warning! Warning! He is almost defeated, but we ran out of power."
-  }
-  {
-    class: Dialog,
-    speaker: player,
-    text: "Oh no! What should we do?"
+    text: "Warning! Energy low, insufficient power for all active drones."
   }
   {
     class: Dialog,
     speaker: boss1,
-    text: "HAHAHA!"
+    text: "Hmmmm, this is a bit like\nthe 'Trolley Problem' in real life!\nLucky for me, you won't\nbe able to decide who to sacrifice."
   }
   {
     class: Dialog,
     speaker: player,
-    text: "Sorry guys, but we will need to sacrifice one of you to destroy him."
+    text: "There's no choice then.\nWe need to keep going,\nsacrifice one drone to take him out!"
+  }
+  {
+    class: Dialog,
+    speaker: boss1,
+    text: "As Camus said, 'There is but one truly serious philosophical problem, and that is whether to commit suicide'."
   }
 ]

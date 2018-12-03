@@ -96,6 +96,7 @@ public class Assets implements Disposable {
     public TextureRegion iconX;
     public TextureRegion iconHeart;
     public TextureRegion iconBeam;
+    public TextureRegion iconLaser;
     public TextureRegion iconMinibossCat;
     public TextureRegion iconMinibossDog;
     public TextureRegion iconFinalboss;
@@ -105,11 +106,12 @@ public class Assets implements Disposable {
     public TextureRegion finalBoss;
 
     public Animation<TextureRegion> animationShield;
-    public Animation<TextureRegion> talkingCatAnimation;
-    public Animation<TextureRegion> talkingDogAnimation;
-    public Animation<TextureRegion> badLogicAnimation;
-    public Animation<TextureRegion> computerAnimation;
     public Animation<TextureRegion> explosionAnimation;
+    public Animation<TextureRegion> animationPortraitCat;
+    public Animation<TextureRegion> animationPortraitDog;
+    public Animation<TextureRegion> animationComputer;
+    public Animation<TextureRegion> animationRaptor;
+    public Animation<TextureRegion> badLogicAnimation;
 
     public NinePatch ninePatch;
 
@@ -227,6 +229,7 @@ public class Assets implements Disposable {
         iconX = atlas.findRegion("icon-x");
         iconHeart = atlas.findRegion("icon-heart");
         iconBeam = atlas.findRegion("icon-beam");
+        iconLaser = atlas.findRegion("icon-laser");
         iconMinibossCat = atlas.findRegion("icon-miniboss-cat");
         iconMinibossDog = atlas.findRegion("icon-miniboss-dog");
         iconFinalboss = atlas.findRegion("icon-finalboss");
@@ -243,16 +246,24 @@ public class Assets implements Disposable {
 
         Array<TextureAtlas.AtlasRegion> animationShieldTextures = atlas.findRegions("shield");
         animationShield = new Animation<TextureRegion>(0.1f, animationShieldTextures, Animation.PlayMode.LOOP);
-        Array<TextureAtlas.AtlasRegion> talkingCat = atlas.findRegions("portrait-cat");
-        talkingCatAnimation = new Animation<TextureRegion>(0.1f, talkingCat, Animation.PlayMode.LOOP);
-        Array<TextureAtlas.AtlasRegion> talkingDog = atlas.findRegions("portrait-dog");
-        talkingDogAnimation = new Animation<TextureRegion>(0.1f, talkingDog, Animation.PlayMode.LOOP);
-        Array<TextureAtlas.AtlasRegion> talkingBadLogic = atlas.findRegions("badlogic");
-        badLogicAnimation = new Animation<TextureRegion>(0.1f, talkingBadLogic, Animation.PlayMode.LOOP);
-        Array<TextureAtlas.AtlasRegion> talkingComputer = atlas.findRegions("portrait-computer");
-        computerAnimation = new Animation<TextureRegion>(0.1f, talkingComputer, Animation.PlayMode.LOOP);
         Array<TextureAtlas.AtlasRegion> explosion = atlas.findRegions("explosion");
         explosionAnimation = new Animation<TextureRegion>(.1f, explosion, Animation.PlayMode.REVERSED);
+
+        Array<TextureAtlas.AtlasRegion> talkingCat = atlas.findRegions("portrait-cat");
+        animationPortraitCat = new Animation<TextureRegion>(0.1f, talkingCat, Animation.PlayMode.LOOP);
+
+        Array<TextureAtlas.AtlasRegion> talkingDog = atlas.findRegions("portrait-dog");
+        animationPortraitDog = new Animation<TextureRegion>(0.1f, talkingDog, Animation.PlayMode.LOOP);
+
+        Array<TextureAtlas.AtlasRegion> talkingComputer = atlas.findRegions("portrait-computer");
+        animationComputer = new Animation<TextureRegion>(0.1f, talkingComputer, Animation.PlayMode.LOOP);
+
+        Array<TextureAtlas.AtlasRegion> animationRaptorTextures = atlas.findRegions("portrait-raptor");
+        animationRaptor = new Animation<TextureRegion>(0.1f, animationRaptorTextures, Animation.PlayMode.LOOP);
+
+        // TODO: remove me
+        Array<TextureAtlas.AtlasRegion> talkingBadLogic = atlas.findRegions("badlogic");
+        badLogicAnimation = new Animation<TextureRegion>(0.1f, talkingBadLogic, Animation.PlayMode.LOOP);
 
         ninePatch = new NinePatch(atlas.findRegion("ninepatch-screws"), 6, 6, 6, 6);
 

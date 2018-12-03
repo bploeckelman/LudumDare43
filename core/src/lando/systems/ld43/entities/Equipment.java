@@ -47,7 +47,7 @@ public class Equipment {
     public TextureRegion getShot(Assets assets) {
         switch (type) {
             case FIRE: return assets.shotFire;
-            case LASER: return assets.shotLaser;
+            case LASER: return assets.iconLaser;
             case SPREAD: return assets.shotSpread;
             case MISSILE: return assets. shotMissile;
             default: return assets.testTexture;

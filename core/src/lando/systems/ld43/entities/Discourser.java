@@ -19,14 +19,14 @@ public class Discourser {
 
         switch (type) {
             case system: {
-                this.textureFull = assets.computerAnimation.getKeyFrames()[0];
-                this.textureHead = assets.computerAnimation.getKeyFrames()[1];
-                this.textureAnimation = assets.computerAnimation;
+                this.textureFull = assets.animationComputer.getKeyFrames()[0];
+                this.textureHead = assets.animationComputer.getKeyFrames()[1];
+                this.textureAnimation = assets.animationComputer;
             } break;
             case boss1: {
-                this.textureFull = assets.atlas.findRegion("badlogic");
-                this.textureHead = assets.atlas.findRegion("badlogic");
-                this.textureAnimation = assets.badLogicAnimation;
+                this.textureFull = assets.animationRaptor.getKeyFrames()[0];
+                this.textureHead = assets.animationRaptor.getKeyFrames()[1];
+                this.textureAnimation = assets.animationRaptor;
             } break;
             case boss2: {
                 this.textureFull = assets.atlas.findRegion("badlogic");

@@ -1,22 +1,27 @@
 [
   {
     class: Dialog,
-    speaker: player,
-    text: "Who are you?"
-  }
-  {
-    class: Dialog,
-    speaker: boss1,
-    text: "I'm the fierce scary boss 1!"
+    speaker: system,
+    text: "Enemy approaching..."
   }
   {
     class: Dialog,
     speaker: player,
-    text: "Ok I'm going to have to kill you now."
+    text: "Unidentified spacecraft,\nstate your business!"
   }
   {
     class: Dialog,
     speaker: boss1,
-    text: "Unless you make sacrifices, you will die."
+    text: "They call me Philosoraptor.\nHave you ever wondered what would happen if Pinnochio said 'My nose will grow'?"
+  }
+  {
+    class: Dialog,
+    speaker: system,
+    text: "That does not compute..."
+  }
+  {
+    class: Dialog,
+    speaker: player,
+    text: "I... what? Nevermind, defend yourself!"
   }
 ]
