@@ -274,10 +274,12 @@ public class GameScreen extends BaseScreen {
             batch.setColor(Color.WHITE);
             batch.draw(player.pilot.textureHead, 5f, 5f, 64f, 64f);
 
-            scoreUI.render(batch);
             dialogUI.render(batch);
             equipmentUI.render(batch);
-            healthMeter.render(batch);
+            if (equipmentUI.isHidden()) {
+                scoreUI.render(batch);
+                healthMeter.render(batch);
+            }
         }
         batch.end();
     }
