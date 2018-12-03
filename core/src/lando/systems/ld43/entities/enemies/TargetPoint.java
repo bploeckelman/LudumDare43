@@ -8,12 +8,14 @@ public class TargetPoint extends QuadTreeable {
     public Vector2 positionOffset;
     public float diameter;
     public float health;
+    public float maxHealth;
     public float damageIndicator;
 
     public TargetPoint(Vector2 positionOffset, float diameter, float health){
         this.positionOffset = positionOffset;
         this.diameter = diameter;
         this.health = health;
+        this.maxHealth = health;
         this.damageIndicator = 0;
         this.collisionBounds = new Rectangle();
     }

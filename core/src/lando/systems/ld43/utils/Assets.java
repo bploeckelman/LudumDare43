@@ -11,8 +11,6 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-import lando.systems.ld43.LudumDare43;
-import lando.systems.ld43.entities.SatelliteShip;
 
 public class Assets implements Disposable {
 
@@ -81,8 +79,8 @@ public class Assets implements Disposable {
     public TextureRegion powerUpCooldown;
     public TextureRegion powerUpShield;
     public TextureRegion powerUpSpeed;
-    public TextureRegion shipEnemy;
-    public TextureRegion shipEnemy2;
+    public TextureRegion shipEnemyPlane;
+    public TextureRegion shipEnemyUFO;
     public TextureRegion shipEnemyStar;
     public TextureRegion specialBoss;
     public TextureRegion progressCatLeft;
@@ -197,8 +195,8 @@ public class Assets implements Disposable {
         powerUpCooldown = atlas.findRegion("powerup-cooldown");
         powerUpShield = atlas.findRegion("powerup-shield");
         powerUpSpeed = atlas.findRegion("powerup-speed");
-        shipEnemy = atlas.findRegion("ship-enemy1");
-        shipEnemy2 = atlas.findRegion("ship-enemy2");
+        shipEnemyPlane = atlas.findRegion("ship-enemy-plane");
+        shipEnemyUFO = atlas.findRegion("ship-enemy-ufo");
         shipEnemyStar = atlas.findRegion("ship-enemy-star");
         progressCatLeft = atlas.findRegion("progress-cat-left");
         progressCatRight = atlas.findRegion("progress-cat-right");

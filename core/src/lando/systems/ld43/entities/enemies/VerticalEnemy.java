@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import lando.systems.ld43.entities.Bullet;
 import lando.systems.ld43.screens.GameScreen;
-import lando.systems.ld43.utils.Assets;
 import lando.systems.ld43.utils.Config;
 
 public class VerticalEnemy extends Enemy {
@@ -24,7 +23,6 @@ public class VerticalEnemy extends Enemy {
 
     @Override
     public void update(float dt){
-
         shootDelay -= dt;
         if (shootDelay <= 0){
             int spreadCount = 5;
@@ -49,8 +47,9 @@ public class VerticalEnemy extends Enemy {
 
     @Override
     public void render(SpriteBatch batch){
-        batch.setColor(damageColor);
-        batch.draw(assets.shipEnemy, position.x - width/2, position.y - height/2, width, height);
+        float dmgPercent = targetPoints.get(0).health / targetPoints.get(0).maxHealth;
+        batch.setColor(1f, dmgPercent, dmgPercent, 1f);
+        batch.draw(assets.shipEnemyPlane, position.x - width/2, position.y - height/2, width, height);
         batch.setColor(Color.WHITE);
     }
 }

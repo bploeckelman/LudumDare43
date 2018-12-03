@@ -50,7 +50,7 @@ public class Enemy {
     public void update(float dt){
         float healthLeft = 0;
         // Implement specific update in derived classes
-        damageColor.set(1f, 1- (damageIndicator/damageIndicatorLength), 1- (damageIndicator/damageIndicatorLength), 1f);
+        damageColor.set(1f, 1 - (damageIndicator/damageIndicatorLength), 1 - (damageIndicator/damageIndicatorLength), 1f);
         damageIndicator = Math.max(damageIndicator - dt, 0);
         for (int i = targetPoints.size() -1; i >= 0; i--){
             TargetPoint target = targetPoints.get(i);

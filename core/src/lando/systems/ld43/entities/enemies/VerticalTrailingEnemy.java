@@ -9,8 +9,8 @@ import lando.systems.ld43.screens.GameScreen;
 public class VerticalTrailingEnemy extends Enemy {
 
     public Vector2 playerPosition;
-    private float direction = 1;
-    private float rotation = 0f;
+    private float direction;
+    private float rotation;
     private float rotationRate;
 
     public VerticalTrailingEnemy(GameScreen gameScreen, float x, float y) {
@@ -42,7 +42,8 @@ public class VerticalTrailingEnemy extends Enemy {
 
     @Override
     public void render(SpriteBatch batch){
-        batch.setColor(damageColor);
+        float dmgPercent = targetPoints.get(0).health / targetPoints.get(0).maxHealth;
+        batch.setColor(1f, dmgPercent, dmgPercent, 1f);
         batch.draw(assets.shipEnemyStar,
                    position.x - width / 2f,
                    position.y - height / 2f,
