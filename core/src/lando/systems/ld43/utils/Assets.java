@@ -90,8 +90,12 @@ public class Assets implements Disposable {
     public TextureRegion progressDogLeft;
     public TextureRegion progressDogRight;
     public TextureRegion progressDogCenter;
+    public TextureRegion iconX;
     public TextureRegion iconHeart;
     public TextureRegion iconBeam;
+    public TextureRegion iconMinibossCat;
+    public TextureRegion iconMinibossDog;
+    public TextureRegion iconFinalboss;
     public TextureRegion asteroid;
     public TextureRegion shotYellow;
     public TextureRegion pointer;
@@ -206,8 +210,12 @@ public class Assets implements Disposable {
         progressDogLeft = atlas.findRegion("progress-dog-left");
         progressDogRight = atlas.findRegion("progress-dog-right");
         progressDogCenter = atlas.findRegion("progress-dog-center");
+        iconX = atlas.findRegion("icon-x");
         iconHeart = atlas.findRegion("icon-heart");
         iconBeam = atlas.findRegion("icon-beam");
+        iconMinibossCat = atlas.findRegion("icon-miniboss-cat");
+        iconMinibossDog = atlas.findRegion("icon-miniboss-dog");
+        iconFinalboss = atlas.findRegion("icon-finalboss");
         asteroid = atlas.findRegion("asteroid");
         pointer = atlas.findRegion("pointer");
         shotYellow = atlas.findRegion("shot-yellow");

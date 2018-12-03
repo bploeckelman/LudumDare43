@@ -27,6 +27,8 @@ public class ProgressUI extends UserInterface {
     private Rectangle boundsFill;
     private Color fillColor;
     private float fillPercent;
+    private float levelProgress;
+    private float overallProgress;
 
     public ProgressUI(Assets assets) {
         super(assets);
@@ -42,6 +44,8 @@ public class ProgressUI extends UserInterface {
         this.boundsFill = new Rectangle();
         this.fillColor = new Color();
         this.fillPercent = 0f;
+        this.levelProgress = 0f;
+        this.overallProgress = 0f;
     }
 
     public ProgressUI reset(GameScreen screen, PlayerShip player) {
@@ -55,6 +59,8 @@ public class ProgressUI extends UserInterface {
                 barLeft = assets.progressCatLeft;
                 barRight = assets.progressCatRight;
                 barCenter = assets.progressCatCenter;
+                miniBossIcon = assets.iconMinibossCat;
+                finalBossIcon = assets.iconFinalboss;
                 fillColor.set(207f / 255f, 202f / 255f, 194f / 255f, 0.9f);
                 fillOffsetY = 19f;
                 fillHeight = 18f;
@@ -63,6 +69,8 @@ public class ProgressUI extends UserInterface {
                 barLeft = assets.progressDogLeft;
                 barRight = assets.progressDogRight;
                 barCenter = assets.progressDogCenter;
+                miniBossIcon = assets.iconMinibossDog;
+                finalBossIcon = assets.iconFinalboss;
                 fillColor.set(229f / 255f, 229f / 255f, 229f / 255f, 0.9f);
                 fillOffsetY = 13f;
                 fillHeight = 15f;
@@ -85,10 +93,9 @@ public class ProgressUI extends UserInterface {
         if (screen == null) return;
         if (player == null) return;
 
-        // determine progress
-        fillPercent = screen.level.timer / screen.level.latestTime;
-        // TODO: include overall progress, not just current level progress
-//        fillPercent = (screen.levelIndex - 1f) / screen.NUM_LEVELS;
+        levelProgress = MathUtils.clamp(screen.level.timer / screen.level.latestTime, 0f, 1f);
+        overallProgress = (float) (screen.levelIndex - 1) / screen.NUM_LEVELS;
+        fillPercent = overallProgress + levelProgress * (1f / screen.NUM_LEVELS);
         fillPercent = MathUtils.clamp(fillPercent, 0f, 1f);
         boundsFill.width = fillPercent * boundsInterior.width;
     }
@@ -110,10 +117,25 @@ public class ProgressUI extends UserInterface {
         batch.setColor(Color.WHITE);
 
         // draw miniboss icons
+        for (int i = 1; i < screen.NUM_LEVELS; ++i) {
+            float x = boundsInterior.x + (i * (1f / screen.NUM_LEVELS) * boundsInterior.width);
+            float y = bounds.y;
+            float w = miniBossIcon.getRegionWidth();
+            float h = miniBossIcon.getRegionHeight();
+            batch.draw(miniBossIcon, x - w / 2f, y, w, h);
+            if (screen.levelIndex > i) {
+                float xw = assets.iconX.getRegionWidth();
+                float xh = assets.iconX.getRegionHeight();
+                batch.draw(assets.iconX, x - xw / 2f, y, xw, xh);
+            }
+        }
 
         // draw final boss icon
-
-        // TODO: draw 'Progress' text?
+        float x = boundsInterior.x + boundsInterior.width;
+        float y = bounds.y;
+        float w = bounds.height;
+        float h = bounds.height;
+        batch.draw(finalBossIcon, x - w / 2f, y + margin, w, h);
     }
 
 }
