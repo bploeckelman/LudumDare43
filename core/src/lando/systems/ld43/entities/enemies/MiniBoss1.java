@@ -18,7 +18,7 @@ public class MiniBoss1 extends Enemy {
         this.height = 100;
         this.width = 100;
         this.alive = true;
-        this.shootDelay = 3f;
+        this.shootDelay = 2f;
         this.shootCount = 0;
         this.yDir = 100;
         this.pointWorth = 10000;
