@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import lando.systems.ld43.entities.Pilot;
 import lando.systems.ld43.entities.PlayerShip;
 import lando.systems.ld43.screens.GameScreen;
 import lando.systems.ld43.utils.Assets;
@@ -135,7 +136,8 @@ public class ProgressUI extends UserInterface {
         float y = bounds.y;
         float w = bounds.height;
         float h = bounds.height;
-        batch.draw(finalBossIcon, x - w / 2f, y + margin, w, h);
+        float offset = (player.pilot.getType() == Pilot.Type.cat) ? margin / 2f: 0f;
+        batch.draw(finalBossIcon, x - w / 2f, y + offset, w, h);
     }
 
 }
