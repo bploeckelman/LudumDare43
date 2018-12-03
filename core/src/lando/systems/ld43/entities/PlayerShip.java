@@ -216,6 +216,7 @@ public class PlayerShip {
             float length = 20;
             batch.draw(assets.laserContinue, position.x + width/2 + length, position.y - laserWidth/2f, laserLength-length, laserWidth);
             batch.draw(assets.laser, position.x + width/2, position.y - laserWidth/2f, length+1, laserWidth);
+            batch.draw(assets.laser, position.x + width/2 + length + laserLength - 4, position.y - laserWidth/2f, -length+1, laserWidth);
         }
     }
 

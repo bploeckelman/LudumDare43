@@ -42,6 +42,30 @@ public class ParticleSystem {
         }
     }
 
+    public void addLaserHit(float x, float y){
+        int laserParticles = 20;
+        for (int i = 0; i < laserParticles; i++){
+            Particle particle = particlePool.obtain();
+
+            float scale = MathUtils.random(1f, 2f);
+
+            float posX = x + MathUtils.random(0f, 20f) - scale/2f;
+            float posY = y + MathUtils.random(-5f, 5f) - scale/2f;
+            float dir = MathUtils.random(-60,60);
+            float speed = MathUtils.random(120f);
+            float velX = speed * MathUtils.cosDeg(dir);
+            float velY =  speed * MathUtils.sinDeg(dir);
+            float ttl = MathUtils.random(.1f, .3f);
+            float g = MathUtils.random( .28f, .73f);
+            float b = MathUtils.random( .72f, .80f);
+            float a = MathUtils.random(.4f, .8f);
+            particle.init(posX, posY, velX, velY, -velX, -velY,
+                    0.5f, 0, g, b, a,
+                    0, g, b, 0, scale, ttl, assets.whitePixel);
+            activeParticles.add(particle);
+        }
+    }
+
     public void addExplosion(float x, float y, float width, float height){
         Particle particle = particlePool.obtain();
 
@@ -50,7 +74,7 @@ public class ParticleSystem {
 
         float velX = 0;
         float velY = 0;
-        float ttl = MathUtils.random(.5f, 1.5f);
+        float ttl = MathUtils.random(1f, 1.2f);
         float white = 1f;
 
         particle.init(posX, posY, velX, velY, -velX, -velY,
@@ -72,6 +96,7 @@ public class ParticleSystem {
     }
 
     public void render(SpriteBatch batch){
+        batch.enableBlending();
         for (Particle part : activeParticles){
             part.render(batch);
         }
