@@ -102,6 +102,7 @@ public class Assets implements Disposable {
     public TextureRegion asteroid;
     public TextureRegion shotYellow;
     public TextureRegion pointer;
+    public TextureRegion finalBoss;
 
     public Animation<TextureRegion> animationShield;
     public Animation<TextureRegion> talkingCatAnimation;
@@ -235,6 +236,7 @@ public class Assets implements Disposable {
         shotMagenta = atlas.findRegion("shot-magenta");
         shotCyan = atlas.findRegion("shot-cyan");
         specialBoss = atlas.findRegion("boss-seal");
+        finalBoss = atlas.findRegion("final-boss");
 
         titleTexture = mgr.get(titleTextureAsset);
         pixelTexture = mgr.get(pixelTextureAsset);

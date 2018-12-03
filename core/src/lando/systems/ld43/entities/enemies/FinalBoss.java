@@ -16,9 +16,9 @@ public class FinalBoss extends Enemy {
         this.alive = true;
         this.pointWorth = 10000;
         this.targetPoints.clear();
-        this.targetPoints.add(new TargetPoint( new Vector2(0,0), 30, 20));
-        this.targetPoints.add(new TargetPoint( new Vector2(0,-50), 30, 10));
-        this.targetPoints.add(new TargetPoint( new Vector2(0,50), 30, 10));
+        this.targetPoints.add(new TargetPoint( new Vector2(0,-175), 50, 100));
+        this.targetPoints.add(new TargetPoint( new Vector2(-7,-50), 50, 200));
+        this.targetPoints.add(new TargetPoint( new Vector2(0,70), 50, 100));
     }
 
     @Override
@@ -35,7 +35,7 @@ public class FinalBoss extends Enemy {
     @Override
     public void render(SpriteBatch batch){
         batch.setColor(damageColor);
-        batch.draw(assets.whitePixel, position.x - width/2, position.y - height/2, width, height);
+        batch.draw(assets.finalBoss, position.x - width/2, position.y - height/2, width, height);
         batch.setColor(Color.WHITE);
         super.render(batch);
     }
