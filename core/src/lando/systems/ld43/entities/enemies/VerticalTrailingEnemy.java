@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import lando.systems.ld43.entities.Bullet;
 import lando.systems.ld43.screens.GameScreen;
 
 public class VerticalTrailingEnemy extends Enemy {
@@ -12,6 +13,8 @@ public class VerticalTrailingEnemy extends Enemy {
     private float direction;
     private float rotation;
     private float rotationRate;
+    private float shootDelay;
+
 
     public VerticalTrailingEnemy(GameScreen gameScreen, float x, float y) {
         super(gameScreen);
@@ -20,11 +23,24 @@ public class VerticalTrailingEnemy extends Enemy {
         this.pointWorth = 3000;
         this.direction = 1;
         this.rotation = 0f;
+        this.shootDelay = 2f;
         this.rotationRate = MathUtils.random(50f, 200f);
     }
 
     @Override
     public void update(float dt){
+        shootDelay -= dt;
+        if (shootDelay <= 0){
+            int bulletAmmount = 10;
+            float dirDelta = 360f/bulletAmmount;
+            for (int i = 0; i < bulletAmmount; i++) {
+                Bullet b = gameScreen.bulletPool.obtain();
+                b.init(assets.redBullet, position.x, position.y, 100 * MathUtils.cosDeg(dirDelta * i), 100 * MathUtils.sinDeg(dirDelta * i), false, 10, 10, 10, 1);
+                gameScreen.aliveBullets.add(b);
+            }
+            shootDelay += 2f;
+        }
+
         rotation += dt * rotationRate;
         position.x -= 50 * dt;
         if (position.y < playerPosition.y) {

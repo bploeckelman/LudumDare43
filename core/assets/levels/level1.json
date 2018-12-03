@@ -42,5 +42,5 @@
   {"class":"Enemy","time":40,"x":800,"y":300,"type":"Beeline"},
   {"class":"Enemy","time":40,"x":800,"y":400,"type":"Beeline"},
   {"class":"Enemy","time":40,"x":800,"y":500,"type":"Beeline"},
-  {"class":"Enemy","time":45,"x":800,"y":200,"type":"MiniBoss1"}
+  {"class":"Enemy","time":55,"x":800,"y":200,"type":"MiniBoss1"}
 ]
