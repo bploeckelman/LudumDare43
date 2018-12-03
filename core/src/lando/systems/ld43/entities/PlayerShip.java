@@ -13,7 +13,6 @@ import lando.systems.ld43.entities.enemies.TargetPoint;
 import lando.systems.ld43.screens.GameScreen;
 import lando.systems.ld43.ui.DialogUI;
 import lando.systems.ld43.utils.Assets;
-import lando.systems.ld43.utils.QuadTreeable;
 
 public class PlayerShip {
 

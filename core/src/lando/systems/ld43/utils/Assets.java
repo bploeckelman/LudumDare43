@@ -68,8 +68,15 @@ public class Assets implements Disposable {
     public TextureRegion satelliteSpreadShip;
     public TextureRegion laser;
     public TextureRegion laserContinue;
+    public TextureRegion powerUpHealth;
+    public TextureRegion powerUpCooldown;
+    public TextureRegion powerUpShield;
+    public TextureRegion powerUpSpeed;
 
-//    public Animation<TextureRegion> animation;
+//    public Animation<TextureRegion> animationShield;
+//    public Animation<TextureRegion> animationPlayer;
+//    public Animation<TextureRegion> animationPlayerUp;
+//    public Animation<TextureRegion> animationPlayerDown;
 
     public NinePatch ninePatch;
 
@@ -152,6 +159,10 @@ public class Assets implements Disposable {
         satelliteSpreadShip = atlas.findRegion("satellite_spread");
         laser = atlas.findRegion("laser");
         laserContinue = atlas.findRegion("laser-continue");
+        powerUpHealth = atlas.findRegion("powerup-health");
+        powerUpCooldown = atlas.findRegion("badlogic");
+        powerUpShield = atlas.findRegion("badlogic");
+        powerUpSpeed = atlas.findRegion("badlogic");
 
         titleTexture = mgr.get(titleTextureAsset);
         pixelTexture = mgr.get(pixelTextureAsset);

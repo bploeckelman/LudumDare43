@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.utils.Pools;
 import lando.systems.ld43.LudumDare43;
 import lando.systems.ld43.entities.Bullet;
 import lando.systems.ld43.entities.Pilot;
@@ -19,6 +20,8 @@ import lando.systems.ld43.entities.PlayerShip;
 import lando.systems.ld43.entities.SatelliteShip;
 import lando.systems.ld43.entities.enemies.Enemy;
 import lando.systems.ld43.entities.enemies.TargetPoint;
+import lando.systems.ld43.entities.powerups.PowerUp;
+import lando.systems.ld43.entities.powerups.PowerUpHealth;
 import lando.systems.ld43.level.Level;
 import lando.systems.ld43.ui.*;
 import lando.systems.ld43.utils.*;
@@ -32,12 +35,12 @@ public class GameScreen extends BaseScreen {
     public Background background;
     public PlayerShip player;
     public ArrayList<Enemy> enemies;
+    public Array<PowerUp> powerUps;
     public Array<Bullet> aliveBullets;
     public Pool<Bullet> bulletPool;
+
     public QuadTree bulletTree;
-
     public Array<QuadTreeable> collisionEntities;
-
 
     private Level level;
     public DialogUI dialogUI;
@@ -53,26 +56,24 @@ public class GameScreen extends BaseScreen {
         Vector2 startPosition = new Vector2(40, worldCamera.viewportHeight/2);
         player = new PlayerShip(this, startPosition, pilotType);
         enemies = new ArrayList<Enemy>();
+        powerUps = new Array<PowerUp>();
         background = new StarfieldBackground(assets);
         shaker = new ScreenShakeCameraController(worldCamera);
         aliveBullets = new Array<Bullet>();
-        bulletPool = new Pool<Bullet>() {
-            @Override
-            protected Bullet newObject() {
-                return new Bullet();
-            }
-        };
-        Tween.to(background.speed, 0, 2f)
-                .target(100f)
-                .start(game.tween);
-
+        bulletPool = Pools.get(Bullet.class);
         level = new Level(this, 1);
         bulletTree = new QuadTree(assets,0, new Rectangle(0,0, worldCamera.viewportWidth, worldCamera.viewportHeight));
         collisionEntities = new Array<QuadTreeable>();
+
         this.equipmentUI = new EquipmentUI(assets);
         this.dialogUI = new DialogUI(assets);
         this.scoreUI = new ScoreUI(assets, game);
+
         game.audio.playMusic(Audio.Musics.RockHardyWithMaster);
+
+        Tween.to(background.speed, 0, 2f)
+             .target(100f)
+             .start(game.tween);
     }
 
     @Override
@@ -163,9 +164,11 @@ public class GameScreen extends BaseScreen {
 
         level.update(dt);
 
+        // Update enemies & check for collisions
         for (int i = enemies.size()-1; i >= 0; i--){
             Enemy e = enemies.get(i);
             e.update(dt);
+
             for (int j = e.targetPoints.size() -1; j >= 0; j--) {
                 TargetPoint target = e.targetPoints.get(j);
                 collisionEntities.clear();
@@ -179,9 +182,29 @@ public class GameScreen extends BaseScreen {
             }
 
             if (!e.alive){
-                scoreUI.addScore(1);
-                // TODO: explosion
                 enemies.remove(i);
+
+                // TODO: change score scale based on enemy type
+                scoreUI.addScore(1);
+
+                // TODO: create explosion
+
+                // Chance to spawn powerup
+                if (MathUtils.randomBoolean(0.2f)) {
+                    powerUps.add(new PowerUpHealth(assets, e.position.x, e.position.y, -background.speed.floatValue(), 0f));
+                    // TODO: switch back to random once all textures are in
+//                    powerUps.add(PowerUp.createRandom(assets, e.position.x, e.position.y, -background.speed.floatValue(), 0f));
+                }
+            }
+        }
+
+        // Update power ups and check for pickup
+        for (int i = powerUps.size - 1; i >= 0; --i) {
+            PowerUp powerUp = powerUps.get(i);
+            powerUp.update(dt);
+            if (powerUp.gotCollected(player)) {
+                powerUp.apply(player);
+                powerUps.removeIndex(i);
             }
         }
 
@@ -204,10 +227,15 @@ public class GameScreen extends BaseScreen {
                 enemy.render(batch);
                 enemy.renderTarget(batch);
             }
+
+            player.renderLaser(batch);
+
             for (Bullet bullet: aliveBullets) {
                 bullet.render(batch);
             }
-            player.renderLaser(batch);
+            for (PowerUp powerUp : powerUps) {
+                powerUp.render(batch);
+            }
         }
         batch.end();
 
