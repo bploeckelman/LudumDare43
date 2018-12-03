@@ -22,6 +22,7 @@ import lando.systems.ld43.entities.Pilot;
 import lando.systems.ld43.screens.GameScreen;
 import lando.systems.ld43.screens.TitleScreen;
 import lando.systems.ld43.utils.Assets;
+import lando.systems.ld43.utils.Audio;
 
 public class PilotSelectUI extends UserInterface {
 
@@ -50,8 +51,8 @@ public class PilotSelectUI extends UserInterface {
     private Rectangle boundsLaunchButton;
 
 
-    public PilotSelectUI(Assets assets) {
-        super(assets);
+    public PilotSelectUI(TitleScreen screen) {
+        super(screen.assets);
 
         this.selected = Selected.none;
         this.selectedPilotType = null;
@@ -276,8 +277,10 @@ public class PilotSelectUI extends UserInterface {
             // Check for pilot selection click
             if (boundsCat.contains(touchPos.x, touchPos.y)) {
                 selected = Selected.cat;
+                screen.audio.playSound(Audio.Sounds.cat_meow);
             } else if (boundsDog.contains(touchPos.x, touchPos.y)) {
                 selected = Selected.dog;
+                screen.audio.playSound(Audio.Sounds.dog_bork);
             } else {
                 selected = Selected.none;
             }

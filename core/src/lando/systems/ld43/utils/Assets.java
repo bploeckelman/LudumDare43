@@ -4,6 +4,7 @@ import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.BitmapFontLoader;
 import com.badlogic.gdx.assets.loaders.ShaderProgramLoader;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -111,6 +112,10 @@ public class Assets implements Disposable {
 
     public NinePatch ninePatch;
 
+    public Sound laserSound;
+    public Sound explosionSmall;
+    public Sound explosionBig;
+
     public BitmapFont font;
     public BitmapFont fontPixel8;
     public BitmapFont fontPixel16;
@@ -166,6 +171,11 @@ public class Assets implements Disposable {
         mgr.load(shaderHeartAsset);
         mgr.load(shaderCircleCropAsset);
         mgr.load(shaderWaterAsset);
+
+        mgr.load("audio/laser-shot.mp3", Sound.class);
+        mgr.load("audio/explosion-small.mp3", Sound.class);
+        mgr.load("audio/explosion-final.mp3", Sound.class);
+
 
         if (loading == Loading.SYNC) {
             mgr.finishLoading();
@@ -243,6 +253,11 @@ public class Assets implements Disposable {
         explosionAnimation = new Animation<TextureRegion>(.1f, explosion, Animation.PlayMode.REVERSED);
 
         ninePatch = new NinePatch(atlas.findRegion("ninepatch-screws"), 6, 6, 6, 6);
+
+        laserSound = mgr.get("audio/laser-shot.mp3", Sound.class);
+        explosionSmall = mgr.get("audio/explosion-small.mp3", Sound.class);
+        explosionBig = mgr.get("audio/explosion-final.mp3", Sound.class);
+
 
         // Initialize distance field font
         font = mgr.get(distanceFieldFontAsset);

@@ -19,13 +19,16 @@ import java.util.HashMap;
 
 public class Audio implements Disposable {
 
-    public static final float MUSIC_VOLUME = 1f;
+    public static final float MUSIC_VOLUME = .6f;
     public static final boolean shutUpYourFace = false;
     public static final boolean shutUpYourTunes = false;
 
     public enum Sounds {
         dog_bork,
-        cat_meow
+        cat_meow,
+        laser_shot,
+        explosion_small,
+        explosion_final
     }
 
     public enum Musics {
@@ -55,6 +58,9 @@ public class Audio implements Disposable {
         this.game = game;
         putSound(Sounds.dog_bork, Gdx.audio.newSound(Gdx.files.internal("audio/dog.mp3")));
         putSound(Sounds.cat_meow, Gdx.audio.newSound(Gdx.files.internal("audio/cat.mp3")));
+        putSound(Sounds.laser_shot, game.assets.laserSound);
+        putSound(Sounds.explosion_small, game.assets.explosionSmall);
+        putSound(Sounds.explosion_final, game.assets.explosionBig);
 
         musics.put(Musics.RockHardyWithMaster, Gdx.audio.newMusic(Gdx.files.internal("audio/RockHardyWithMaster.mp3")));
         musics.put(Musics.SpaceAmbWithMaster, Gdx.audio.newMusic(Gdx.files.internal("audio/SpaceAmbWithMaster.mp3")));

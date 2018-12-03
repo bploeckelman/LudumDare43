@@ -23,9 +23,10 @@ public class TitleScreen extends BaseScreen {
     public TitleScreen(LudumDare43 game, Assets assets) {
         super(game, assets);
 
-        this.pilotSelectUI = new PilotSelectUI(assets);
+        this.pilotSelectUI = new PilotSelectUI(this);
         this.mousePos = new Vector3();
         this.texturePointer = assets.pointer;
+        audio.playMusic(Audio.Musics.SpaceAmbWithMaster);
 
         Gdx.input.setInputProcessor(this);
         Gdx.input.setCursorPosition((int) (hudCamera.viewportWidth / 2f), (int) (hudCamera.viewportHeight / 2f));
@@ -50,7 +51,6 @@ public class TitleScreen extends BaseScreen {
         pilotSelectUI.update(dt);
 
         if (Gdx.input.justTouched() && !pilotSelectUI.isVisible()) {
-            audio.playMusic(Audio.Musics.SpaceAmbWithMaster);
             pilotSelectUI.reset(this).show();
         }
     }

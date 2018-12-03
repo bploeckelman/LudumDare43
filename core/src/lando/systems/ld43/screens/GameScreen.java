@@ -68,7 +68,7 @@ public class GameScreen extends BaseScreen {
 
     public GameScreen(LudumDare43 game, Assets assets, Pilot.Type pilotType) {
         super(game, assets);
-        levelIndex = 0;
+        levelIndex = 4;
         tempVec2 = new Vector2();
         mousePos = new Vector3();
         Vector2 startPosition = new Vector2(40, worldCamera.viewportHeight/2);
@@ -95,7 +95,7 @@ public class GameScreen extends BaseScreen {
 
         this.boss = null;
         nextLevel();
-        game.audio.playMusic(Audio.Musics.RockHardyWithMaster);
+        game.audio.playMusic(Audio.Musics.SillySpaceDrumsWithMaster);
     }
 
     @Override
@@ -182,6 +182,7 @@ public class GameScreen extends BaseScreen {
                     if (dist < player.laserLength){
                         player.laserLength = dist;
                         enemyHit = null;
+                        audio.playSound(Audio.Sounds.laser_shot);
                     }
                 }
             }
@@ -190,7 +191,7 @@ public class GameScreen extends BaseScreen {
                 enemyHit.damageIndicator = .3f;
                 if (enemyHit.health <= 0) particleSystem.addExplosion(targetEnemy.position.x + enemyHit.positionOffset.x, targetEnemy.position.y + enemyHit.positionOffset.y, enemyHit.diameter * 5f, enemyHit.diameter* 5f);
                 particleSystem.addLaserHit(player.position.x + player.width/2f + player.laserLength, player.position.y);
-                // TODO: laser particles on hits
+                audio.playSound(Audio.Sounds.laser_shot);
             }
         }
 
@@ -421,6 +422,7 @@ public class GameScreen extends BaseScreen {
                             @Override
                             public void onEvent(int i, BaseTween<?> baseTween) {
                                 particleSystem.addExplosion(boss.position.x, boss.position.y, boss.width, boss.height);
+                                audio.playSound(Audio.Sounds.explosion_small);
                                 sacrificedShip = null;
                                 boss.destroyed = true;
                                 PlayerShip.MAX_SPEED = 1000;
@@ -481,6 +483,7 @@ public class GameScreen extends BaseScreen {
                         .setCallback(new TweenCallback() {
                             @Override
                             public void onEvent(int i, BaseTween<?> baseTween) {
+                                audio.playSound(Audio.Sounds.explosion_final);
                                 finalStage = FinalStage.fireLaser;
                             }
                         })
@@ -532,6 +535,7 @@ public class GameScreen extends BaseScreen {
                                 finalBossRadius = null;
                                 finalBossDir = null;
                                 player.hide = true;
+                                audio.playSound(Audio.Sounds.explosion_final);
                                 shaker.addDamage(1f);
                                 finalStage = FinalStage.finalExplosion;
                                 Tween.call(new TweenCallback() {
