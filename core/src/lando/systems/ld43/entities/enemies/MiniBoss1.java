@@ -39,5 +39,6 @@ public class MiniBoss1 extends Enemy {
         batch.setColor(damageColor);
         batch.draw(assets.whitePixel, position.x - width/2, position.y - height/2, width, height);
         batch.setColor(Color.WHITE);
+        super.render(batch);
     }
 }

@@ -255,7 +255,6 @@ public class GameScreen extends BaseScreen {
 
             for (Enemy enemy : enemies){
                 enemy.render(batch);
-                enemy.renderTarget(batch);
             }
 
             player.renderLaser(batch);

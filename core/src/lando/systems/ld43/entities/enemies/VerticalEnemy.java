@@ -1,5 +1,6 @@
 package lando.systems.ld43.entities.enemies;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import lando.systems.ld43.entities.Bullet;
@@ -48,6 +49,8 @@ public class VerticalEnemy extends Enemy {
 
     @Override
     public void render(SpriteBatch batch){
-        batch.draw(assets.whitePixel, position.x - width/2, position.y - height/2, width, height);
+        batch.setColor(damageColor);
+        batch.draw(assets.shipEnemy, position.x - width/2, position.y - height/2, width, height);
+        batch.setColor(Color.WHITE);
     }
 }

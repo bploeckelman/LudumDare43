@@ -35,8 +35,8 @@ public class Enemy {
     public Enemy(GameScreen gameScreen){
         this.gameScreen = gameScreen;
         this.assets = gameScreen.assets;
-        this.height = 20;
-        this.width = 20;
+        this.height = 40;
+        this.width = 40;
         this.position = new Vector2();
         this.alive = true;
         this.damageIndicator = 0;
@@ -85,10 +85,10 @@ public class Enemy {
 
     public void render(SpriteBatch batch){
         // Implement specific render in derived classes
+        renderTarget(batch);
     }
 
     public void renderTarget(SpriteBatch batch){
-
         for (TargetPoint targetPoint : targetPoints) {
             batch.setColor(1f, targetPoint.damageIndicator/damageIndicatorLength, targetPoint.damageIndicator/damageIndicatorLength, 1f);
             batch.draw(assets.whiteCircle,

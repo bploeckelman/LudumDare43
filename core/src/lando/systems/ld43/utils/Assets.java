@@ -81,6 +81,7 @@ public class Assets implements Disposable {
     public TextureRegion powerUpCooldown;
     public TextureRegion powerUpShield;
     public TextureRegion powerUpSpeed;
+    public TextureRegion shipEnemy;
     public TextureRegion pointer;
 
     public Animation<TextureRegion> animationShield;
@@ -183,6 +184,7 @@ public class Assets implements Disposable {
         powerUpCooldown = atlas.findRegion("powerup-cooldown");
         powerUpShield = atlas.findRegion("powerup-shield");
         powerUpSpeed = atlas.findRegion("powerup-speed");
+        shipEnemy = atlas.findRegion("ship-enemy1");
         pointer = atlas.findRegion("pointer");
 
         titleTexture = mgr.get(titleTextureAsset);
