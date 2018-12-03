@@ -54,7 +54,7 @@ public class DialogUI extends UserInterface {
     private boolean typing;
     private boolean transitioning;
 
-    public DialogUI(Assets assets) {
+    public DialogUI(Assets assets, GameScreen screen) {
         super(assets);
 
         this.border = assets.ninePatch;
@@ -69,6 +69,11 @@ public class DialogUI extends UserInterface {
         this.transitioning = false;
         this.json = new Json();
         this.json.addClassTag("Dialog", Dialog.class);
+        this.screen = screen;
+        scale.setValue(minScale);
+        Tween.to(scale, -1, 0.33f)
+                .target(maxScale).repeatYoyo(-1, 0f)
+                .start(screen.tween);
     }
 
     public DialogUI reset(GameScreen screen, String dialogFile) {
@@ -84,11 +89,6 @@ public class DialogUI extends UserInterface {
         this.bounds.set(screen.hudCamera.viewportWidth / 2f, screen.hudCamera.viewportHeight / 2f, 0f, 0f);
         this.typing = false;
         this.transitioning = false;
-
-        scale.setValue(minScale);
-        Tween.to(scale, -1, 0.33f)
-             .target(maxScale).repeatYoyo(-1, 0f)
-             .start(screen.tween);
 
         dialogs.clear();
         dialogs = json.fromJson(ArrayList.class, Gdx.files.internal("dialog/" + dialogFile));
@@ -155,6 +155,8 @@ public class DialogUI extends UserInterface {
         if (screen == null) return;
 
         if (transitioning) return;
+
+        if (currentDialog == -1) return;
 
         // update type timer
         int lastLetter = dialogs.get(currentDialog).text.length();
@@ -316,7 +318,6 @@ public class DialogUI extends UserInterface {
                                         bounds.x + bounds.width - 3f * margin - iconW - textWidth,
                                         bounds.y + bounds.height / 2f + layout.height / 2f);
             }
-
             if (!typing) {
                 float mouseW = 18f;
                 float mouseH = 22f;

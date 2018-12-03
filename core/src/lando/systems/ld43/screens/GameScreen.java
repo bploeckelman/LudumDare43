@@ -86,7 +86,7 @@ public class GameScreen extends BaseScreen {
 
         this.particleSystem = new ParticleSystem(assets);
         this.equipmentUI = new EquipmentUI(assets);
-        this.dialogUI = new DialogUI(assets);
+        this.dialogUI = new DialogUI(assets, this);
         this.scoreUI = new ScoreUI(assets, this);
         this.progressUI = new ProgressUI(assets);
         this.progressUI.reset(this, player).show();
