@@ -27,6 +27,7 @@ import lando.systems.ld43.utils.Assets;
 public class EquipmentUI extends UserInterface {
 
     private static final float margin = 10f;
+    private static final float y_margin = 100f;
 
     private GameScreen screen;
     private NinePatch border;
@@ -88,10 +89,10 @@ public class EquipmentUI extends UserInterface {
         int equipmentRows = Math.round(equipmentCount / 2f);
         int equipmentCols = 2;
         float width = (boundsEquipment.width / equipmentCols) - ((equipmentCols + 1f) / equipmentCols) * margin; // 2 columns
-        float height = (boundsEquipment.height / equipmentRows) - ((equipmentRows + 1f) / equipmentRows) * margin; // N rows
+        float height = (boundsEquipment.height / equipmentRows) - ((equipmentRows + 1f) / equipmentRows) * y_margin; // N rows
         float equipmentSize = Math.min(width, height);
         float x = boundsEquipment.x + margin;
-        float y = boundsEquipment.y + boundsEquipment.height - margin - equipmentSize;
+        float y = boundsEquipment.y + boundsEquipment.height -  y_margin - equipmentSize;
         int i = 0;
         for (Equipment equipment : equipments) {
             equipment.available = false;
@@ -102,7 +103,7 @@ public class EquipmentUI extends UserInterface {
             i++;
             if (i % 2 == 0) {
                 x = boundsEquipment.x + margin;
-                y -= equipmentSize + margin;
+                y -= equipmentSize + y_margin;
             } else {
                 x += boundsEquipment.width - ((equipmentCols - 1f) * equipmentSize) - (2f * margin);
             }
@@ -268,8 +269,8 @@ public class EquipmentUI extends UserInterface {
             Equipment equipment = typeEquipmentMap.get(selectedEquipmentType);
             TextureRegion shot = equipment.getShot(assets);
             float iconY = nameY - layout.height - equipment.bounds.height - 2f * margin;
-            batch.draw(shot, boundsDescription.x + boundsDescription.width / 2f - equipment.bounds.width / 2f,
-                       iconY, equipment.bounds.width, equipment.bounds.height);
+            batch.draw(shot, boundsDescription.x + boundsDescription.width / 2f - equipment.bounds.width / 4f,
+                       iconY, equipment.bounds.width / 2f, equipment.bounds.height / 2f);
 
             // draw equipment description
             layout.setText(assets.fontPixel16, selectedEquipmentType.description, Color.DARK_GRAY, boundsDescription.width - 4f * margin, Align.center, true);
