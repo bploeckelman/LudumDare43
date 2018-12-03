@@ -68,6 +68,14 @@ public class Assets implements Disposable {
     public TextureRegion satelliteSpreadShip;
     public TextureRegion laser;
     public TextureRegion laserContinue;
+    public TextureRegion droneFire;
+    public TextureRegion droneLaser;
+    public TextureRegion droneMissile;
+    public TextureRegion droneSpread;
+    public TextureRegion shotFire;
+    public TextureRegion shotLaser;
+    public TextureRegion shotMissile;
+    public TextureRegion shotSpread;
     public TextureRegion powerUpHealth;
     public TextureRegion powerUpCooldown;
     public TextureRegion powerUpShield;
@@ -75,9 +83,6 @@ public class Assets implements Disposable {
     public TextureRegion pointer;
 
     public Animation<TextureRegion> animationShield;
-//    public Animation<TextureRegion> animationPlayer;
-//    public Animation<TextureRegion> animationPlayerUp;
-//    public Animation<TextureRegion> animationPlayerDown;
     public Animation<TextureRegion> talkingCatAnimation;
     public Animation<TextureRegion> talkingDogAnimation;
     public Animation<TextureRegion> badLogicAnimation;
@@ -164,6 +169,14 @@ public class Assets implements Disposable {
         satelliteSpreadShip = atlas.findRegion("satellite_spread");
         laser = atlas.findRegion("laser");
         laserContinue = atlas.findRegion("laser-continue");
+        droneFire = atlas.findRegion("drone-fire");
+        droneLaser = atlas.findRegion("drone-laser");
+        droneMissile = atlas.findRegion("drone-missile");
+        droneSpread = atlas.findRegion("drone-spread");
+        shotFire = atlas.findRegion("shot-fire");
+        shotLaser = atlas.findRegion("shot-laser");
+        shotMissile = atlas.findRegion("shot-missile");
+        shotSpread = atlas.findRegion("shot-spread");
         powerUpHealth = atlas.findRegion("powerup-health");
         powerUpCooldown = atlas.findRegion("powerup-cooldown");
         powerUpShield = atlas.findRegion("powerup-shield");

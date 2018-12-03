@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import lando.systems.ld43.accessors.RectangleAccessor;
+import lando.systems.ld43.entities.Equipment;
 import lando.systems.ld43.entities.PlayerShip;
 import lando.systems.ld43.entities.SatelliteShip;
 import lando.systems.ld43.screens.GameScreen;
@@ -27,44 +28,19 @@ public class EquipmentUI extends UserInterface {
 
     private static final float margin = 10f;
 
-    private class Equipment {
-        public SatelliteShip.EShipTypes type;
-        public Rectangle bounds;
-        public Rectangle boundsInitial;
-        public Rectangle boundsFinal;
-        public boolean available;
-
-        public Equipment(SatelliteShip.EShipTypes equipmentType) {
-            this.type = equipmentType;
-            this.bounds = new Rectangle();
-            this.boundsInitial = new Rectangle();
-            this.boundsFinal = new Rectangle();
-            this.available = true;
-        }
-
-        public TextureRegion getIcon(Assets assets) {
-            switch (type) {
-                case STRAIGHT_SHOT: return assets.redBullet;
-                case QUICK_SHOT: return assets.satelliteLaserBullet;
-                case SPREAD_SHOT: return assets.spreadBullet;
-                default: return assets.testTexture;
-            }
-        }
-    }
-
     private GameScreen screen;
     private NinePatch border;
     private Rectangle boundsEquipment;
     private Rectangle boundsDescription;
     private Rectangle boundsAcceptButton;
     private Array<Equipment> equipments;
-    private ObjectMap<SatelliteShip.EShipTypes, Equipment> typeEquipmentMap;
+    private ObjectMap<Equipment.Type, Equipment> typeEquipmentMap;
     private boolean transitionComplete;
     private boolean acceptButtonActive;
     private Vector3 mousePos;
     private TextureRegion texturePointer;
 
-    public SatelliteShip.EShipTypes selectedEquipmentType;
+    public Equipment.Type selectedEquipmentType;
 
     public EquipmentUI(Assets assets) {
         super(assets);
@@ -74,8 +50,8 @@ public class EquipmentUI extends UserInterface {
         this.boundsDescription = new Rectangle();
         this.boundsAcceptButton = new Rectangle();
         this.equipments = new Array<Equipment>();
-        this.typeEquipmentMap = new ObjectMap<SatelliteShip.EShipTypes, Equipment>();
-        for (SatelliteShip.EShipTypes type : SatelliteShip.EShipTypes.values()) {
+        this.typeEquipmentMap = new ObjectMap<Equipment.Type, Equipment>();
+        for (Equipment.Type type : Equipment.Type.values()) {
             Equipment equipment = new Equipment(type);
             this.equipments.add(equipment);
             this.typeEquipmentMap.put(type, equipment);
@@ -135,7 +111,7 @@ public class EquipmentUI extends UserInterface {
         // Set equipment availability based on player ship
         PlayerShip ship = screen.player;
         for (SatelliteShip satelliteShip : ship.playerShips) {
-            typeEquipmentMap.get(satelliteShip.shipType).available = true;
+            typeEquipmentMap.get(satelliteShip.equipmentType).available = true;
         }
 
         return this;
@@ -290,9 +266,9 @@ public class EquipmentUI extends UserInterface {
 
             // draw equipment icon
             Equipment equipment = typeEquipmentMap.get(selectedEquipmentType);
-            TextureRegion icon = equipment.getIcon(assets);
+            TextureRegion shot = equipment.getShot(assets);
             float iconY = nameY - layout.height - equipment.bounds.height - 2f * margin;
-            batch.draw(icon, boundsDescription.x + boundsDescription.width / 2f - equipment.bounds.width / 2f,
+            batch.draw(shot, boundsDescription.x + boundsDescription.width / 2f - equipment.bounds.width / 2f,
                        iconY, equipment.bounds.width, equipment.bounds.height);
 
             // draw equipment description

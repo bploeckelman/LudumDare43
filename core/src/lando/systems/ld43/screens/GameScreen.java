@@ -323,7 +323,7 @@ public class GameScreen extends BaseScreen {
             showingEndTween = true;
             for (int i = player.playerShips.size -1; i >= 0; i--){
                 SatelliteShip ship = player.playerShips.get(i);
-                if (ship.shipType != equipmentUI.selectedEquipmentType) continue;
+                if (ship.equipmentType != equipmentUI.selectedEquipmentType) continue;
                 sacrificedShip = player.playerShips.removeIndex(i);
                 player.resetSatelliteLayout();
                 Timeline.createSequence()
