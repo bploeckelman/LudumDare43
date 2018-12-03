@@ -179,10 +179,10 @@ public class PlayerShip {
             targetPoint.damageIndicator = damageIndicatorLength;
             targetPoint.health -= b.damage;
             if (targetPoint.health <= 0){
-                replenishHealth();
                 gameScreen.clearAllBullets();
                 gameScreen.scoreUI.resetScore();
                 gameScreen.dialogUI.reset(this.gameScreen, "youdied.json").show();
+                replenishHealth();
             }
         }
     }

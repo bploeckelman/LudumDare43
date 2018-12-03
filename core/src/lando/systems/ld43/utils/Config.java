@@ -11,4 +11,6 @@ public class Config {
 
     public static final Color clear_color = new Color(0f, 0f, 0f, 1f);
     public static final Color end_screen_text_color = new Color(125f, 125f, 0f, 1f);
+    public static final Color laser_color = new Color(32/255f, 160/255f, 248/255f, 1f);
+
 }
