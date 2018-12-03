@@ -49,7 +49,7 @@ public class VerticalEnemy extends Enemy {
     public void render(SpriteBatch batch){
         float dmgPercent = targetPoints.get(0).health / targetPoints.get(0).maxHealth;
         batch.setColor(1f, dmgPercent, dmgPercent, 1f);
-        batch.draw(assets.shipEnemyPlane, position.x - width/2, position.y - height/2, width, height);
+        batch.draw(assets.shipEnemyCube, position.x - width/2, position.y - height/2, width, height);
         batch.setColor(Color.WHITE);
     }
 }
