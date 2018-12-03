@@ -27,7 +27,7 @@ public class ScoreUI extends UserInterface {
     }
 
     public void render(SpriteBatch batch) {
-        UserInterface.drawText(assets, batch, String.format("Score: %d", score), 25f, Config.window_height - 25f, Color.WHITE, 0.5f);
+        UserInterface.drawText(assets, batch, "Score: " + score, 25f, Config.window_height - 25f, Color.WHITE, 0.5f);
     }
 
     public void resetScore() {
