@@ -23,12 +23,12 @@ public class Pilot {
 
         switch (type) {
             case cat: {
-                this.textureFull = assets.atlas.findRegion("cat-full");
+                this.textureFull = assets.atlas.findRegion("cat-spacesuit");
                 this.textureHead = assets.atlas.findRegion("cat-head");
                 this.textureAnimation = assets.talkingCatAnimation;
             } break;
             case dog: {
-                this.textureFull = assets.atlas.findRegion("dog-full");
+                this.textureFull = assets.atlas.findRegion("dog-spacesuit");
                 this.textureHead = assets.atlas.findRegion("dog-head");
                 this.textureAnimation = assets.talkingDogAnimation;
 
