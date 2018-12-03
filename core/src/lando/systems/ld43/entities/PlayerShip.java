@@ -15,6 +15,7 @@ import lando.systems.ld43.utils.Assets;
 
 public class PlayerShip {
 
+    public static int DEATH_SCORE_REDUCTION = 10000;
     public static float MAX_SHIELD_TIME = 8f;
     public static float MAX_FAST_WEAPONS_TIME = 4f;
     public static float MAX_LASER_TIME = 5f;
@@ -201,7 +202,7 @@ public class PlayerShip {
             targetPoint.health -= b.damage;
             if (targetPoint.health <= 0){
                 gameScreen.clearAllBullets();
-                gameScreen.scoreUI.resetScore();
+                gameScreen.scoreUI.subScore(PlayerShip.DEATH_SCORE_REDUCTION);
                 gameScreen.dialogUI.reset(this.gameScreen, "youdied.json").show();
                 replenishHealth();
             }
