@@ -19,8 +19,7 @@ public class PowerUpCooldown extends PowerUp {
     }
 
     public void apply(PlayerShip player) {
-//        // TODO: where is player beam cooldown?
-//        player.cooldown = 0f;
+        player.replenishLaser();
     }
 
 }

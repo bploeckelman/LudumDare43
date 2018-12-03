@@ -19,7 +19,7 @@ public class PowerUpSpeed extends PowerUp {
     }
 
     public void apply(PlayerShip player) {
-        // TODO: ...
+        player.weaponsToMaximum();
     }
 
 }

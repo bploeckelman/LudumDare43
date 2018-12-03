@@ -1,24 +1,25 @@
 package lando.systems.ld43.entities;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.ld43.entities.enemies.TargetPoint;
 import lando.systems.ld43.screens.GameScreen;
-import lando.systems.ld43.ui.DialogUI;
 import lando.systems.ld43.utils.Assets;
 
 public class PlayerShip {
 
+    public static float MAX_SHIELD_TIME = 8f;
+    public static float MAX_FAST_WEAPONS_TIME = 4f;
     public static float MAX_LASER_TIME = 5f;
     public static float LASER_COOLDOWN = 3f;
     public static float MAX_HEALTH = 4;
+
     public Vector2 position;
     public float width;
     public float height;
@@ -41,6 +42,14 @@ public class PlayerShip {
     public float laserLength;
     public float laserWidth;
 
+    private boolean shieldOn;
+    private float shieldTimer;
+    private float shieldAnimTime;
+    private TextureRegion shieldKeyframe;
+
+    private boolean fastWeaponsOn;
+    private float fastWeaponsTimer;
+
     public PlayerShip(GameScreen gameScreen, Vector2 position, Pilot.Type pilotType) {
         this.gameScreen = gameScreen;
         this.assets = gameScreen.assets;
@@ -59,9 +68,33 @@ public class PlayerShip {
         this.laserOn = false;
         this.laserLength = 0;
         this.laserWidth = 20;
+        this.shieldOn = false;
+        this.shieldTimer = 0f;
+        this.shieldAnimTime = 0f;
+        this.shieldKeyframe = assets.animationShield.getKeyFrame(0f);
+        this.fastWeaponsOn = false;
+        this.fastWeaponsTimer = 0f;
     }
 
     public void update(float dt, Vector2 mousePos) {
+        if (shieldOn) {
+            shieldTimer -= dt;
+            if (shieldTimer < 0f) {
+                shieldOn = false;
+            }
+
+            shieldAnimTime += dt;
+            shieldKeyframe = assets.animationShield.getKeyFrame(shieldAnimTime);
+        }
+
+        if (fastWeaponsOn) {
+            fastWeaponsTimer -= dt;
+            if (fastWeaponsTimer < 0f) {
+                fastWeaponsTimer = 0f;
+                fastWeaponsOn = false;
+            }
+        }
+
         if (Gdx.input.isTouched() && laserCooldown <= 0){
             laserOn = true;
             laserCharge += dt;
@@ -72,6 +105,7 @@ public class PlayerShip {
             laserOn = false;
             laserCharge = Math.max(laserCharge - 2f * dt, 0);
         }
+
         laserCooldown = Math.max(laserCooldown - dt, 0f);
         damageIndicator = Math.max(damageIndicator - dt, 0);
         targetPoint.damageIndicator = Math.max(targetPoint.damageIndicator - dt, 0);
@@ -81,11 +115,13 @@ public class PlayerShip {
                                         position.y + targetPoint.positionOffset.y - targetPoint.diameter/2f,
                                            targetPoint.diameter, targetPoint.diameter);
         for (SatelliteShip satShip: playerShips) {
-            satShip.update(dt);
+            satShip.update(dt, fastWeaponsOn);
         }
     }
 
     public void checkBulletCollision(Bullet b){
+        if (shieldOn) return;
+
         // Circle intersection
         if (damageIndicator <= 0 && b.position.dst(position.x + targetPoint.positionOffset.x, position.y + targetPoint.positionOffset.y) < b.collisionRadius/2f + targetPoint.diameter /2f) {
             b.isAlive = false;
@@ -93,17 +129,13 @@ public class PlayerShip {
             targetPoint.damageIndicator = damageIndicatorLength;
             targetPoint.health -= b.damage;
             if (targetPoint.health <= 0){
-                Gdx.app.log("Player", "Player died");
-                // TODO show a "This is LD screen"
-                // TODO: remove me, just testing for now
-                targetPoint.health = MAX_HEALTH;
+                replenishHealth();
                 gameScreen.clearAllBullets();
                 gameScreen.scoreUI.resetScore();
                 gameScreen.dialogUI.reset(this.gameScreen, "youdied.json").show();
             }
         }
     }
-
 
     public void render(SpriteBatch batch) {
         batch.setColor(damageColor);
@@ -115,6 +147,9 @@ public class PlayerShip {
                 targetPoint.diameter,
                 targetPoint.diameter);
         batch.setColor(Color.WHITE);
+        if (shieldOn) {
+            batch.draw(shieldKeyframe, position.x - width / 2f, position.y - height / 2f, width, height);
+        }
         for (SatelliteShip satShip: playerShips) {
             satShip.render(batch);
         }
@@ -136,6 +171,11 @@ public class PlayerShip {
         targetPoint.health = MAX_HEALTH;
     }
 
+    public void replenishLaser() {
+        laserCharge = 0f;
+        laserCooldown = 0f;
+    }
+
     public float getLaserChargePercent() {
         return laserCharge / MAX_LASER_TIME;
     }
@@ -143,4 +183,17 @@ public class PlayerShip {
     public float getLaserCooldownPercent() {
         return laserCooldown / LASER_COOLDOWN;
     }
+
+    public void shieldsToMaximum() {
+        shieldOn = true;
+        shieldTimer = MAX_SHIELD_TIME;
+        shieldAnimTime = 0f;
+        shieldKeyframe = assets.animationShield.getKeyFrame(shieldAnimTime);
+    }
+
+    public void weaponsToMaximum() {
+        fastWeaponsOn = true;
+        fastWeaponsTimer = MAX_FAST_WEAPONS_TIME;
+    }
+
 }

@@ -19,7 +19,7 @@ public class PowerUpShield extends PowerUp {
     }
 
     public void apply(PlayerShip player) {
-        // TODO: ...
+        player.shieldsToMaximum();
     }
 
 }

@@ -22,6 +22,8 @@ import lando.systems.ld43.entities.enemies.Enemy;
 import lando.systems.ld43.entities.enemies.TargetPoint;
 import lando.systems.ld43.entities.powerups.PowerUp;
 import lando.systems.ld43.entities.powerups.PowerUpHealth;
+import lando.systems.ld43.entities.powerups.PowerUpShield;
+import lando.systems.ld43.entities.powerups.PowerUpSpeed;
 import lando.systems.ld43.level.Level;
 import lando.systems.ld43.ui.*;
 import lando.systems.ld43.utils.*;
@@ -191,9 +193,7 @@ public class GameScreen extends BaseScreen {
 
                 // Chance to spawn powerup
                 if (MathUtils.randomBoolean(0.2f)) {
-                    powerUps.add(new PowerUpHealth(assets, e.position.x, e.position.y, -background.speed.floatValue(), 0f));
-                    // TODO: switch back to random once all textures are in
-//                    powerUps.add(PowerUp.createRandom(assets, e.position.x, e.position.y, -background.speed.floatValue(), 0f));
+                    powerUps.add(PowerUp.createRandom(assets, e.position.x, e.position.y, -background.speed.floatValue(), 0f));
                 }
             }
         }

@@ -19,8 +19,7 @@ public class PowerUpHealth extends PowerUp {
     }
 
     public void apply(PlayerShip player) {
-        // TODO: where is player health?
-//        player.health = 100f;
+        player.replenishHealth();
     }
 
 }

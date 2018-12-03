@@ -73,7 +73,7 @@ public class Assets implements Disposable {
     public TextureRegion powerUpShield;
     public TextureRegion powerUpSpeed;
 
-//    public Animation<TextureRegion> animationShield;
+    public Animation<TextureRegion> animationShield;
 //    public Animation<TextureRegion> animationPlayer;
 //    public Animation<TextureRegion> animationPlayerUp;
 //    public Animation<TextureRegion> animationPlayerDown;
@@ -160,15 +160,15 @@ public class Assets implements Disposable {
         laser = atlas.findRegion("laser");
         laserContinue = atlas.findRegion("laser-continue");
         powerUpHealth = atlas.findRegion("powerup-health");
-        powerUpCooldown = atlas.findRegion("badlogic");
-        powerUpShield = atlas.findRegion("badlogic");
-        powerUpSpeed = atlas.findRegion("badlogic");
+        powerUpCooldown = atlas.findRegion("powerup-cooldown");
+        powerUpShield = atlas.findRegion("powerup-shield");
+        powerUpSpeed = atlas.findRegion("powerup-speed");
 
         titleTexture = mgr.get(titleTextureAsset);
         pixelTexture = mgr.get(pixelTextureAsset);
 
-//        Array<TextureAtlas.AtlasRegion> animationTextures = atlas.findRegions("animation...");
-//        animation = new Animation<TextureRegion>(0.1f, animationTextures, Animation.PlayMode.LOOP_PINGPONG);
+        Array<TextureAtlas.AtlasRegion> animationShieldTextures = atlas.findRegions("shield");
+        animationShield = new Animation<TextureRegion>(0.1f, animationShieldTextures, Animation.PlayMode.LOOP);
 
         ninePatch = new NinePatch(atlas.findRegion("ninepatch-screws"), 6, 6, 6, 6);
 

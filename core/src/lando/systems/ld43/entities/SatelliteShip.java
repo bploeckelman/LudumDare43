@@ -81,7 +81,7 @@ public class SatelliteShip {
         this.targetPoint.collisionBounds.set(position.x, position.y, targetPoint.diameter, targetPoint.diameter);
     }
 
-    public void update(float dt) {
+    public void update(float dt, boolean fastWeapons) {
         damageIndicator = Math.max(damageIndicator - dt, 0);
         targetPoint.damageIndicator = Math.max(targetPoint.damageIndicator - dt, 0);
         driftAccum += MathUtils.random(dt);
@@ -100,7 +100,7 @@ public class SatelliteShip {
             damageColor.set(.3f,.3f,.3f,1f);
         } else {
             damageColor.set(Color.WHITE);
-            shootDelay -= dt;
+            shootDelay -= dt * (fastWeapons ? 4f : 1f);
         }
 
         if (shootDelay <= 0){
