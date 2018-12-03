@@ -36,7 +36,7 @@ public class DialogUI extends UserInterface {
     private Json json;
     private Pilot pilot;
     // TODO: enemy(s)?
-    private TextureRegion pilotKeyFrame;
+    private TextureRegion keyFrame;
     private Discourser system;
     private Discourser boss1;
     private Discourser boss2;
@@ -153,8 +153,6 @@ public class DialogUI extends UserInterface {
         if (typing) {
             typingTimer += dt;
             animationTimer += dt;
-            pilotKeyFrame = pilot.textureAnimation.getKeyFrame(animationTimer);
-
             if (typingTimer > threshold) {
                 typingTimer -= threshold;
                 typingIndex++;
@@ -199,7 +197,8 @@ public class DialogUI extends UserInterface {
             float iconH = 64f;
             if (dialog.speaker == Speaker.player) {
                 if (typing) {
-                    batch.draw(pilotKeyFrame, bounds.x + margin, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
+                    keyFrame = pilot.textureAnimation.getKeyFrame(animationTimer);
+                    batch.draw(keyFrame, bounds.x + margin, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
                 } else {
                     batch.draw(pilot.textureAnimation.getKeyFrame(0), bounds.x + margin, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
                 }
@@ -210,8 +209,12 @@ public class DialogUI extends UserInterface {
                                         bounds.y + bounds.height / 2f + layout.height / 2f);
             }
             else if (dialog.speaker == Speaker.system) {
-                batch.draw(system.textureHead, bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
-
+                if (typing) {
+                    keyFrame = system.textureAnimation.getKeyFrame(animationTimer);
+                    batch.draw(keyFrame, bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
+                } else {
+                    batch.draw(system.textureAnimation.getKeyFrame(0), bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
+                }
                 float textWidth = bounds.width - iconW - 3f * margin;
                 layout.setText(assets.fontPixel16, dialog.text.substring(0, typingIndex), Color.LIGHT_GRAY, textWidth, Align.right, true);
                 assets.fontPixel16.draw(batch, layout,
@@ -219,8 +222,12 @@ public class DialogUI extends UserInterface {
                         bounds.y + bounds.height / 2f + layout.height / 2f);
             }
             else if (dialog.speaker == Speaker.boss1) {
-                batch.draw(boss1.textureHead, bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
-
+                if (typing) {
+                    keyFrame = boss1.textureAnimation.getKeyFrame(animationTimer);
+                    batch.draw(keyFrame, bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
+                } else {
+                    batch.draw(boss1.textureAnimation.getKeyFrame(0), bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
+                }
                 float textWidth = bounds.width - iconW - 3f * margin;
                 layout.setText(assets.fontPixel16, dialog.text.substring(0, typingIndex), Color.LIGHT_GRAY, textWidth, Align.right, true);
                 assets.fontPixel16.draw(batch, layout,
@@ -228,8 +235,12 @@ public class DialogUI extends UserInterface {
                         bounds.y + bounds.height / 2f + layout.height / 2f);
             }
             else if (dialog.speaker == Speaker.boss2) {
-                batch.draw(boss2.textureHead, bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
-
+                if (typing) {
+                    keyFrame = boss2.textureAnimation.getKeyFrame(animationTimer);
+                    batch.draw(keyFrame, bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
+                } else {
+                    batch.draw(boss2.textureAnimation.getKeyFrame(0), bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
+                }
                 float textWidth = bounds.width - iconW - 3f * margin;
                 layout.setText(assets.fontPixel16, dialog.text.substring(0, typingIndex), Color.LIGHT_GRAY, textWidth, Align.right, true);
                 assets.fontPixel16.draw(batch, layout,
