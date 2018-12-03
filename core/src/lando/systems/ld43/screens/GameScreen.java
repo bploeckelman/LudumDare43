@@ -207,7 +207,7 @@ public class GameScreen extends BaseScreen {
                 enemies.remove(i);
 
                 // TODO: change score scale based on enemy type
-                scoreUI.addScore(1);
+                scoreUI.addScore(e.pointWorth);
 
                 // TODO: create explosion
 

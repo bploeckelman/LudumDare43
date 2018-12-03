@@ -13,6 +13,7 @@ public class VerticalTrailingEnemy extends Enemy {
         super(gameScreen);
         position.set(x, y);
         this.playerPosition = gameScreen.player.position;
+        this.pointWorth = 3000;
     }
 
     @Override

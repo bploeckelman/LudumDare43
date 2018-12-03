@@ -16,6 +16,7 @@ public class Enemy {
     public float height;
     public Vector2 position;
     public boolean alive;
+    public int pointWorth;
     public float damageIndicator;
     public float damageIndicatorLength = .3f;
     public Color damageColor;
@@ -43,6 +44,7 @@ public class Enemy {
         this.targetPoints.add(new TargetPoint(new Vector2(0,0), 10, 4));
         this.damageColor = new Color();
         this.destroyed = false;
+        this.pointWorth = 1000;
     }
 
     public void update(float dt){

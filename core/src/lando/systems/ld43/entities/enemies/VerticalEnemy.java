@@ -12,11 +12,13 @@ public class VerticalEnemy extends Enemy {
     public float direction = -1;
     public float viewportHeight;
     public float shootDelay;
+
     public VerticalEnemy(GameScreen gameScreen, float x, float y) {
         super(gameScreen);
         position.set(x, y);
         this.viewportHeight = Config.window_height;
         shootDelay = 2f;
+        this.pointWorth = 2000;
     }
 
     @Override

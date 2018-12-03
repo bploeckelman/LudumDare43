@@ -10,19 +10,16 @@ import java.util.Random;
 public class BeelineEnemy extends Enemy {
 
     private Vector2 velocity = new Vector2(-50, 0);
-
     private float directionChangeFrequency = .5f;
-
     private float minDirectionChangeAmount = 40f;
     private float maxDirectionChangeAmount = 60f;
-
     private static Random randomNumberGen = new Random();
-
     float directionChangetimer = 0;
 
     public BeelineEnemy(GameScreen gameScreen, float x, float y) {
         super(gameScreen);
         position.set(x, y);
+        this.pointWorth = 5000;
     }
 
     @Override

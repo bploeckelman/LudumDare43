@@ -8,11 +8,11 @@ import lando.systems.ld43.utils.Assets;
 public class DroneEnemy extends Enemy {
 
     private float shootDelay;
-
     public DroneEnemy(GameScreen gameScreen, float x, float y) {
         super(gameScreen);
         position.set(x, y);
         shootDelay = 2f;
+        this.pointWorth = 1000;
     }
 
     @Override
