@@ -36,7 +36,7 @@ public class MiniBoss2 extends Enemy {
             b.init(assets.shotMagenta, position.x, position.y, 400 * tempVec2.x, 400 * tempVec2.y, false, 20, 20, 20, 1);
             gameScreen.aliveBullets.add(b);
             shootCount++;
-            shootDelay += .4f;
+            shootDelay += .1f;
             if (shootCount > 15){
                 shootCount = 0;
                 shootDelay = 1.5f;
@@ -47,15 +47,7 @@ public class MiniBoss2 extends Enemy {
         position.x -= 50 * dt;
         if (position.x < 700) position.x = 700;
 
-        position.y += yDir * dt;
-        if (position.y > 500){
-            yDir *= -1;
-            position.y = 500;
-        }
-        if (position.y < 100){
-            yDir *= -1;
-            position.y = 100;
-        }
+
         super.update(dt);
         if (!alive){
             gameScreen.dialogUI.reset(this.gameScreen, "boss2-fatality.json").show();
