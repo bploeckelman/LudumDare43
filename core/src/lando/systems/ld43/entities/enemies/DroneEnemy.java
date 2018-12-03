@@ -33,7 +33,7 @@ public class DroneEnemy extends Enemy {
     @Override
     public void render(SpriteBatch batch){
         batch.setColor(damageColor);
-        batch.draw(assets.shipEnemy, position.x - width/2, position.y - height/2, width, height);
+        batch.draw(assets.shipEnemy2, position.x - width/2, position.y - height/2, width, height);
         batch.setColor(Color.WHITE);
     }
 }
