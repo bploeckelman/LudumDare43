@@ -11,7 +11,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -59,6 +61,8 @@ public class EquipmentUI extends UserInterface {
     private ObjectMap<SatelliteShip.EShipTypes, Equipment> typeEquipmentMap;
     private boolean transitionComplete;
     private boolean acceptButtonActive;
+    private Vector3 mousePos;
+    private TextureRegion texturePointer;
 
     public SatelliteShip.EShipTypes selectedEquipmentType;
 
@@ -79,6 +83,8 @@ public class EquipmentUI extends UserInterface {
         this.transitionComplete = false;
         this.selectedEquipmentType = null;
         this.acceptButtonActive = false;
+        this.mousePos = new Vector3();
+        this.texturePointer = assets.pointer;
     }
 
     public EquipmentUI reset(GameScreen screen) {
@@ -208,6 +214,13 @@ public class EquipmentUI extends UserInterface {
     public void update(float dt) {
         if (screen == null) return;
 
+        Gdx.input.setCursorPosition(
+                (int) MathUtils.clamp(Gdx.input.getX(), 0, screen.hudCamera.viewportWidth - texturePointer.getRegionWidth()),
+                (int) MathUtils.clamp(Gdx.input.getY(), 0, screen.hudCamera.viewportHeight - texturePointer.getRegionHeight()));
+
+        mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0f);
+        screen.hudCamera.unproject(mousePos);
+
         // don't allow clicks until show() tweens are fully completed
         if (!transitionComplete) return;
 
@@ -296,6 +309,8 @@ public class EquipmentUI extends UserInterface {
         String buttonText = (acceptButtonActive) ? "Sacrifice Equipment" : "Choose Equipment...";
         layout.setText(assets.fontPixel16, buttonText, Color.DARK_GRAY, boundsAcceptButton.width, Align.center, false);
         assets.fontPixel16.draw(batch, layout, boundsAcceptButton.x, boundsAcceptButton.y + boundsAcceptButton.height / 2f + layout.height / 2f);
+
+        batch.draw(texturePointer, mousePos.x, mousePos.y - texturePointer.getRegionHeight());
     }
 
     public boolean isVisibleAndTransitionComplete(){

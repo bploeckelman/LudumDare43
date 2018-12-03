@@ -21,6 +21,7 @@ public class PlayerShip {
     public static float MAX_LASER_TIME = 5f;
     public static float LASER_COOLDOWN = 3f;
     public static float MAX_HEALTH = 4;
+    public static float TEXTURE_CHANGE_EPSILON = 15f;
 
     public Vector2 position;
     public Vector2 targetPosition;
@@ -53,6 +54,11 @@ public class PlayerShip {
     private boolean fastWeaponsOn;
     private float fastWeaponsTimer;
 
+    private TextureRegion textureUp;
+    private TextureRegion textureDown;
+    private TextureRegion textureNormal;
+    private TextureRegion keyframe;
+
     public PlayerShip(GameScreen gameScreen, Vector2 position, Pilot.Type pilotType) {
         this.gameScreen = gameScreen;
         this.assets = gameScreen.assets;
@@ -78,6 +84,10 @@ public class PlayerShip {
         this.fastWeaponsOn = false;
         this.fastWeaponsTimer = 0f;
         this.targetPosition = new Vector2();
+        this.textureUp = assets.atlas.findRegion("ship-up");
+        this.textureDown = assets.atlas.findRegion("ship-down");
+        this.textureNormal = assets.atlas.findRegion("ship");
+        this.keyframe = textureNormal;
         resetSatelliteLayout();
     }
 
@@ -125,6 +135,11 @@ public class PlayerShip {
         laserCooldown = Math.max(laserCooldown - dt, 0f);
         damageIndicator = Math.max(damageIndicator - dt, 0);
         targetPoint.damageIndicator = Math.max(targetPoint.damageIndicator - dt, 0);
+
+        if      (targetPosition.y < position.y - TEXTURE_CHANGE_EPSILON) keyframe = textureDown;
+        else if (targetPosition.y > position.y + TEXTURE_CHANGE_EPSILON) keyframe = textureUp;
+        else                                                             keyframe = textureNormal;
+
         position.lerp(targetPosition, .2f);
         damageColor.set(1f, 1- (damageIndicator/damageIndicatorLength), 1- (damageIndicator/damageIndicatorLength), 1f);
         targetPoint.collisionBounds.set(position.x + targetPoint.positionOffset.x - targetPoint.diameter/2,
@@ -148,7 +163,14 @@ public class PlayerShip {
     }
 
     public void checkBulletCollision(Bullet b){
-        if (shieldOn) return;
+        if (shieldOn) {
+            float distBulletToTarget = b.position.dst(position.x - 5f, position.y);
+            float distanceThreshold = (width + 10f / 2f) + b.collisionRadius;
+            if (distBulletToTarget < distanceThreshold) {
+                b.isAlive = false;
+            }
+            return;
+        }
 
         // Circle intersection
         if (damageIndicator <= 0 && b.position.dst(position.x + targetPoint.positionOffset.x, position.y + targetPoint.positionOffset.y) < b.collisionRadius/2f + targetPoint.diameter /2f) {
@@ -167,16 +189,21 @@ public class PlayerShip {
 
     public void render(SpriteBatch batch) {
         batch.setColor(damageColor);
-        batch.draw(assets.whitePixel, position.x - width/2, position.y - height/2, width, height);
-        batch.setColor(1f, targetPoint.damageIndicator/damageIndicatorLength, targetPoint.damageIndicator/damageIndicatorLength, 1f);
-        batch.draw(assets.whiteCircle,
-                position.x + targetPoint.positionOffset.x - targetPoint.diameter / 2,
-                position.y + targetPoint.positionOffset.y - targetPoint.diameter / 2,
-                targetPoint.diameter,
-                targetPoint.diameter);
+        batch.draw(keyframe, position.x - width/2, position.y - height/2, width, height);
+
+//        batch.setColor(1f, targetPoint.damageIndicator/damageIndicatorLength, targetPoint.damageIndicator/damageIndicatorLength, 1f);
+//        batch.draw(assets.whiteCircle,
+//                position.x + targetPoint.positionOffset.x - targetPoint.diameter / 2,
+//                position.y + targetPoint.positionOffset.y - targetPoint.diameter / 2,
+//                targetPoint.diameter,
+//                targetPoint.diameter);
+
         batch.setColor(Color.WHITE);
         if (shieldOn) {
-            batch.draw(shieldKeyframe, position.x - width / 2f, position.y - height / 2f, width, height);
+            batch.draw(shieldKeyframe,
+                       position.x - (width  + 10f) / 2f - 5f,
+                       position.y - (height + 10f) / 2f,
+                       width + 20f, height + 20f);
         }
         for (SatelliteShip satShip: playerShips) {
             satShip.render(batch);
@@ -186,8 +213,9 @@ public class PlayerShip {
     public void renderLaser(SpriteBatch batch){
         batch.setColor(Color.WHITE);
         if (laserOn){
-            batch.draw(assets.laserContinue, position.x + width/2 + 7, position.y - laserWidth/2f, laserLength-7, laserWidth);
-            batch.draw(assets.laser, position.x + width/2, position.y - laserWidth/2f, 8, laserWidth);
+            float length = 20;
+            batch.draw(assets.laserContinue, position.x + width/2 + length, position.y - laserWidth/2f, laserLength-length, laserWidth);
+            batch.draw(assets.laser, position.x + width/2, position.y - laserWidth/2f, length+1, laserWidth);
         }
     }
 

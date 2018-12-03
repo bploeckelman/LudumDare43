@@ -5,6 +5,7 @@ import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Expo;
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -26,9 +27,6 @@ import lando.systems.ld43.entities.SatelliteShip;
 import lando.systems.ld43.entities.enemies.Enemy;
 import lando.systems.ld43.entities.enemies.TargetPoint;
 import lando.systems.ld43.entities.powerups.PowerUp;
-import lando.systems.ld43.entities.powerups.PowerUpHealth;
-import lando.systems.ld43.entities.powerups.PowerUpShield;
-import lando.systems.ld43.entities.powerups.PowerUpSpeed;
 import lando.systems.ld43.level.Level;
 import lando.systems.ld43.ui.*;
 import lando.systems.ld43.utils.*;
@@ -46,11 +44,8 @@ public class GameScreen extends BaseScreen {
     public Enemy boss;
     public Array<Bullet> aliveBullets;
     public Pool<Bullet> bulletPool;
-
     public QuadTree bulletTree;
     public Array<QuadTreeable> collisionEntities;
-
-
     public int levelIndex;
     private Level level;
     public DialogUI dialogUI;
@@ -75,16 +70,6 @@ public class GameScreen extends BaseScreen {
         aliveBullets = new Array<Bullet>();
         bulletPool = Pools.get(Bullet.class);
         level = new Level(this, 1);
-        bulletPool = new Pool<Bullet>() {
-            @Override
-            protected Bullet newObject() {
-                return new Bullet();
-            }
-        };
-        Tween.to(background.speed, 0, 2f)
-                .target(100f)
-                .start(game.tween);
-
         bulletTree = new QuadTree(assets,0, new Rectangle(0,0, worldCamera.viewportWidth, worldCamera.viewportHeight));
         collisionEntities = new Array<QuadTreeable>();
 
@@ -95,12 +80,19 @@ public class GameScreen extends BaseScreen {
         this.boss = null;
         nextLevel();
         game.audio.playMusic(Audio.Musics.RockHardyWithMaster);
-
-
     }
 
     @Override
     public void update(float dt) {
+        if (Gdx.app.getType() == Application.ApplicationType.Desktop
+         && Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            Gdx.app.exit();
+        }
+
+        Gdx.input.setCursorPosition(
+                (int) MathUtils.clamp(Gdx.input.getX(), 0, hudCamera.viewportWidth),
+                (int) MathUtils.clamp(Gdx.input.getY(), 0, hudCamera.viewportHeight));
+
         audio.update(dt);
         background.update(dt);
         shaker.update(dt);
@@ -143,7 +135,7 @@ public class GameScreen extends BaseScreen {
             }
         }
 
-        tempVec2.set(MathUtils.clamp(mousePos.x, player.width, worldCamera.viewportWidth/2),
+        tempVec2.set(MathUtils.clamp(mousePos.x, player.width, (3f / 4f) * worldCamera.viewportWidth),
                      MathUtils.clamp(mousePos.y, player.height, worldCamera.viewportHeight - player.height));
         player.setTargetPosition(tempVec2);
         player.update(dt, true);

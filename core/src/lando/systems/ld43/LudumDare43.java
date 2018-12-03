@@ -49,6 +49,8 @@ public class LudumDare43 extends ApplicationAdapter {
             audio = new Audio(false, this);
         }
 
+        Gdx.input.setCursorCatched(true);
+
 		// Go to bullshit start screen for web
 		if (Gdx.app.getType() == Application.ApplicationType.WebGL){
 			setScreen(new LoadingScreen(this, assets));

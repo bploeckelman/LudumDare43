@@ -11,7 +11,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import lando.systems.ld43.accessors.RectangleAccessor;
@@ -30,18 +32,19 @@ public class PilotSelectUI extends UserInterface {
     private NinePatch border;
     private Selected selected;
     private Pilot.Type selectedPilotType;
+    private Vector3 mousePos;
     private boolean launchButtonActive;
     private boolean launchButtonHidden;
     private boolean showPilots;
     private boolean transitionComplete;
 
+    private TextureRegion texturePointer;
     private TextureRegion textureCat;
     private TextureRegion textureDog;
     private Rectangle boundsCat;
     private Rectangle boundsDog;
-
-    // TODO: extract button shit to class
     private Rectangle boundsLaunchButton;
+
 
     public PilotSelectUI(Assets assets) {
         super(assets);
@@ -53,7 +56,9 @@ public class PilotSelectUI extends UserInterface {
         this.launchButtonHidden = true;
         this.showPilots = false;
         this.transitionComplete = false;
+        this.mousePos = new Vector3();
 
+        this.texturePointer = assets.pointer;
         this.textureCat = assets.atlas.findRegion("cat-full");
         this.textureDog = assets.atlas.findRegion("dog-full");
         if (textureCat == null) throw new GdxRuntimeException("Couldn't find sprite: 'cat-full'");
@@ -213,13 +218,19 @@ public class PilotSelectUI extends UserInterface {
     public void update(float dt) {
         if (screen == null) return;
 
+        Gdx.input.setCursorPosition(
+                (int) MathUtils.clamp(Gdx.input.getX(), 0, screen.hudCamera.viewportWidth - texturePointer.getRegionWidth()),
+                (int) MathUtils.clamp(Gdx.input.getY(), 0, screen.hudCamera.viewportHeight - texturePointer.getRegionHeight()));
+
+        mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0f);
+        screen.hudCamera.unproject(mousePos);
+
         // don't allow clicks until show() tweens are fully completed
         if (!transitionComplete) return;
 
         if (Gdx.input.justTouched()) {
             // Update touch position
-            touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0f);
-            screen.hudCamera.unproject(touchPos);
+            touchPos.set(mousePos);
 
             // Check for start button click first
             if (launchButtonActive && boundsLaunchButton.contains(touchPos.x, touchPos.y)) {
@@ -295,6 +306,8 @@ public class PilotSelectUI extends UserInterface {
                 assets.fontPixel32.draw(batch, layout, boundsLaunchButton.x, boundsLaunchButton.y + boundsLaunchButton.height / 2f + layout.height / 2f);
             }
         }
+
+        batch.draw(texturePointer, mousePos.x, mousePos.y - texturePointer.getRegionHeight());
     }
 
 }
