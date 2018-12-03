@@ -56,13 +56,21 @@ public class Enemy {
             TargetPoint target = targetPoints.get(i);
             if (target.health <= 0){
                 target.health = 0;
-                targetPoints.remove(target);
+                gameScreen.particleSystem.addSmoke(position.x + target.positionOffset.x, position.y + target.positionOffset.y);
             }
             healthLeft += target.health;
             target.collisionBounds.set(position.x + target.positionOffset.x - target.diameter/2, position.y + target.positionOffset.y - target.diameter/2, target.diameter, target.diameter);
             target.damageIndicator = Math.max(target.damageIndicator - dt, 0);
         }
         if (healthLeft <= 0) alive = false;
+    }
+
+    public void updateWhileDisabled(float dt){
+        for (int i = targetPoints.size() -1; i >= 0; i--){
+            TargetPoint target = targetPoints.get(i);
+            gameScreen.particleSystem.addSmoke(position.x + target.positionOffset.x, position.y + target.positionOffset.y);
+
+        }
     }
 
     public void checkBulletCollision(Bullet b, TargetPoint target){

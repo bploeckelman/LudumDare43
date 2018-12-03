@@ -140,7 +140,7 @@ public class PlayerShip {
         else if (targetPosition.y > position.y + TEXTURE_CHANGE_EPSILON) keyframe = textureUp;
         else                                                             keyframe = textureNormal;
 
-        position.lerp(targetPosition, .2f);
+        position.lerp(targetPosition, .1f);
         damageColor.set(1f, 1- (damageIndicator/damageIndicatorLength), 1- (damageIndicator/damageIndicatorLength), 1f);
         targetPoint.collisionBounds.set(position.x + targetPoint.positionOffset.x - targetPoint.diameter/2,
                                         position.y + targetPoint.positionOffset.y - targetPoint.diameter/2f,

@@ -14,6 +14,8 @@
     <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld43.level.EnemyDef" />
     <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld43.ui.Speaker" />
     <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld43.ui.Dialog" />
+    <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld43.particles.Particle" />
+
 
     <collapse-all-properties />
     

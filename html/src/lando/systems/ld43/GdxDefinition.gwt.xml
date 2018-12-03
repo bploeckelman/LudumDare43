@@ -12,6 +12,8 @@
     <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld43.level.EnemyDef" />
     <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld43.ui.Speaker" />
     <extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld43.ui.Dialog" />
+	<extend-configuration-property name="gdx.reflect.include" value="lando.systems.ld43.particles.Particle" />
+
 
 	<inherits name='LudumDare43' />
 	<entry-point class='lando.systems.ld43.client.HtmlLauncher' />

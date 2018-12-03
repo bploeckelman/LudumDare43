@@ -61,6 +61,7 @@ public class Assets implements Disposable {
     public TextureRegion testTexture;
     public TextureRegion whitePixel;
     public TextureRegion whiteCircle;
+    public TextureRegion smoke;
     public TextureRegion redBullet;
     public TextureRegion satelliteShip;
     public TextureRegion spreadBullet;
@@ -162,6 +163,7 @@ public class Assets implements Disposable {
         testTexture = atlas.findRegion("badlogic");
         whitePixel = atlas.findRegion("white-pixel");
         whiteCircle = atlas.findRegion("white-circle");
+        smoke = atlas.findRegion("smoke");
         redBullet = atlas.findRegion("regular-shot");
         satelliteShip = atlas.findRegion("satellite");
         spreadBullet = atlas.findRegion("spread_bullet");

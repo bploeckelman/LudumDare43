@@ -28,6 +28,7 @@ import lando.systems.ld43.entities.enemies.Enemy;
 import lando.systems.ld43.entities.enemies.TargetPoint;
 import lando.systems.ld43.entities.powerups.PowerUp;
 import lando.systems.ld43.level.Level;
+import lando.systems.ld43.particles.ParticleSystem;
 import lando.systems.ld43.ui.*;
 import lando.systems.ld43.utils.*;
 import lando.systems.ld43.utils.screenshake.ScreenShakeCameraController;
@@ -37,6 +38,7 @@ import java.util.ArrayList;
 public class GameScreen extends BaseScreen {
 
     public ScreenShakeCameraController shaker;
+    public ParticleSystem particleSystem;
     public Background background;
     public PlayerShip player;
     public ArrayList<Enemy> enemies;
@@ -74,6 +76,7 @@ public class GameScreen extends BaseScreen {
         bulletTree = new QuadTree(assets,0, new Rectangle(0,0, worldCamera.viewportWidth, worldCamera.viewportHeight));
         collisionEntities = new Array<QuadTreeable>();
 
+        this.particleSystem = new ParticleSystem(assets);
         this.equipmentUI = new EquipmentUI(assets);
         this.dialogUI = new DialogUI(assets);
         this.scoreUI = new ScoreUI(assets, game);
@@ -96,6 +99,7 @@ public class GameScreen extends BaseScreen {
                 (int) MathUtils.clamp(Gdx.input.getY(), 0, hudCamera.viewportHeight));
 
         audio.update(dt);
+        particleSystem.update(dt);
         background.update(dt);
         shaker.update(dt);
         scoreUI.update(dt);
@@ -148,6 +152,7 @@ public class GameScreen extends BaseScreen {
             TargetPoint enemyHit = null;
             for (Enemy e : enemies){
                 for (TargetPoint target : e.targetPoints){
+                    if (target.health <= 0) continue;
                     float targetCenter = target.collisionBounds.y + target.collisionBounds.height/2f;
                     if (Math.abs(targetCenter - player.position.y) < target.diameter + player.laserWidth && e.position.x > player.position.x){
                         float dist = target.collisionBounds.x + target.diameter/2f - player.position.x - player.width/2f;
@@ -196,6 +201,7 @@ public class GameScreen extends BaseScreen {
 
             for (int j = e.targetPoints.size() -1; j >= 0; j--) {
                 TargetPoint target = e.targetPoints.get(j);
+                if (target.health <= 0) continue;
                 collisionEntities.clear();
                 bulletTree.retrieve(collisionEntities, target);
                 for (QuadTreeable entity : collisionEntities) {
@@ -265,6 +271,8 @@ public class GameScreen extends BaseScreen {
             if (sacrificedShip != null){
                 sacrificedShip.render(batch);
             }
+
+            particleSystem.render(batch);
         }
         batch.end();
 
@@ -287,6 +295,7 @@ public class GameScreen extends BaseScreen {
     private boolean showingEndTween;
     public void nextLevel() {
         boss = null;
+        equipmentUI.reset(this);
         sacrificedShip = null;
         showingEndTween = false;
         enemies.clear();
@@ -305,6 +314,9 @@ public class GameScreen extends BaseScreen {
         if (boss != null) {
             boss.damageIndicator = 0;
             boss.damageColor.set(Color.WHITE);
+            if (!boss.destroyed) {
+                boss.updateWhileDisabled(dt);
+            }
         }
         enemies.clear();
         clearAllBullets();
@@ -331,7 +343,7 @@ public class GameScreen extends BaseScreen {
                 Timeline.createSequence()
                         .push(Tween.to(sacrificedShip.position, Vector2Accessor.XY, .5f)
                             .target(50, worldCamera.viewportHeight/2f))
-                        .pushPause(1f)
+                        .pushPause(.3f)
                         .push(Tween.to(sacrificedShip.position, Vector2Accessor.XY, 3f)
                             .target(600, worldCamera.viewportHeight/2f)
                             .waypoint(50, 500)
