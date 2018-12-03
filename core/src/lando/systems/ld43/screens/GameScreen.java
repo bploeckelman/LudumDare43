@@ -64,6 +64,7 @@ public class GameScreen extends BaseScreen {
     private FinalStage finalStage;
     private MutableFloat finalBossDir;
     private MutableFloat finalBossRadius;
+    private Vector2 mouseIndicator;
 
     public GameScreen(LudumDare43 game, Assets assets, Pilot.Type pilotType) {
         super(game, assets);
@@ -81,6 +82,7 @@ public class GameScreen extends BaseScreen {
         bulletTree = new QuadTree(assets,0, new Rectangle(0,0, worldCamera.viewportWidth, worldCamera.viewportHeight));
         collisionEntities = new Array<QuadTreeable>();
         this.asteroids = new Array<Asteroid>();
+        this.mouseIndicator = new Vector2();
 
         this.particleSystem = new ParticleSystem(assets);
         this.equipmentUI = new EquipmentUI(assets);
@@ -131,6 +133,7 @@ public class GameScreen extends BaseScreen {
 
         mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         worldCamera.unproject(mousePos);
+        mouseIndicator.set(mousePos.x, mousePos.y);
 
         level.update(dt);
 
@@ -337,6 +340,13 @@ public class GameScreen extends BaseScreen {
                 healthMeter.render(batch);
                 cooldownMeter.render(batch);
                 progressUI.render(batch);
+
+                if (mouseIndicator.dst(player.position) > player.width / 2f) {
+                    float mouseSize = 5f;
+                    batch.setColor(Color.MAGENTA);
+                    batch.draw(assets.whitePixel, mousePos.x - mouseSize / 2f, mousePos.y - mouseSize / 2f, mouseSize, mouseSize);
+                    batch.setColor(Color.WHITE);
+                }
             }
         }
         batch.end();
