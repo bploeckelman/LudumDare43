@@ -1,0 +1,27 @@
+[
+  {
+    class: Dialog,
+    speaker: player,
+    text: "Finally the Galaxy is safe"
+  },
+  {
+    class: Dialog,
+    speaker: system,
+    text: "I am detecting one more ship on the radar"
+  },
+  {
+    class: Dialog,
+    speaker: player,
+    text: "We can't do anymore I destroyed the laser on the final boss of this game."
+  },
+  {
+    class: Dialog,
+    speaker: specialBoss,
+    text: "Say something meme worthy"
+  },
+  {
+    class: Dialog,
+    speaker: player,
+    text: "Time for the Ulti-MEME sacrifice!!"
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    class: Dialog,
+    speaker: player,
+    text: "Let me guess."
+  },
+  {
+    class: Dialog,
+    speaker: system,
+    text: "Afraid so."
+  },
+  {
+    class: Dialog,
+    speaker: player,
+    text: "But I don't have anymore ships to spare."
+  },
+  {
+    class: Dialog,
+    speaker: finalBoss,
+    text: "How about we just forget all of this and go home."
+  },
+  {
+    class: Dialog,
+    speaker: player,
+    text: "Wait I think if I supercharge my flux capacitor, I can get one last shot out of my laser."
+  }
+]

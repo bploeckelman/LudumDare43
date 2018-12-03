@@ -8,7 +8,7 @@ import lando.systems.ld43.utils.Assets;
 import javax.xml.soap.Text;
 
 public class Discourser {
-    public enum Type { system, boss1, boss2, boss3, boss4, finalBoss }
+    public enum Type { system, boss1, boss2, boss3, boss4, finalBoss, specialBoss }
 
     private Discourser.Type type;
 
@@ -47,6 +47,11 @@ public class Discourser {
                 this.textureAnimation = assets.badLogicAnimation;
             } break;
             case finalBoss: {
+                this.textureFull = assets.atlas.findRegion("badlogic");
+                this.textureHead = assets.atlas.findRegion("badlogic");
+                this.textureAnimation = assets.badLogicAnimation;
+            } break;
+            case specialBoss: {
                 this.textureFull = assets.atlas.findRegion("badlogic");
                 this.textureHead = assets.atlas.findRegion("badlogic");
                 this.textureAnimation = assets.badLogicAnimation;

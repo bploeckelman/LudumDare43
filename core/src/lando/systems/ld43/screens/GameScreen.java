@@ -5,6 +5,7 @@ import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Expo;
+import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -20,10 +21,7 @@ import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
 import lando.systems.ld43.LudumDare43;
 import lando.systems.ld43.accessors.Vector2Accessor;
-import lando.systems.ld43.entities.Bullet;
-import lando.systems.ld43.entities.Pilot;
-import lando.systems.ld43.entities.PlayerShip;
-import lando.systems.ld43.entities.SatelliteShip;
+import lando.systems.ld43.entities.*;
 import lando.systems.ld43.entities.enemies.Enemy;
 import lando.systems.ld43.entities.enemies.TargetPoint;
 import lando.systems.ld43.entities.powerups.PowerUp;
@@ -38,6 +36,7 @@ import java.util.ArrayList;
 public class GameScreen extends BaseScreen {
 
     public final int NUM_LEVELS = 5;
+    private enum FinalStage {dialog, movingShips, fireLaser, firingLaser, nextBoss, finalSequence, transition}
 
     public ScreenShakeCameraController shaker;
     public ParticleSystem particleSystem;
@@ -50,6 +49,7 @@ public class GameScreen extends BaseScreen {
     public Pool<Bullet> bulletPool;
     public QuadTree bulletTree;
     public Array<QuadTreeable> collisionEntities;
+    public Array<Asteroid> asteroids;
     public int levelIndex;
     public Level level;
     private Vector2 tempVec2;
@@ -61,6 +61,9 @@ public class GameScreen extends BaseScreen {
     public EquipmentUI equipmentUI;
     public HealthMeter healthMeter;
     public CooldownMeter cooldownMeter;
+    private FinalStage finalStage;
+    private MutableFloat finalBossDir;
+    private MutableFloat finalBossRadius;
 
     public GameScreen(LudumDare43 game, Assets assets, Pilot.Type pilotType) {
         super(game, assets);
@@ -77,6 +80,7 @@ public class GameScreen extends BaseScreen {
         bulletPool = Pools.get(Bullet.class);
         bulletTree = new QuadTree(assets,0, new Rectangle(0,0, worldCamera.viewportWidth, worldCamera.viewportHeight));
         collisionEntities = new Array<QuadTreeable>();
+        this.asteroids = new Array<Asteroid>();
 
         this.particleSystem = new ParticleSystem(assets);
         this.equipmentUI = new EquipmentUI(assets);
@@ -114,7 +118,11 @@ public class GameScreen extends BaseScreen {
         equipmentUI.update(dt);
         progressUI.update(dt);
         if (boss != null && !boss.alive){
-            handleEndLevel(dt);
+            if (levelIndex == 5){
+                gameEnding(dt);
+            } else {
+                handleEndLevel(dt);
+            }
             return;
         }
         if (equipmentUI.isVisible() || dialogUI.isVisible()) {
@@ -162,6 +170,14 @@ public class GameScreen extends BaseScreen {
                             targetEnemy = e;
                             player.laserLength = dist;
                         }
+                    }
+                }
+            }
+            for (Asteroid asteroid : asteroids){
+                if (Math.abs(asteroid.position.y - player.position.y) < player.laserWidth + asteroid.size && asteroid.position.x > player.position.x){
+                    float dist = asteroid.position.x - asteroid.size /2f - player.position.x - player.width/2f;
+                    if (dist < player.laserLength){
+                        player.laserLength = dist;
                     }
                 }
             }
@@ -221,11 +237,31 @@ public class GameScreen extends BaseScreen {
 
                 scoreUI.addScore(e.pointWorth);
 
-                // TODO: create explosion
-
                 // Chance to spawn powerup
                 if (MathUtils.randomBoolean(0.2f)) {
-                    powerUps.add(PowerUp.createRandom(assets, e.position.x, e.position.y, -background.speed.floatValue(), 0f));
+                    powerUps.add(PowerUp.createRandom(assets, e.position.x, e.position.y, -100f, 0f));
+                }
+            }
+        }
+
+        if (levelIndex == 5) {
+            if (boss == null && asteroids.size < 20){
+                asteroids.add(new Asteroid(this));
+            }
+            for (int i = asteroids.size -1; i >= 0; i--) {
+                Asteroid asteroid = asteroids.get(i);
+                asteroid.update(dt);
+                if (player.position.dst(asteroid.position) < (player.width/2 + asteroid.size/2)){
+                    asteroid.alive = false;
+                    player.targetPoint.health--;
+                    if (player.targetPoint.health <= 0){
+                        dialogUI.reset(this, "youdied.json").show();
+                        player.replenishHealth();
+                    }
+                }
+
+                if (!asteroid.alive){
+                    asteroids.removeIndex(i);
                 }
             }
         }
@@ -257,6 +293,10 @@ public class GameScreen extends BaseScreen {
                 enemy.render(batch);
             }
 
+            for (Asteroid asteroid : asteroids){
+                asteroid.render(batch);
+            }
+
             player.renderLaser(batch);
 
             for (Bullet bullet: aliveBullets) {
@@ -265,13 +305,19 @@ public class GameScreen extends BaseScreen {
             for (PowerUp powerUp : powerUps) {
                 powerUp.render(batch);
             }
-            player.renderLaser(batch);
 
             if (boss != null && !boss.alive && !boss.destroyed){
                 boss.render(batch);
             }
             if (sacrificedShip != null){
                 sacrificedShip.render(batch);
+            }
+
+            if (finalBossRadius != null){
+                float finalBossSize = 200;
+                float x = 600 + MathUtils.cosDeg(finalBossDir.floatValue()) * finalBossRadius.floatValue();
+                float y = 300 + MathUtils.sinDeg(finalBossDir.floatValue()) * finalBossRadius.floatValue();
+                batch.draw(assets.specialBoss, x - finalBossSize/2, y - finalBossSize/2, finalBossSize, finalBossSize);
             }
 
             particleSystem.render(batch);
@@ -298,6 +344,13 @@ public class GameScreen extends BaseScreen {
 
     private boolean showingEndTween;
     public void nextLevel() {
+        levelIndex++;
+        finalStage = FinalStage.dialog;
+        if (levelIndex == 5){
+            for (int i = 0; i < 10; i++){
+                asteroids.add(new Asteroid(this));
+            }
+        }
         boss = null;
         equipmentUI.reset(this);
         sacrificedShip = null;
@@ -305,7 +358,6 @@ public class GameScreen extends BaseScreen {
         enemies.clear();
         player.resetAllPositions(tempVec2.set(-100, worldCamera.viewportHeight/2));
         clearAllBullets();
-        levelIndex++;
         level = new Level(this, levelIndex);
         background.speed.setValue(0);
         Tween.to(background.speed, 0, 2f)
@@ -385,6 +437,92 @@ public class GameScreen extends BaseScreen {
                         .start(tween);
 
             }
+        }
+    }
+
+    public void gameEnding(float dt){
+        if (finalStage != FinalStage.finalSequence) {
+            player.update(dt, false);
+        }
+        powerUps.clear();
+        if (boss != null) {
+            boss.damageIndicator = 0;
+            boss.damageColor.set(Color.WHITE);
+            if (!boss.destroyed) {
+                boss.updateWhileDisabled(dt);
+            }
+        }
+        enemies.clear();
+        asteroids.clear();
+        clearAllBullets();
+        if (dialogUI.isVisible()){
+            return;
+        }
+        switch (finalStage){
+            case dialog:
+                finalStage = FinalStage.movingShips;
+                Tween.to(boss.position, Vector2Accessor.XY, 1f)
+                        .target(600, worldCamera.viewportHeight/2f)
+                        .setCallback(new TweenCallback() {
+                            @Override
+                            public void onEvent(int i, BaseTween<?> baseTween) {
+                                finalStage = FinalStage.fireLaser;
+                            }
+                        })
+                        .start(tween);
+                player.setTargetPosition(tempVec2.set(150, worldCamera.viewportHeight/2f));
+                break;
+            case movingShips:
+                // NOOP
+                break;
+            case fireLaser:
+                finalStage = FinalStage.firingLaser;
+                player.fireFinalLaser = true;
+                Tween.call(new TweenCallback() {
+                        @Override
+                        public void onEvent(int i, BaseTween<?> baseTween) {
+                            player.fireFinalLaser = false;
+                            boss.destroyed = true;
+                            shaker.addDamage(1f);
+                            finalStage = FinalStage.nextBoss;
+                            dialogUI.reset(GameScreen.this, "ending.json").show();
+
+                        }
+                    })
+                     .delay( 2f)
+                     .start(tween);
+                break;
+            case firingLaser:
+                shaker.addDamage(1f);
+                break;
+            case nextBoss:
+                finalBossDir = new MutableFloat(90);
+                finalBossRadius = new MutableFloat(400);
+                finalStage = FinalStage.finalSequence;
+                Timeline.createSequence()
+                        .push(Timeline.createParallel()
+                            .push(Tween.to(finalBossDir, 0, 4f)
+                                .target(360))
+                            .push(Tween.to(finalBossRadius, 0, 4f)
+                                .target(0))
+                        )
+                        .pushPause(1f)
+                        .push(Tween.to(player.position, Vector2Accessor.XY, 1f)
+                            .target(600, worldCamera.viewportHeight/2f)
+                            .ease(Expo.IN))
+                        .push(Tween.call(new TweenCallback() {
+                            @Override
+                            public void onEvent(int i, BaseTween<?> baseTween) {
+                                finalBossRadius = null;
+                                finalBossDir = null;
+                                player.hide = true;
+                                shaker.addDamage(1f);
+                            }
+                        }))
+                        .start(tween);
+                break;
+            case finalSequence:
+                break;
         }
     }
 

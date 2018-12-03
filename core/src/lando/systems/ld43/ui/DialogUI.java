@@ -43,6 +43,7 @@ public class DialogUI extends UserInterface {
     private Discourser boss3;
     private Discourser boss4;
     private Discourser finalBoss;
+    private Discourser specialBoss;
     private TextureRegion leftMouse;
     private MutableFloat scale;
     private ArrayList<Dialog> dialogs;
@@ -79,6 +80,7 @@ public class DialogUI extends UserInterface {
         this.boss3 = new Discourser(assets, Discourser.Type.boss3);
         this.boss4 = new Discourser(assets, Discourser.Type.boss4);
         this.finalBoss = new Discourser(assets, Discourser.Type.finalBoss);
+        this.specialBoss = new Discourser(assets, Discourser.Type.specialBoss);
         this.bounds.set(screen.hudCamera.viewportWidth / 2f, screen.hudCamera.viewportHeight / 2f, 0f, 0f);
         this.typing = false;
         this.transitioning = false;
@@ -285,6 +287,19 @@ public class DialogUI extends UserInterface {
                     batch.draw(keyFrame, bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
                 } else {
                     batch.draw(finalBoss.textureAnimation.getKeyFrame(0), bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
+                }
+                float textWidth = bounds.width - iconW - 3f * margin;
+                layout.setText(assets.fontPixel16, dialog.text.substring(0, typingIndex), Color.LIGHT_GRAY, textWidth, Align.right, true);
+                assets.fontPixel16.draw(batch, layout,
+                        bounds.x + bounds.width - 3f * margin - iconW - textWidth,
+                        bounds.y + bounds.height / 2f + layout.height / 2f);
+            }
+            else if (dialog.speaker == Speaker.specialBoss) {
+                if (typing) {
+                    keyFrame = specialBoss.textureAnimation.getKeyFrame(animationTimer);
+                    batch.draw(keyFrame, bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
+                } else {
+                    batch.draw(specialBoss.textureAnimation.getKeyFrame(0), bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
                 }
                 float textWidth = bounds.width - iconW - 3f * margin;
                 layout.setText(assets.fontPixel16, dialog.text.substring(0, typingIndex), Color.LIGHT_GRAY, textWidth, Align.right, true);

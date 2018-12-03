@@ -28,6 +28,9 @@ public class Level {
                 break;
             case 4:
                 levelFile = Gdx.files.internal("levels/level4.json");
+                break;
+            case 5:
+                levelFile = Gdx.files.internal("levels/level5.json");
         }
         this.gameScreen = gameScreen;
         this.timer = 0;
@@ -96,6 +99,10 @@ public class Level {
                         gameScreen.boss = miniBoss;
                         break;
                     case FinalBoss:
+                        this.gameScreen.dialogUI.reset(this.gameScreen, "bossfinal-encounter.json").show();
+                        Enemy boss = new FinalBoss(gameScreen, enemy.x, enemy.y);
+                        gameScreen.enemies.add(boss);
+                        gameScreen.boss = boss;
                         break;
                 }
                 enemies.remove(i);

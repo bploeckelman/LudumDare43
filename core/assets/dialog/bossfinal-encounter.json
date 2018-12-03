@@ -1,0 +1,22 @@
+[
+  {
+    class: Dialog,
+    speaker: player,
+    text: "Who are you?"
+  }
+  {
+    class: Dialog,
+    speaker: boss4,
+    text: "I'm the final boss!"
+  }
+  {
+    class: Dialog,
+    speaker: player,
+    text: "Ok I'm going to have to kill you now."
+  }
+  {
+    class: Dialog,
+    speaker: boss4,
+    text: "Unless you make sacrifices, you will die."
+  }
+]

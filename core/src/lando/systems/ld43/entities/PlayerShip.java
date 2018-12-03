@@ -31,6 +31,8 @@ public class PlayerShip {
     public float damageIndicator;
     public float damageIndicatorLength = .3f;
     public Color damageColor;
+    public boolean fireFinalLaser;
+    public boolean hide;
 
     // TODO: make this a map:SatelliteShip.EShipType -> SatelliteShip, one satellite per 'equipment' type
     public Array<SatelliteShip> playerShips;
@@ -88,6 +90,8 @@ public class PlayerShip {
         this.textureDown = assets.atlas.findRegion("ship-down");
         this.textureNormal = assets.atlas.findRegion("ship");
         this.keyframe = textureNormal;
+        this.fireFinalLaser = false;
+        this.hide = false;
         resetSatelliteLayout();
     }
 
@@ -188,6 +192,7 @@ public class PlayerShip {
     }
 
     public void render(SpriteBatch batch) {
+        if (hide) return;
         batch.setColor(damageColor);
         batch.draw(keyframe, position.x - width/2, position.y - height/2, width, height);
 
@@ -212,7 +217,11 @@ public class PlayerShip {
 
     public void renderLaser(SpriteBatch batch){
         batch.setColor(Color.WHITE);
-        if (laserOn){
+        if (laserOn  || fireFinalLaser){
+            if (fireFinalLaser) {
+                laserWidth = 40;
+                laserLength = 450;
+            }
             float length = 20;
             batch.draw(assets.laserContinue, position.x + width/2 + length, position.y - laserWidth/2f, laserLength-length, laserWidth);
             batch.draw(assets.laser, position.x + width/2, position.y - laserWidth/2f, length+1, laserWidth);
