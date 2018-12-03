@@ -66,6 +66,27 @@ public class ParticleSystem {
         }
     }
 
+    public void addAsteroidExplosion(float x, float y, float size) {
+        int asteroidParticles = 60;
+        for (int i = 0; i < asteroidParticles; i++){
+            Particle particle = particlePool.obtain();
+
+            float scale = MathUtils.random(1f, size/5f);
+
+            float posX = x + MathUtils.random(-size/2f, size/2f) - scale/2f;
+            float posY = y + MathUtils.random(-size/2f, size/2f) - scale/2f;
+            float dir = MathUtils.random(360);
+            float speed = MathUtils.random(20f, 120f);
+            float velX = speed * MathUtils.cosDeg(dir);
+            float velY =  speed * MathUtils.sinDeg(dir);
+            float ttl = MathUtils.random(.1f, 1.5f);
+            particle.init(posX, posY, velX, velY, -velX, -velY,
+                    0.5f, .8f, .8f, .8f, .8f,
+                    0, 0, 0, 0, scale, ttl, assets.asteroid);
+            activeParticles.add(particle);
+        }
+    }
+
     public void addExplosion(float x, float y, float width, float height){
         Particle particle = particlePool.obtain();
 

@@ -162,6 +162,7 @@ public class GameScreen extends BaseScreen {
             player.laserLength = Config.window_width - player.position.x;
             TargetPoint enemyHit = null;
             Enemy targetEnemy = null;
+            Asteroid asteroidHit = null;
             for (Enemy e : enemies){
                 for (TargetPoint target : e.targetPoints){
                     if (target.health <= 0) continue;
@@ -182,9 +183,14 @@ public class GameScreen extends BaseScreen {
                     if (dist < player.laserLength){
                         player.laserLength = dist;
                         enemyHit = null;
-                        audio.playSound(Audio.Sounds.laser_shot);
+                        asteroidHit = asteroid;
                     }
                 }
+            }
+            if (asteroidHit != null){
+                asteroidHit.health -= 20 * dt;
+                audio.playSound(Audio.Sounds.laser_shot);
+                particleSystem.addLaserHit(player.position.x + player.width/2f + player.laserLength, player.position.y);
             }
             if (enemyHit != null){
                 enemyHit.health -= 20 * dt;
@@ -250,7 +256,7 @@ public class GameScreen extends BaseScreen {
         }
 
         if (levelIndex == 5) {
-            if (boss == null && asteroids.size < 20){
+            if (level.timer < 30 && asteroids.size < 40){
                 asteroids.add(new Asteroid(this));
             }
             for (int i = asteroids.size -1; i >= 0; i--) {
@@ -266,6 +272,7 @@ public class GameScreen extends BaseScreen {
                 }
 
                 if (!asteroid.alive){
+                    particleSystem.addAsteroidExplosion(asteroid.position.x, asteroid.position.y, asteroid.size);
                     asteroids.removeIndex(i);
                 }
             }

@@ -104,11 +104,9 @@ public class Enemy {
     }
 
     public void explodingAnimations(){
-        if (MathUtils.randomBoolean(.1f)){
             gameScreen.particleSystem.addExplosion(
                     MathUtils.random(position.x - width/2f, position.x + width/2f),
                     MathUtils.random(position.y - height/2f, position.y + height/2f),
                     60, 60);
-        }
     }
 }

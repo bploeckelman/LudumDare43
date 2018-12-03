@@ -6,11 +6,12 @@ import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld43.screens.GameScreen;
 
 public class Asteroid {
-    public static float MAXSPEED = 80;
+    public static float MAXSPEED = 120;
     public Vector2 position;
     public Vector2 velocity;
     public float size;
     private GameScreen gameScreen;
+    public float health;
     public boolean alive;
 
     public Asteroid(GameScreen screen){
@@ -37,11 +38,12 @@ public class Asteroid {
                 this.velocity.set(MathUtils.random(-10f, -MAXSPEED), MathUtils.random(-MAXSPEED, MAXSPEED));
                 break;
         }
-
+        this.health = 2f;
         this.alive = true;
     }
 
     public void update(float dt) {
+        if (health <= 0) alive = false;
         position.add(velocity.x * dt, velocity.y * dt);
         if (velocity.x < 0 && position.x < -size) alive = false;
         if (velocity.x > 0 && position.x > gameScreen.worldCamera.viewportWidth + size) alive = false;
