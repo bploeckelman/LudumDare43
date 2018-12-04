@@ -31,8 +31,8 @@ public class Audio implements Disposable {
         explosion_final,
         warning,
         shot,
-        hitSound,
-        selected
+        selected,
+        explosion_tiny
     }
 
     public enum Musics {
@@ -66,9 +66,9 @@ public class Audio implements Disposable {
         putSound(Sounds.explosion_small, game.assets.explosionSmall);
         putSound(Sounds.explosion_final, game.assets.explosionBig);
         putSound(Sounds.warning, game.assets.warning);
-        putSound(Sounds.hitSound, game.assets.hitSound);
         putSound(Sounds.shot, game.assets.shot);
         putSound(Sounds.selected, game.assets.selected);
+        putSound(Sounds.explosion_tiny, game.assets.explosionTiny);
 
         musics.put(Musics.RockHardyWithMaster, Gdx.audio.newMusic(Gdx.files.internal("audio/RockHardyWithMaster.mp3")));
         musics.put(Musics.SpaceAmbWithMaster, Gdx.audio.newMusic(Gdx.files.internal("audio/SpaceAmbWithMaster.mp3")));

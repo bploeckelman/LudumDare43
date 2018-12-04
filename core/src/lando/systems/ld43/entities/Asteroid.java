@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld43.screens.GameScreen;
+import lando.systems.ld43.utils.Audio;
 
 public class Asteroid {
     public static float MAXSPEED = 120;
@@ -43,7 +44,10 @@ public class Asteroid {
     }
 
     public void update(float dt) {
-        if (health <= 0) alive = false;
+        if (health <= 0) {
+            alive = false;
+            gameScreen.audio.playSound(Audio.Sounds.explosion_tiny);
+        }
         position.add(velocity.x * dt, velocity.y * dt);
         if (velocity.x < 0 && position.x < -size) alive = false;
         if (velocity.x > 0 && position.x > gameScreen.worldCamera.viewportWidth + size) alive = false;

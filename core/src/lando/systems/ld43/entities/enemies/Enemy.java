@@ -83,7 +83,7 @@ public class Enemy {
             target.damageIndicator = damageIndicatorLength;
             target.health -= b.damage;
             if (target.health <= 0) {
-                gameScreen.audio.playSound(Audio.Sounds.hitSound);
+                gameScreen.audio.playSound(Audio.Sounds.explosion_tiny);
                 gameScreen.particleSystem.addExplosion(position.x + target.positionOffset.x, position.y + target.positionOffset.y, target.diameter * 5f, target.diameter* 5f);
             }
         }
@@ -108,7 +108,7 @@ public class Enemy {
     }
 
     public void explodingAnimations(){
-            gameScreen.particleSystem.addExplosion(
+        gameScreen.particleSystem.addExplosion(
                     MathUtils.random(position.x - width/2f, position.x + width/2f),
                     MathUtils.random(position.y - height/2f, position.y + height/2f),
                     60, 60);
