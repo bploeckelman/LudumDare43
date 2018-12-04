@@ -64,6 +64,8 @@ public class PlayerShip {
     private TextureRegion textureDown;
     private TextureRegion textureNormal;
     private TextureRegion keyframe;
+    public boolean boosterOverride;
+    public boolean showBooster;
 
     public PlayerShip(GameScreen gameScreen, Vector2 position, Pilot.Type pilotType) {
         this.gameScreen = gameScreen;
@@ -157,6 +159,8 @@ public class PlayerShip {
         else if (tempVec2.y > TEXTURE_CHANGE_EPSILON)  keyframe = textureUp;
         else                                           keyframe = textureNormal;
 
+        showBooster = tempVec2.x > 5f;
+
         float length = tempVec2.len();
         speed = MAX_SPEED;
         tempVec2.nor();
@@ -217,6 +221,10 @@ public class PlayerShip {
 
     public void render(SpriteBatch batch) {
         if (hide) return;
+        if (showBooster || boosterOverride){
+            batch.setColor(Color.WHITE);
+            batch.draw(assets.booster, position.x - 30, position.y - 5, 14, 10);
+        }
         batch.setColor(damageColor);
         batch.draw(keyframe, position.x - width/2, position.y - height/2, width, height);
 

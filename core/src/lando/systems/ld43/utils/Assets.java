@@ -97,6 +97,7 @@ public class Assets implements Disposable {
     public TextureRegion iconHeart;
     public TextureRegion iconBeam;
     public TextureRegion iconLaser;
+    public TextureRegion booster;
     public TextureRegion iconMinibossCat;
     public TextureRegion iconMinibossDog;
     public TextureRegion iconFinalboss;
@@ -249,6 +250,7 @@ public class Assets implements Disposable {
         shotCyan = atlas.findRegion("shot-cyan");
         specialBoss = atlas.findRegion("boss-seal");
         finalBoss = atlas.findRegion("final-boss");
+        booster = atlas.findRegion("effect-booster");
 
         titleTexture = mgr.get(titleTextureAsset);
         pixelTexture = mgr.get(pixelTextureAsset);

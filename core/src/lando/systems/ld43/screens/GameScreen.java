@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
 import lando.systems.ld43.LudumDare43;
+import lando.systems.ld43.accessors.CameraAccessor;
 import lando.systems.ld43.accessors.Vector2Accessor;
 import lando.systems.ld43.entities.*;
 import lando.systems.ld43.entities.enemies.Enemy;
@@ -68,7 +69,7 @@ public class GameScreen extends BaseScreen {
 
     public GameScreen(LudumDare43 game, Assets assets, Pilot.Type pilotType) {
         super(game, assets);
-        levelIndex = 0;
+        levelIndex = 4;
         tempVec2 = new Vector2();
         mousePos = new Vector3();
         Vector2 startPosition = new Vector2(40, worldCamera.viewportHeight/2);
@@ -533,8 +534,90 @@ public class GameScreen extends BaseScreen {
                                 .target(0))
                         )
                         .pushPause(1f)
+                        .push(Tween.to(worldCamera, CameraAccessor.XYZ, 2f)
+                                .target(player.position.x, player.position.y, .3f))
+                        .pushPause(.2f)
+                        .push(Tween.to(worldCamera, CameraAccessor.XYZ, 1f)
+                                .target(boss.position.x, boss.position.y, .3f))
+                        .pushPause(.5f)
+                        .push(Tween.to(worldCamera, CameraAccessor.XYZ, 1f)
+                                .target(player.position.x, player.position.y, .3f))
+                        .pushPause(1f)
+                        .push(Tween.call(new TweenCallback() {
+                            @Override
+                            public void onEvent(int i, BaseTween<?> baseTween) {
+                                worldCamera.position.x = boss.position.x;
+                                worldCamera.position.y = boss.position.y;
+                            }
+                        }))
+                        .pushPause(.5f)
+                        .push(Tween.call(new TweenCallback() {
+                            @Override
+                            public void onEvent(int i, BaseTween<?> baseTween) {
+                                worldCamera.position.x = player.position.x;
+                                worldCamera.position.y = player.position.y;
+                            }
+                        }))
+                        .pushPause(.5f)
+                        .push(Tween.call(new TweenCallback() {
+                            @Override
+                            public void onEvent(int i, BaseTween<?> baseTween) {
+                                worldCamera.position.x = boss.position.x;
+                                worldCamera.position.y = boss.position.y;
+                            }
+                        }))
+                        .pushPause(.3f)
+                        .push(Tween.call(new TweenCallback() {
+                            @Override
+                            public void onEvent(int i, BaseTween<?> baseTween) {
+                                worldCamera.position.x = player.position.x;
+                                worldCamera.position.y = player.position.y;
+                            }
+                        }))
+                        .pushPause(.3f)
+                        .push(Tween.call(new TweenCallback() {
+                            @Override
+                            public void onEvent(int i, BaseTween<?> baseTween) {
+                                worldCamera.position.x = boss.position.x;
+                                worldCamera.position.y = boss.position.y;
+                            }
+                        }))
+                        .pushPause(.2f)
+                        .push(Tween.call(new TweenCallback() {
+                            @Override
+                            public void onEvent(int i, BaseTween<?> baseTween) {
+                                worldCamera.position.x = player.position.x;
+                                worldCamera.position.y = player.position.y;
+                            }
+                        }))
+                        .pushPause(.2f)
+                        .push(Tween.call(new TweenCallback() {
+                            @Override
+                            public void onEvent(int i, BaseTween<?> baseTween) {
+                                worldCamera.position.x = boss.position.x;
+                                worldCamera.position.y = boss.position.y;
+                            }
+                        }))
+                        .pushPause(.1f)
+                        .push(Tween.call(new TweenCallback() {
+                            @Override
+                            public void onEvent(int i, BaseTween<?> baseTween) {
+                                worldCamera.position.x = player.position.x;
+                                worldCamera.position.y = player.position.y;
+                            }
+                        }))
+                        .pushPause(.1f)
+                        .push(Tween.to(worldCamera, CameraAccessor.XYZ, 2f)
+                                .target(Config.window_width/2f, Config.window_height/2f, 1f))
+                        .pushPause(1f)
+                        .push(Tween.call(new TweenCallback() {
+                            @Override
+                            public void onEvent(int i, BaseTween<?> baseTween) {
+                                player.boosterOverride = true;
+                            }
+                        }))
                         .push(Tween.to(player.position, Vector2Accessor.XY, 1f)
-                            .target(600, worldCamera.viewportHeight/2f)
+                            .target(600, Config.window_height/2f)
                             .ease(Expo.IN))
                         .push(Tween.call(new TweenCallback() {
                             @Override
