@@ -27,7 +27,7 @@ public class MiniBoss4 extends Enemy {
         this.tempVec2 = new Vector2();
         this.pointWorth = 10000;
         this.targetPoints.clear();
-        this.targetPoints.add(new TargetPoint( new Vector2(0,0), 50, 90));
+        this.targetPoints.add(new TargetPoint( new Vector2(0,0), 50, 150));
     }
 
     @Override
