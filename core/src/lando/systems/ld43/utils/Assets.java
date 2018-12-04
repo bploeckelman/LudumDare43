@@ -128,6 +128,7 @@ public class Assets implements Disposable {
     public Sound warning;
     public Sound shot;
     public Sound hitSound;
+    public Sound selected;
 
     public BitmapFont font;
     public BitmapFont fontPixel8;
@@ -191,6 +192,7 @@ public class Assets implements Disposable {
         mgr.load("audio/warning.mp3", Sound.class);
         mgr.load("audio/hit-sound.mp3", Sound.class);
         mgr.load("audio/shot.mp3", Sound.class);
+        mgr.load("audio/selected-tone.mp3", Sound.class);
 
 
         if (loading == Loading.SYNC) {
@@ -300,6 +302,7 @@ public class Assets implements Disposable {
         warning = mgr.get("audio/warning.mp3", Sound.class);
         hitSound = mgr.get("audio/hit-sound.mp3", Sound.class);
         shot = mgr.get("audio/shot.mp3", Sound.class);
+        selected = mgr.get("audio/selected-tone.mp3", Sound.class);
 
 
 

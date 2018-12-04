@@ -24,6 +24,7 @@ import lando.systems.ld43.entities.PlayerShip;
 import lando.systems.ld43.entities.SatelliteShip;
 import lando.systems.ld43.screens.GameScreen;
 import lando.systems.ld43.utils.Assets;
+import lando.systems.ld43.utils.Audio;
 
 public class EquipmentUI extends UserInterface {
 
@@ -228,6 +229,7 @@ public class EquipmentUI extends UserInterface {
 
             // Check for accept button click first
             if (acceptButtonActive && boundsAcceptButton.contains(touchPos.x, touchPos.y)) {
+                screen.audio.playSound(Audio.Sounds.selected);
                 hide();
                 return;
             }
@@ -238,6 +240,7 @@ public class EquipmentUI extends UserInterface {
                 if (equipment.available && equipment.bounds.contains(touchPos.x, touchPos.y)) {
                     selectedEquipmentType = equipment.type;
                     acceptButtonActive = true;
+                    screen.audio.playSound(Audio.Sounds.selected);
                     break;
                 }
             }

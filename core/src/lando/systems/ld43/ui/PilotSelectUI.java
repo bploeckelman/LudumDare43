@@ -270,6 +270,7 @@ public class PilotSelectUI extends UserInterface {
                 if (selectedPilotType == null) {
                     throw new GdxRuntimeException("Invalid pilot type selected (shouldn't be able to get here)");
                 }
+                screen.audio.playSound(Audio.Sounds.selected);
 
                 hide();
             }
