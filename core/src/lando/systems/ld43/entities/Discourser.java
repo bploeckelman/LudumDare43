@@ -44,14 +44,14 @@ public class Discourser {
                 this.textureAnimation = assets.animationSteve;
             } break;
             case finalBoss: {
-                this.textureFull = assets.atlas.findRegion("badlogic");
-                this.textureHead = assets.atlas.findRegion("badlogic");
-                this.textureAnimation = assets.badLogicAnimation;
+                this.textureFull = assets.animationPortraitFinalBoss.getKeyFrames()[0];
+                this.textureHead = assets.animationPortraitFinalBoss.getKeyFrames()[1];
+                this.textureAnimation = assets.animationPortraitFinalBoss;
             } break;
             case specialBoss: {
-                this.textureFull = assets.atlas.findRegion("badlogic");
-                this.textureHead = assets.atlas.findRegion("badlogic");
-                this.textureAnimation = assets.badLogicAnimation;
+                this.textureFull = assets.animationPortraitFinalBoss.getKeyFrames()[0];
+                this.textureHead = assets.animationPortraitFinalBoss.getKeyFrames()[1];
+                this.textureAnimation = assets.animationPortraitFinalBoss;
             } break;
         }
         if (textureFull == null) throw new GdxRuntimeException("Couldn't find full sprite for pilot of type '" + type.name() + "'");

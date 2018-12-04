@@ -69,7 +69,7 @@ public class GameScreen extends BaseScreen {
 
     public GameScreen(LudumDare43 game, Assets assets, Pilot.Type pilotType) {
         super(game, assets);
-        levelIndex = 0;
+        levelIndex = 4;
         tempVec2 = new Vector2();
         mousePos = new Vector3();
         Vector2 startPosition = new Vector2(40, worldCamera.viewportHeight/2);

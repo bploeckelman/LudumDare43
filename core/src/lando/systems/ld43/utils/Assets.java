@@ -116,7 +116,7 @@ public class Assets implements Disposable {
     public Animation<TextureRegion> animationOwl;
     public Animation<TextureRegion> animationRacoon;
     public Animation<TextureRegion> animationSteve;
-    public Animation<TextureRegion> badLogicAnimation;
+    public Animation<TextureRegion> animationPortraitFinalBoss;
 
     public NinePatch ninePatch;
 
@@ -285,9 +285,8 @@ public class Assets implements Disposable {
         Array<TextureAtlas.AtlasRegion> animationSteveTextures = atlas.findRegions("portrait-steve");
         animationSteve = new Animation<TextureRegion>(0.1f, animationSteveTextures, Animation.PlayMode.LOOP);
 
-        // TODO: remove me
-        Array<TextureAtlas.AtlasRegion> talkingBadLogic = atlas.findRegions("badlogic");
-        badLogicAnimation = new Animation<TextureRegion>(0.1f, talkingBadLogic, Animation.PlayMode.LOOP);
+        Array<TextureAtlas.AtlasRegion> animationFinalBossTextures = atlas.findRegions("portrait-finalboss");
+        animationPortraitFinalBoss = new Animation<TextureRegion>(0.1f, animationFinalBossTextures, Animation.PlayMode.LOOP);
 
         ninePatch = new NinePatch(atlas.findRegion("ninepatch-screws"), 6, 6, 6, 6);
 

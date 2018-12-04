@@ -6,7 +6,7 @@
   }
   {
     class: Dialog,
-    speaker: boss4,
+    speaker: finalBoss,
     text: "I'm the final boss!"
   }
   {
@@ -16,7 +16,7 @@
   }
   {
     class: Dialog,
-    speaker: boss4,
+    speaker: finalBoss,
     text: "Unless you make sacrifices, you will die."
   }
 ]
