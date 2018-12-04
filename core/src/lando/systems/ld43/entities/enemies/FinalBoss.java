@@ -15,6 +15,7 @@ public class FinalBoss extends Enemy {
     private float shootdelay;
     private int shootCount;
     private Vector2 tempVec2;
+    private float animationAccum;
 
     public FinalBoss(GameScreen gameScreen, float xPos, float yPos) {
         super(gameScreen);
@@ -33,10 +34,16 @@ public class FinalBoss extends Enemy {
         this.targetPoints.add(new TargetPoint( new Vector2(0,-70), 50, 50));
     }
 
+
+    private Vector2 upperGunPos = new Vector2();
+    private Vector2 lowerGunPos = new Vector2();
     @Override
     public void update(float dt){
+        animationAccum += dt;
         shootdelay -= dt;
         if (shootdelay <= 0){
+            upperGunPos.set(position.x - 96, position.y + 60);
+            lowerGunPos.set(position.x - 96, position.y - 66);
             shootCount++;
             int targetsActive = 0;
             for (TargetPoint target : targetPoints){
@@ -44,13 +51,13 @@ public class FinalBoss extends Enemy {
             }
             if (targetsActive == 3){
                 Bullet b = gameScreen.bulletPool.obtain();
-                tempVec2.set(gameScreen.player.position).add(0, 10).sub(position).sub(-96, 60).nor();
-                b.init(assets.shotRed, position.x - 96, position.y + 60, 400 * tempVec2.x, 400 * tempVec2.y, false, 10, 10, 10, 1);
+                tempVec2.set(gameScreen.player.position).add(0, 10).sub(upperGunPos).nor();
+                b.init(assets.shotRed, upperGunPos.x, upperGunPos.y, 400 * tempVec2.x, 400 * tempVec2.y, false, 10, 10, 10, 1);
                 gameScreen.aliveBullets.add(b);
 
                 Bullet b2 = gameScreen.bulletPool.obtain();
-                tempVec2.set(gameScreen.player.position).add(0, -10).sub(position).sub(-96, -66).nor();
-                b2.init(assets.shotRed, position.x - 96, position.y - 66, 400 * tempVec2.x, 400 * tempVec2.y, false, 10, 10, 10, 1);
+                tempVec2.set(gameScreen.player.position).add(0, -10).sub(lowerGunPos).nor();
+                b2.init(assets.shotRed, lowerGunPos.x, lowerGunPos.y, 400 * tempVec2.x, 400 * tempVec2.y, false, 10, 10, 10, 1);
                 gameScreen.aliveBullets.add(b2);
                 shootdelay += .3f;
                 if (shootCount % 4 == 0) shootdelay += 2f;
@@ -77,16 +84,17 @@ public class FinalBoss extends Enemy {
                             break;
                     }
                     for (int i = 0; i < spreadCount; i++) {
+                        Vector2 pos = shootCount%2 == 0 ? upperGunPos : lowerGunPos;
                         float dir = 120 + ((float) i / (spreadCount)) * 120;
                         Bullet b = gameScreen.bulletPool.obtain();
-                        b.init(tex, position.x, position.y, 100 * MathUtils.cosDeg(dir), 100 * MathUtils.sinDeg(dir), false, 20, 20, 20, 1);
+                        b.init(tex, pos.x, pos.y, 100 * MathUtils.cosDeg(dir), 100 * MathUtils.sinDeg(dir), false, 20, 20, 20, 1);
                         gameScreen.aliveBullets.add(b);
                     }
                 }
                 if (shootCount % 4 == 0) shootdelay += 1f;
                 shootdelay += .5f;
             } else {
-                if (shootCount % 3 == 0){
+                if (shootCount % 6 == 0){
                     Bullet b = gameScreen.bulletPool.obtain();
                     tempVec2.set(gameScreen.player.position).add(0, 10).sub(position).sub(-96, 60).nor();
                     b.init(assets.shotRed, position.x - 96, position.y + 60, 400 * tempVec2.x, 400 * tempVec2.y, false, 10, 10, 10, 1);
@@ -97,7 +105,7 @@ public class FinalBoss extends Enemy {
                     b2.init(assets.shotRed, position.x - 96, position.y - 66, 400 * tempVec2.x, 400 * tempVec2.y, false, 10, 10, 10, 1);
                     gameScreen.aliveBullets.add(b2);
                 } else {
-                    int spreadCount = (shootCount % 3) + 10;
+                    int spreadCount = (shootCount % 3) + 5;
                     TextureRegion tex = assets.shotYellow;
                     switch ((shootCount/2) % 3) {
                         case 1:
@@ -107,15 +115,18 @@ public class FinalBoss extends Enemy {
                             tex = assets.shotCyan;
                             break;
                     }
-                    for (int i = 0; i < spreadCount; i++) {
-                        float dir = 120 + ((float) i / (spreadCount)) * 120;
-                        Bullet b = gameScreen.bulletPool.obtain();
-                        b.init(tex, position.x, position.y, 100 * MathUtils.cosDeg(dir), 100 * MathUtils.sinDeg(dir), false, 20, 20, 20, 1);
-                        gameScreen.aliveBullets.add(b);
+                    for (int g = 0; g < 2; g++) {
+                        Vector2 pos = g %2 == 0 ? upperGunPos : lowerGunPos;
+                        for (int i = 0; i < spreadCount; i++) {
+                            float dir = 120 + ((float) i / (spreadCount)) * 120;
+                            Bullet b = gameScreen.bulletPool.obtain();
+                            b.init(tex, pos.x, pos.y, 100 * MathUtils.cosDeg(dir), 100 * MathUtils.sinDeg(dir), false, 20, 20, 20, 1);
+                            gameScreen.aliveBullets.add(b);
+                        }
                     }
                 }
-                if (shootCount % 6 == 0) shootdelay += 1f;
-                shootdelay += .3f;
+                if (shootCount % 6 == 0) shootdelay += 2f;
+                shootdelay += .5f;
             }
 
         }
@@ -140,7 +151,7 @@ public class FinalBoss extends Enemy {
     @Override
     public void render(SpriteBatch batch){
         batch.setColor(damageColor);
-        batch.draw(assets.finalBoss, position.x - width/2, position.y - height/2, width, height);
+        batch.draw(assets.animationFinalBoss.getKeyFrame(animationAccum), position.x - width/2, position.y - height/2, width, height);
         batch.setColor(Color.WHITE);
         super.render(batch);
     }

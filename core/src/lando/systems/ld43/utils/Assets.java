@@ -105,6 +105,7 @@ public class Assets implements Disposable {
     public TextureRegion pointer;
     public TextureRegion finalBoss;
 
+    public Animation<TextureRegion> animationFinalBoss;
     public Animation<TextureRegion> animationShield;
     public Animation<TextureRegion> explosionAnimation;
     public Animation<TextureRegion> animationPortraitCat;
@@ -246,6 +247,9 @@ public class Assets implements Disposable {
 
         titleTexture = mgr.get(titleTextureAsset);
         pixelTexture = mgr.get(pixelTextureAsset);
+
+        Array<TextureAtlas.AtlasRegion> animationbossTextures = atlas.findRegions("final-boss");
+        animationFinalBoss = new Animation<TextureRegion>(0.1f, animationbossTextures, Animation.PlayMode.LOOP);
 
         Array<TextureAtlas.AtlasRegion> animationShieldTextures = atlas.findRegions("shield");
         animationShield = new Animation<TextureRegion>(0.1f, animationShieldTextures, Animation.PlayMode.LOOP);
