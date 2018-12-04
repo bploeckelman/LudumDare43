@@ -230,17 +230,6 @@ public class DialogUI extends UserInterface {
                 assets.fontPixel16.draw(batch, layout,
                                         bounds.x + iconW + 2f * margin,
                                         bounds.y + bounds.height / 2f + layout.height / 2f);
-//                if (typing) {
-//                    keyFrame = system.textureAnimation.getKeyFrame(animationTimer);
-//                    batch.draw(keyFrame, bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
-//                } else {
-//                    batch.draw(system.textureAnimation.getKeyFrame(0), bounds.x + bounds.width - margin - iconW, bounds.y + bounds.height / 2f - iconH / 2f, iconW, iconH);
-//                }
-//                float textWidth = bounds.width - iconW - 3f * margin;
-//                layout.setText(assets.fontPixel16, dialog.text.substring(0, typingIndex), Color.LIGHT_GRAY, textWidth, Align.right, true);
-//                assets.fontPixel16.draw(batch, layout,
-//                        bounds.x + bounds.width - 3f * margin - iconW - textWidth,
-//                        bounds.y + bounds.height / 2f + layout.height / 2f);
             }
             else if (dialog.speaker == Speaker.boss1) {
                 if (typing) {

@@ -2,21 +2,31 @@
   {
     class: Dialog,
     speaker: system,
-    text: "Warning! Warning! We are out of power again."
-  },
+    text: "Warning! Energy low, insufficient power for all active drones."
+  }
   {
     class: Dialog,
     speaker: boss2,
-    text: "I can get away!"
-  },
-  {
-    class: Dialog,
-    speaker: player,
-    text: "Oh no you won't!"
+    text: "O RLY?"
   }
   {
     class: Dialog,
     speaker: player,
-    text: "Looks like we'll have to lose one more ship."
+    text: "Not again..."
+  },
+  {
+    class: Dialog,
+    speaker: boss2,
+    text: "O RLY?"
+  }
+  {
+    class: Dialog,
+    speaker: player,
+    text: "We need to keep going,\nsacrifice another drone to take him out!"
+  }
+  {
+    class: Dialog,
+    speaker: boss2,
+    text: "O RLY?"
   }
 ]
