@@ -15,7 +15,6 @@ import lando.systems.ld43.entities.Pilot;
 import lando.systems.ld43.utils.Assets;
 import lando.systems.ld43.utils.Audio;
 import lando.systems.ld43.utils.Config;
-import sun.awt.ConstrainableGraphics;
 
 public class EndScreen extends BaseScreen{
 
