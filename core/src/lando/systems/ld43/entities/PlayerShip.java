@@ -205,6 +205,7 @@ public class PlayerShip {
             damageIndicator = damageIndicatorLength;
             targetPoint.damageIndicator = damageIndicatorLength;
             targetPoint.health -= b.damage;
+            gameScreen.audio.playSound(Audio.Sounds.shot);
             if (targetPoint.health <= 0){
                 gameScreen.clearAllBullets();
                 gameScreen.scoreUI.subScore(PlayerShip.DEATH_SCORE_REDUCTION);

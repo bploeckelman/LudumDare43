@@ -244,7 +244,6 @@ public class GameScreen extends BaseScreen {
 
             if (!e.alive){
                 enemies.remove(i);
-
                 scoreUI.addScore(e.pointWorth);
 
                 // Chance to spawn powerup

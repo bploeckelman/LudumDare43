@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import lando.systems.ld43.entities.Bullet;
 import lando.systems.ld43.screens.GameScreen;
 import lando.systems.ld43.utils.Assets;
+import lando.systems.ld43.utils.Audio;
 import lando.systems.ld43.utils.QuadTreeable;
 
 import java.util.ArrayList;
@@ -78,6 +79,7 @@ public class Enemy {
         // Circle intersection
         if (b.position.dst(position.x + target.positionOffset.x, position.y + target.positionOffset.y) < b.collisionRadius/2f + target.diameter /2f) {
             b.isAlive = false;
+            gameScreen.audio.playSound(Audio.Sounds.hitSound);
             damageIndicator = damageIndicatorLength;
             target.damageIndicator = damageIndicatorLength;
             target.health -= b.damage;
