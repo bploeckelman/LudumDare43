@@ -12,7 +12,7 @@
   {
     class: Dialog,
     speaker: player,
-    text: "Low energy, no drones...\nIs this end?"
+    text: "Low energy, no drones...\nCould this be the end?"
   }
   {
     class: Dialog,
