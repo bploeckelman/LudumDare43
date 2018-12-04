@@ -1,22 +1,27 @@
 [
   {
     class: Dialog,
-    speaker: player,
-    text: "Who are you?"
+    speaker: system,
+    text: "Enemy approaching..."
   }
   {
     class: Dialog,
     speaker: boss3,
-    text: "I'm the fierce scary boss 3!"
+    text: "That's a real nice ship you've got there.\nIt'd be a shame if anything were to...\nhappen to it."
   }
   {
     class: Dialog,
     speaker: player,
-    text: "Ok I'm going to have to kill you now."
+    text: "Are you threatening to steal my ship?"
   }
   {
     class: Dialog,
     speaker: boss3,
-    text: "Unless you make sacrifices, you will die."
+    text: "You know what they say...\none man's trash\nis another racoon's treasure"
+  }
+  {
+    class: Dialog,
+    speaker: player,
+    text: "No one steals my ship.\nPrepare to die, trash panda!"
   }
 ]

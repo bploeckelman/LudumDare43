@@ -2,21 +2,36 @@
   {
     class: Dialog,
     speaker: system,
-    text: "Warning! Warning! We are ..."
+    text: "Warning! Warning! ..."
   },
   {
     class: Dialog,
     speaker: player,
-    text: "Again? Alright I know what we need to do!"
+    text: "Let me guess, low energy?"
   },
   {
     class: Dialog,
-    speaker: boss2,
-    text: "Run away?"
+    speaker: system,
+    text: "Affirmative"
   },
   {
     class: Dialog,
     speaker: player,
-    text: "You wish."
+    text: "A drone will have to be sacrificed?"
+  },
+  {
+    class: Dialog,
+    speaker: system,
+    text: "Affirmative"
+  },
+  {
+    class: Dialog,
+    speaker: boss3,
+    text: "So I get to steal\npart of your fleet after all.\nExcellent..."
+  },
+  {
+    class: Dialog,
+    speaker: player,
+    text: "Yeah, that's it.\nI'll send it over right away."
   }
 ]
