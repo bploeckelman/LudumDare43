@@ -1,22 +1,42 @@
 [
   {
     class: Dialog,
-    speaker: player,
-    text: "Who are you?"
-  }
-  {
-    class: Dialog,
-    speaker: finalBoss,
-    text: "I'm the final boss!"
+    speaker: system,
+    text: "Enemy approaching...\nScans indicate extreme energy readings\nProceed with caution!"
   }
   {
     class: Dialog,
     speaker: player,
-    text: "Ok I'm going to have to kill you now."
+    text: "Who... or what... are you?"
   }
   {
     class: Dialog,
     speaker: finalBoss,
-    text: "Unless you make sacrifices, you will die."
+    text: "Your worst nightmare"
+  }
+  {
+    class: Dialog,
+    speaker: player,
+    text: "You can't frighten me!"
+  }
+  {
+    class: Dialog,
+    speaker: boss2,
+    text: "O RLY?"
+  }
+  {
+    class: Dialog,
+    speaker: boss1,
+    text: "What if life is a video game\nand deju-vu is just respawning?"
+  }
+  {
+    class: Dialog,
+    speaker: boss4,
+    text: "You like the new ride?\nIt's my cousin's,\nbut he wasn't using it\nand the keys were just laying around!"
+  }
+  {
+    class: Dialog,
+    speaker: player,
+    text: "I've beaten you all before,\nI can do it again.\nFor the galaxy!"
   }
 ]

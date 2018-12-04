@@ -1,27 +1,27 @@
 [
   {
     class: Dialog,
-    speaker: player,
-    text: "Let me guess."
-  },
-  {
-    class: Dialog,
     speaker: system,
-    text: "Afraid so."
-  },
-  {
-    class: Dialog,
-    speaker: player,
-    text: "But I don't have anymore ships to spare."
-  },
+    text: "Warning! Energy reserves at critical.\n"
+  }
   {
     class: Dialog,
     speaker: finalBoss,
-    text: "How about we just forget all of this and go home."
-  },
+    text: "Nothing can stop us!"
+  }
   {
     class: Dialog,
     speaker: player,
-    text: "Wait I think if I supercharge my flux capacitor, I can get one last shot out of my laser."
+    text: "Low energy, no drones...\nIs this end?"
+  }
+  {
+    class: Dialog,
+    speaker: player,
+    text: "Wait...\nif I uncouple the heisenberg compensators\nand overload the flux capacitor\nI can get one last charged shot!\nThis had better work..."
+  }
+  {
+    class: Dialog,
+    speaker: system,
+    text: "Modifying systems...\nCharge building...\nReady to fire!"
   }
 ]

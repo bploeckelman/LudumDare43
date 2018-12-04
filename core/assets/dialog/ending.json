@@ -2,26 +2,51 @@
   {
     class: Dialog,
     speaker: player,
-    text: "Finally the Galaxy is safe"
+    text: "At last...\nThe Galaxy is safe"
   },
   {
     class: Dialog,
     speaker: system,
-    text: "I am detecting one more ship on the radar"
+    text: "Warning!\nOne last enemy appeared on radar!"
   },
   {
     class: Dialog,
     speaker: player,
-    text: "We can't do anymore I destroyed the laser on the final boss of this game."
+    text: "We have nothing left...\nMy laser is completely burnt out."
   },
   {
     class: Dialog,
     speaker: specialBoss,
-    text: "Say something meme worthy"
-  },
+    text: "Draw me like one of your French girls..."
+  }
   {
     class: Dialog,
     speaker: player,
-    text: "Time for the Ulti-MEME sacrifice!!"
+    text: "Nothing left but the...\nUlti-MEME sacrifice!!"
+  }
+  {
+    class: Dialog,
+    speaker: player,
+    text: "Computer, set engines to full..."
+  }
+  {
+    class: Dialog,
+    speaker: system
+    text: "Confirmed, engines standing by at maximum"
+  }
+  {
+    class: Dialog,
+    speaker: player,
+    text: "and computer..."
+  }
+  {
+    class: Dialog,
+    speaker: system
+    text: "Yes?"
+  }
+  {
+    class: Dialog,
+    speaker: player,
+    text: "Tell my wife that I love her!"
   }
 ]
