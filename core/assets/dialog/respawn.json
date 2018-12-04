@@ -7,6 +7,6 @@
   {
     class: Dialog,
     speaker: system,
-    text: "It's just a game jam,\nkeep playing and don't worry about it"
+    text: "You died, but it's just a game jam,\nkeep playing and don't worry about it"
   }
 ]

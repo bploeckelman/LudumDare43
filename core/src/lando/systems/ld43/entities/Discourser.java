@@ -34,9 +34,9 @@ public class Discourser {
                 this.textureAnimation = assets.animationOwl;
             } break;
             case boss3: {
-                this.textureFull = assets.atlas.findRegion("badlogic");
-                this.textureHead = assets.atlas.findRegion("badlogic");
-                this.textureAnimation = assets.badLogicAnimation;
+                this.textureFull = assets.animationRacoon.getKeyFrames()[0];
+                this.textureHead = assets.animationRacoon.getKeyFrames()[1];
+                this.textureAnimation = assets.animationRacoon;
             } break;
             case boss4: {
                 this.textureFull = assets.atlas.findRegion("badlogic");
