@@ -1,5 +1,6 @@
 package lando.systems.ld43.screens;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -42,7 +43,7 @@ public class EndScreen extends BaseScreen{
                 (int) MathUtils.clamp(Gdx.input.getX(), 0, hudCamera.viewportWidth - texturePointer.getRegionWidth()),
                 (int) MathUtils.clamp(Gdx.input.getY(), 0, hudCamera.viewportHeight - texturePointer.getRegionHeight()));
 
-        if (Gdx.input.justTouched()) {
+        if (Gdx.app.getType() == Application.ApplicationType.Desktop && Gdx.input.justTouched()) {
             game.setScreen(new TitleScreen(game, assets));
         }
     }
