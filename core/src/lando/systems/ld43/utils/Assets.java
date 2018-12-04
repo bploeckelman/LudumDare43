@@ -118,6 +118,7 @@ public class Assets implements Disposable {
     public Sound laserSound;
     public Sound explosionSmall;
     public Sound explosionBig;
+    public Sound warning;
 
     public BitmapFont font;
     public BitmapFont fontPixel8;
@@ -178,6 +179,7 @@ public class Assets implements Disposable {
         mgr.load("audio/laser-shot.mp3", Sound.class);
         mgr.load("audio/explosion-small.mp3", Sound.class);
         mgr.load("audio/explosion-final.mp3", Sound.class);
+        mgr.load("audio/warning.mp3", Sound.class);
 
 
         if (loading == Loading.SYNC) {
@@ -270,6 +272,7 @@ public class Assets implements Disposable {
         laserSound = mgr.get("audio/laser-shot.mp3", Sound.class);
         explosionSmall = mgr.get("audio/explosion-small.mp3", Sound.class);
         explosionBig = mgr.get("audio/explosion-final.mp3", Sound.class);
+        warning = mgr.get("audio/warning.mp3", Sound.class);
 
 
         // Initialize distance field font

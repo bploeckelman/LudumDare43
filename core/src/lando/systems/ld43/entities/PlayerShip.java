@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Array;
 import lando.systems.ld43.entities.enemies.TargetPoint;
 import lando.systems.ld43.screens.GameScreen;
 import lando.systems.ld43.utils.Assets;
+import lando.systems.ld43.utils.Audio;
 
 public class PlayerShip {
 
@@ -129,6 +130,10 @@ public class PlayerShip {
                 fastWeaponsTimer = 0f;
                 fastWeaponsOn = false;
             }
+        }
+
+        if (allowShooting && Gdx.input.justTouched() && laserCooldown > 0) {
+            gameScreen.audio.playSound(Audio.Sounds.warning);
         }
 
         if (allowShooting && Gdx.input.isTouched() && laserCooldown <= 0){

@@ -11,16 +11,17 @@ import com.badlogic.gdx.utils.Align;
 import lando.systems.ld43.LudumDare43;
 import lando.systems.ld43.entities.Pilot;
 import lando.systems.ld43.utils.Assets;
+import lando.systems.ld43.utils.Audio;
 import lando.systems.ld43.utils.Config;
 
 public class EndScreen extends BaseScreen{
 
-    private String heading = "Explosive Sacrifices";
+    private String heading = "Ulti-MEME SACRIFICE";
     private String theme = "Made for Ludum Dare 43:\nTheme: Sacrifices must be made";
     private String thanks = "Thanks for playing our game!";
-    private String developers = "Developed by:\nDoug Graham\nBrian Ploeckelman\nBrandon Humboldt\nJeffrey Hwang";
+    private String developers = "Developed by:\nDoug Graham\nBrian Ploeckelman\nJeffrey Hwang\nBrandon Humboldt";
     private String artists = "Art by:\nMatt Neumann\nLuke Bain";
-    private String emotionalSupport = "Emotional Support:\nAsuka the Shiba";
+    private String emotionalSupport = "Emotional Support:\nAsuka the Shiba\nNyquil\nEatStreet";
     //TODO add song title
     private String music = "Music by:\nTyler Pecora";
     private String libgdx = "Made with <3 and LibGDX";
@@ -32,6 +33,7 @@ public class EndScreen extends BaseScreen{
         super(game, assets);
         this.mousePos = new Vector3();
         this.texturePointer = assets.pointer;
+        audio.playMusic(Audio.Musics.SpaceFanfareWithMaster);
     }
 
     @Override

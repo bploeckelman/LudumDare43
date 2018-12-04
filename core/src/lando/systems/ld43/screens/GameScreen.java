@@ -95,7 +95,6 @@ public class GameScreen extends BaseScreen {
 
         this.boss = null;
         nextLevel();
-        game.audio.playMusic(Audio.Musics.SillySpaceDrumsWithMaster);
     }
 
     @Override
@@ -363,6 +362,7 @@ public class GameScreen extends BaseScreen {
 
     private boolean showingEndTween;
     public void nextLevel() {
+        game.audio.playMusic(Audio.Musics.SillySpaceDrumsWithMaster);
         levelIndex++;
         PlayerShip.MAX_SPEED = 300;
         finalStage = FinalStage.dialog;
@@ -404,6 +404,7 @@ public class GameScreen extends BaseScreen {
         if (equipmentUI.selectedEquipmentType == null && equipmentUI.isHidden()){
             equipmentUI.reset(this);
             equipmentUI.show();
+            audio.playMusic(Audio.Musics.SpaceFanfareWithMaster);
             return;
         }
         if (equipmentUI.selectedEquipmentType == null && equipmentUI.isVisibleAndTransitionComplete()){

@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import lando.systems.ld43.entities.enemies.*;
 import lando.systems.ld43.screens.GameScreen;
+import lando.systems.ld43.utils.Audio;
 
 import java.util.ArrayList;
 
@@ -79,30 +80,36 @@ public class Level {
                         Enemy miniBoss = new MiniBoss1(gameScreen, enemy.x, enemy.y);
                         gameScreen.enemies.add(miniBoss);
                         gameScreen.boss = miniBoss;
+                        gameScreen.audio.playMusic(Audio.Musics.RockHardyWithMaster);
+
                         break;
                     case MiniBoss2:
                         this.gameScreen.dialogUI.reset(this.gameScreen, "boss2-encounter.json").show();
                         miniBoss = new MiniBoss2(gameScreen, enemy.x, enemy.y);
                         gameScreen.enemies.add(miniBoss);
                         gameScreen.boss = miniBoss;
+                        gameScreen.audio.playMusic(Audio.Musics.RockHardyWithMaster);
                         break;
                     case MiniBoss3:
                         this.gameScreen.dialogUI.reset(this.gameScreen, "boss3-encounter.json").show();
                         miniBoss = new MiniBoss3(gameScreen, enemy.x, enemy.y);
                         gameScreen.enemies.add(miniBoss);
                         gameScreen.boss = miniBoss;
+                        gameScreen.audio.playMusic(Audio.Musics.RockHardyWithMaster);
                         break;
                     case MiniBoss4:
                         this.gameScreen.dialogUI.reset(this.gameScreen, "boss4-encounter.json").show();
                         miniBoss = new MiniBoss4(gameScreen, enemy.x, enemy.y);
                         gameScreen.enemies.add(miniBoss);
                         gameScreen.boss = miniBoss;
+                        gameScreen.audio.playMusic(Audio.Musics.RockHardyWithMaster);
                         break;
                     case FinalBoss:
                         this.gameScreen.dialogUI.reset(this.gameScreen, "bossfinal-encounter.json").show();
                         Enemy boss = new FinalBoss(gameScreen, enemy.x, enemy.y);
                         gameScreen.enemies.add(boss);
                         gameScreen.boss = boss;
+                        gameScreen.audio.playMusic(Audio.Musics.XmenKnockersWithMaster);
                         break;
                 }
                 enemies.remove(i);
