@@ -98,6 +98,8 @@ public class Assets implements Disposable {
     public TextureRegion iconBeam;
     public TextureRegion iconLaser;
     public TextureRegion booster;
+    public TextureRegion catSuit;
+    public TextureRegion dogSuit;
     public TextureRegion iconMinibossCat;
     public TextureRegion iconMinibossDog;
     public TextureRegion iconFinalboss;
@@ -245,6 +247,8 @@ public class Assets implements Disposable {
         iconMinibossDog = atlas.findRegion("icon-miniboss-dog");
         iconFinalboss = atlas.findRegion("icon-finalboss");
         asteroid = atlas.findRegion("asteroid");
+        dogSuit = atlas.findRegion("dogsuit");
+        catSuit = atlas.findRegion("catsuit");
         pointer = atlas.findRegion("pointer");
         shotYellow = atlas.findRegion("shot-yellow");
         shotMagenta = atlas.findRegion("shot-magenta");

@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import lando.systems.ld43.LudumDare43;
+import lando.systems.ld43.entities.Pilot;
 import lando.systems.ld43.ui.PilotSelectUI;
 import lando.systems.ld43.utils.Assets;
 import lando.systems.ld43.utils.Audio;
@@ -38,6 +39,10 @@ public class TitleScreen extends BaseScreen {
                 && Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
+
+//        if (Gdx.app.getType() == Application.ApplicationType.Desktop && Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+//            game.setScreen(new EndScreen(game, assets, Pilot.Type.cat));
+//        }
 
         Gdx.input.setCursorPosition(
                 (int) MathUtils.clamp(Gdx.input.getX(), 0, hudCamera.viewportWidth - texturePointer.getRegionWidth()),

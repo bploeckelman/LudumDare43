@@ -636,7 +636,7 @@ public class GameScreen extends BaseScreen {
                                             Tween.call(new TweenCallback() {
                                                 @Override
                                                 public void onEvent(int i, BaseTween<?> baseTween) {
-                                                    game.setScreen(new EndScreen(game, assets));
+                                                    game.setScreen(new EndScreen(game, assets, player.pilot.getType()));
                                                 }
                                             }).delay(2f).start(tween);
                                         }
