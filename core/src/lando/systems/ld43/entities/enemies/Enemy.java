@@ -79,11 +79,13 @@ public class Enemy {
         // Circle intersection
         if (b.position.dst(position.x + target.positionOffset.x, position.y + target.positionOffset.y) < b.collisionRadius/2f + target.diameter /2f) {
             b.isAlive = false;
-            gameScreen.audio.playSound(Audio.Sounds.hitSound);
             damageIndicator = damageIndicatorLength;
             target.damageIndicator = damageIndicatorLength;
             target.health -= b.damage;
-            if (target.health <= 0) gameScreen.particleSystem.addExplosion(position.x + target.positionOffset.x, position.y + target.positionOffset.y, target.diameter * 5f, target.diameter* 5f);
+            if (target.health <= 0) {
+                gameScreen.audio.playSound(Audio.Sounds.hitSound);
+                gameScreen.particleSystem.addExplosion(position.x + target.positionOffset.x, position.y + target.positionOffset.y, target.diameter * 5f, target.diameter* 5f);
+            }
         }
     }
 
