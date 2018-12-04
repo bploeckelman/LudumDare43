@@ -2,21 +2,21 @@
   {
     class: Dialog,
     speaker: system,
-    text: "Hate to bring this up again."
-  },
+    text: "Warning! Energy low, insufficient power for all active drones."
+  }
   {
     class: Dialog,
     speaker: player,
-    text: "Did I expect anything else?  I only have one ship left!"
+    text: "Typical...\nI only have one drone left."
   },
   {
     class: Dialog,
     speaker: boss4,
-    text: "What are you jabbering about?"
+    text: "It's so smoky in here,\nyo dawg, let me hit that!"
   },
   {
     class: Dialog,
     speaker: player,
-    text: "Get Ready."
+    text: "Oh you'll get hit alright\nI've got just the thing..."
   }
 ]
